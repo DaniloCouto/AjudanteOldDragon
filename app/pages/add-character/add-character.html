@@ -1,0 +1,53 @@
+<!--
+  Generated template for the AddCharacterPage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>AddCharacter</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item-divider light>Informações Basicas</ion-item-divider>
+    <ion-item>
+      <ion-label floating>Nome Personagem</ion-label>
+      <ion-input type="text" [(ngModel)]="character.nomePersonagem"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Jogador</ion-label>
+      <ion-input type="text" [(ngModel)]="character.jogador"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Raça</ion-label>
+      <ion-input type="text" [(ngModel)]="character.raca"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Classe / Especialização</ion-label>
+      <ion-input type="text" [(ngModel)]="character.classeEspecializacao"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Caracteristicas</ion-label>
+      <ion-input type="text" [(ngModel)]="character.caracteristas"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Alinhamento</ion-label>
+      <ion-input type="text" [(ngModel)]="character.alinhamento"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Nivel</ion-label>
+      <ion-input type="number" [(ngModel)]="character.nivel"></ion-input>
+    </ion-item>
+    
+     
+
+  </ion-list>
+
+
+  <button padding stable (click)="click()"> something</button>
+</ion-content>

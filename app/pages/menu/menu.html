@@ -1,0 +1,20 @@
+<!--
+  Generated template for the MenuPage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-menu [content]="content">
+    <ion-toolbar>
+        <ion-title>Old Dragon Helper</ion-title>
+    </ion-toolbar>
+    <ion-content>
+        <ion-list>
+            <button ion-item *ngFor="let p of paginas" (click)="openPage(p)">
+                {{p.texto}}
+            </button>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<ion-nav #content [root]="menuPage"></ion-nav>
