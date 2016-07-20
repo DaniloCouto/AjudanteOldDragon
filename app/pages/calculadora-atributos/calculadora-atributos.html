@@ -6,28 +6,29 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar danger>
     <!--<ion-buttons left>
       <button menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>-->
-    <ion-title>Calculadora</ion-title>
+    <ion-title class="calculadora-atributos-toolbar-title">Calculadora</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content class="calculadora-atributos">
-  <ion-slides pager>
-    <!-- Forca -->
-    <ion-slide>
+  
+  <ion-grid>
+    <ion-row wrap>
+      <!-- Forca -->
       <ion-card>
         <ion-grid>
           <ion-row>
             <ion-col>
               <ion-item>
                 <ion-label stacked>Força</ion-label>
-                <ion-input type="number" [(ngModel)]="atributos.$forca" (ngModelChange)="forChanged()"></ion-input>
+                <ion-input type="number" [(ngModel)]="atributos.$forca" (ngModelChange)="forcaChanged()"></ion-input>
               </ion-item>
             </ion-col>
             <ion-col>
@@ -47,29 +48,26 @@
           <ion-row>
             <ion-col>
               <ion-item>
-                <h3>Sem Carga</h3>
-                <p>{{atributosSecundarios.forca.semCarga}}</p>
+                <h3>Sem</h3>
+                <p style="text-align: center;">{{atributosSecundarios.forca.semCarga}} kg</p>
               </ion-item>
             </ion-col>
             <ion-col>
               <ion-item>
                 <h3>Leve</h3>
-                <p>{{atributosSecundarios.forca.cargaLeve}}</p>
+                <p style="text-align: center;">{{atributosSecundarios.forca.cargaLeve}} kg</p>
               </ion-item>
             </ion-col>
             <ion-col>
               <ion-item>
                 <h3>Pesada</h3>
-                <p>{{atributosSecundarios.forca.cargaPesada}}</p>
+                <p style="text-align: center;">{{atributosSecundarios.forca.cargaPesada}} kg</p>
               </ion-item>
             </ion-col>
           </ion-row>
         </ion-grid>
       </ion-card>
-    </ion-slide>
-
-    <!-- Destreza -->
-    <ion-slide>
+      <!-- Destreza -->
       <ion-card>
         <ion-grid>
           <ion-row>
@@ -103,10 +101,7 @@
           <p>{{atributosSecundarios.destreza.pungar}}%</p>
         </ion-item>
       </ion-card>
-    </ion-slide>
-
-    <!-- Constituição -->
-    <ion-slide>
+      <!-- Constituição -->
       <ion-card>
         <ion-grid>
           <ion-row>
@@ -133,10 +128,7 @@
           </ion-row>
         </ion-grid>
       </ion-card>
-    </ion-slide>
-
-    <!-- Inteligencia -->
-    <ion-slide>
+      <!-- Inteligencia -->
       <ion-card>
         <ion-grid>
           <ion-row>
@@ -164,35 +156,33 @@
           <ion-row>
             <ion-col>
               <ion-item>
-                <h3>Magias Arcanas Adicionais</h3>
+                <h3 style="text-align: center;">Magias Arcanas Adicionais</h3>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col width-33>
               <ion-item>
-                <h3>1º</h3>
-                <p>{{atributosSecundarios.inteligencia.primeiroCirculo}}</p>
+                <h3 style="text-align: center;">1º</h3>
+                <p style="text-align: center;">{{atributosSecundarios.inteligencia.primeiroCirculo}}</p>
               </ion-item>
             </ion-col>
             <ion-col width-33>
               <ion-item>
-                <h3>2º</h3>
-                <p>{{atributosSecundarios.inteligencia.segundoCirculo}}</p>
+                <h3 style="text-align: center;">2º</h3>
+                <p style="text-align: center;">{{atributosSecundarios.inteligencia.segundoCirculo}}</p>
               </ion-item>
             </ion-col>
             <ion-col width-33>
               <ion-item>
-                <h3>3º</h3>
-                <p>{{atributosSecundarios.inteligencia.terceiroCirculo}}</p>
+                <h3 style="text-align: center;">3º</h3>
+                <p style="text-align: center;">{{atributosSecundarios.inteligencia.terceiroCirculo}}</p>
               </ion-item>
             </ion-col>
           </ion-row>
         </ion-grid>
       </ion-card>
-    </ion-slide>
-     <!-- Sabedoria -->
-    <ion-slide>
+      <!-- Sabedoria -->
       <ion-card>
         <ion-grid>
           <ion-row>
@@ -212,35 +202,33 @@
           <ion-row>
             <ion-col>
               <ion-item>
-                <h3>Magias Divinas Adicionais</h3>
+                <h3 style="text-align: center;">Magias Divinas Adicionais</h3>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
               <ion-item>
-                <h3>1º Circulo</h3>
-                <p>{{atributosSecundarios.sabedoria.primeiroCirculo}}</p>
+                <h3 style="text-align: center;">1º</h3>
+                <p style="text-align: center;">{{atributosSecundarios.sabedoria.primeiroCirculo}}</p>
               </ion-item>
             </ion-col>
             <ion-col>
               <ion-item>
-                <h3>2º Circulo</h3>
-                <p>{{atributosSecundarios.sabedoria.segundoCirculo}}</p>
+                <h3 style="text-align: center;">2º</h3>
+                <p style="text-align: center;">{{atributosSecundarios.sabedoria.segundoCirculo}}</p>
               </ion-item>
             </ion-col>
             <ion-col>
               <ion-item>
-                <h3>3º Circulo</h3>
-                <p>{{atributosSecundarios.sabedoria.terceiroCirculo}}</p>
+                <h3 style="text-align: center;">3º</h3>
+                <p style="text-align: center;">{{atributosSecundarios.sabedoria.terceiroCirculo}}</p>
               </ion-item>
             </ion-col>
           </ion-row>
         </ion-grid>
       </ion-card>
-    </ion-slide>
-    <!-- Carisma -->
-    <ion-slide>
+      <!-- Carisma -->
       <ion-card>
         <ion-list>
           <ion-item>
@@ -261,7 +249,7 @@
           </ion-item>
         </ion-list>
       </ion-card>
-    </ion-slide>
+    </ion-row>
+  </ion-grid>
 
-  </ion-slides>
 </ion-content>

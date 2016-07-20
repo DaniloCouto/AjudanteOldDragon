@@ -1,0 +1,35 @@
+@font-face {
+  font-family: "dicefontd4";
+  src: url("../fonts/DPoly-Four-Sider.otf") format("woff2"), url("../fonts/DPoly-Four-Sider.otf") format("woff"), url("../fonts/DPoly-Four-Sider.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.ion-logo-d4-4:before{
+    font-family: "dicefontd4";
+    content: 'P'
+}
+
+.ion-logo-d4-3:before{
+    font-family: "dicefontd4";
+    content: 'O'
+}
+
+.ion-d4-2:before{
+    font-family: "dicefontd4";
+    content: 'L'
+}
+
+.ion-d4-1:before{
+    font-family: "dicefontd4";
+    content: 'I'
+}
+
+@font-face {
+  font-family: "breath-fire";
+  src: url("../fonts/Breathe-Fire.otf") format("woff2"), url("../fonts/Breathe-Fire.otf") format("woff"), url("../fonts/Breathe-Fire.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+

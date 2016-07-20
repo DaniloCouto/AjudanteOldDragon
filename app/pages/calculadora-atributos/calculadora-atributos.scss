@@ -1,3 +1,42 @@
+
+.calculadora-atributos{
+    background: url('../img/old-dragon-bg.jpg');
+    font-family: 'breath-fire'
+}
+
+.calculadora-atributos-toolbar-title{
+    font-family: 'breath-fire';
+}
+
+
+.calculadora-atributos ion-card .input-wrapper ion-label[stacked]{
+     font-size: 1.8rem;
+}
+.calculadora-atributos .item h3,.calculadora-atributos .item h4,.calculadora-atributos .item h5,.calculadora-atributos .item h6{
+     font-size: 1.8rem;
+}
+.calculadora-atributos .item h2{
+     font-size: 2.2rem;
+}
+
+
+.calculadora-atributos ion-card {
+    background: rgba(255,255,255,0.8)
+}
+
+.calculadora-atributos ion-card ion-item.item {
+    background: transparent
+}
+
+.calculadora-atributos .item-input ion-label{
+    color: black;
+}
+
 .calculadora-atributos .item p {
     margin: 9px 6px 6px 0px;
 }
+
+.calculadora-atributos ion-list .item .item-inner{
+   border-bottom: 0px solid #dedede;
+}
+

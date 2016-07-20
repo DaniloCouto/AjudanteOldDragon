@@ -38,7 +38,7 @@ var isRelease = argv.indexOf('--release') > -1;
 
 gulp.task('watch', ['clean'], function(done){
   runSequence(
-    ['sass', 'html', 'fonts', 'scripts'],
+    ['sass', 'html', 'fonts','custom-fonts','custom-img', 'scripts'],
     function(){
       gulpWatch('app/**/*.scss', function(){ gulp.start('sass'); });
       gulpWatch('app/**/*.html', function(){ gulp.start('html'); });
@@ -49,7 +49,7 @@ gulp.task('watch', ['clean'], function(done){
 
 gulp.task('build', ['clean'], function(done){
   runSequence(
-    ['sass', 'html', 'fonts', 'scripts'],
+    ['sass', 'html', 'fonts','custom-fonts','custom-img', 'scripts'],
     function(){
       buildBrowserify({
         minify: isRelease,
@@ -67,7 +67,22 @@ gulp.task('build', ['clean'], function(done){
 gulp.task('sass', buildSass);
 gulp.task('html', copyHTML);
 gulp.task('fonts', copyFonts);
+gulp.task('custom-fonts', function(options){
+  options.src = options.src || 'app/fonts/**/*.+(ttf|woff|woff2|otf)';
+  options.dest = options.dest || 'www/build/fonts';
+
+  return gulp.src(options.src)
+    .pipe(gulp.dest(options.dest));
+});
+gulp.task('custom-img', function(options){
+  options.src = options.src || 'app/img/**/*.+(jpge|jpg|png)';
+  options.dest = options.dest || 'www/build/img';
+
+  return gulp.src(options.src)
+    .pipe(gulp.dest(options.dest));
+});
 gulp.task('scripts', copyScripts);
+
 gulp.task('clean', function(){
   return del('www/build');
 });
