@@ -32,4 +32,21 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "dings";
+  src: url("../fonts/Fourth-Edition-Dings.otf") format("woff2"), url("../fonts/Fourth-Edition-Dings.otf") format("woff"), url("../fonts/Fourth-Edition-Dings.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.ion-logo-sword:before{
+    font-family: "dings";
+    content: 'o'
+}
+
+.ion-logo-armor:before{
+    font-family: "dings";
+    content: 'j'
+}
+
 

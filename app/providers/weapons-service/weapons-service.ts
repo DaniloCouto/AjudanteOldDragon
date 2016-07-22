@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Weapon } from '../../classes/weapon/weapon';
 
 let PouchDB = require('pouchdb');
 
@@ -9,65 +10,53 @@ let PouchDB = require('pouchdb');
   for more info on providers and Angular 2 DI.
 */
 @Injectable()
-export class CharacterService {
+export class WeaponsService {
   private _db;
-  private _characters;
+  private _weapons: Array<Arma>;
 
   constructor() {
     this._db = new PouchDB('oldDragonRegister', { adapter: 'websql' });
   }
 
-  add(char) {
-    return this._db.post(char);
+  add(weapons) {
+    return this._db.post(weapons);
   } 
-  update(char) {
-    return this._db.put(char);
+  update(weapons) {
+    return this._db.put(weapons);
   }
-  delete(char) {
-    return this._db.remove(char);
+  delete(weapons) {
+    return this._db.remove(weapons);
   }
   getAll() {
-
-    if (!this._characters) {
+    if (!this._weapons) {
       return this._db.allDocs({ include_docs: true })
         .then(docs => {
-
-          // Each row has a .doc object and we just want to send an 
-          // array of birthday objects back to the calling controller,
-          // so let's map the array to contain just the .doc objects.
-
-          this._characters = docs.rows.map(row => {
-            // Dates are not automatically converted from a string.
-            row.doc.Date = new Date(row.doc.Date);
+          this._weapons = docs.rows.map(row => {
             return row.doc;
           });
-
-          // Listen for changes on the database.
           this._db.changes({ live: true, since: 'now', include_docs: true })
             .on('change', this.onDatabaseChange);
-
-          return this._characters;
+          return this._weapons;
         });
     } else {
-      // Return cached data as a promise
-      return Promise.resolve(this._characters);
+      return Promise.resolve(this._weapons);
     }
   }
 
   private onDatabaseChange = (change) => {
-    var index = this.findIndex(this._characters, change.id);
-    var birthday = this._characters[index];
+    var index = this.findIndex(this._weapons, change.id);
+    var birthday = this._weapons[index];
 
     if (change.deleted) {
       if (birthday) {
-        this._characters.splice(index, 1); // delete
+        this._weapons.splice(index, 1); // delete
       }
     } else {
       change.doc.Date = new Date(change.doc.Date);
       if (birthday && birthday._id === change.id) {
-        this._characters[index] = change.doc; // update
+        this._weapons[index] = change.doc; // update
       } else {
-        this._characters.splice(index, 0, change.doc) // insert
+        this._weapons.splice(index, 0, change.doc) // insert
       }
     }
   }

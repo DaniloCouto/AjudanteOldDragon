@@ -1,40 +1,37 @@
 export class Item {
     private nome: string;
     private peso: number;
-    private quantidade: number;
     private valor: number;
 
-    constructor(nome: string, peso: number , valor: number) {
-        this.nome = nome;
-        this.peso = peso;
-        this.valor = valor;
+    constructor($nome: string, $peso: number,$valor: number) {
+        this.nome = $nome;
+        this.peso = $peso;
+        this.valor = $valor;
     }
 
-    setNome(nome: string): void {
-       this.nome = nome;
-    }
-    setPeso(peso: number): void {
-       this.peso = peso;
-    }
-    setValor(valor: number): void {
-       this.valor = valor;
-    }
-    setQuantidade(quantidade: number): void {
-       this.quantidade = quantidade;
-    }
-
-    getNome(): string {
+    public get $nome(): string {
         return this.nome;
     }
-    getPeso(): number {
+
+    public set $nome(value: string) {
+        this.nome = value;
+    }
+
+    public get $peso(): number {
         return this.peso;
     }
-    getValor(): number {
+
+    public set $peso(value: number) {
+        this.peso = value;
+    }
+
+    public get $valor(): number {
         return this.valor;
     }
-    getQuantidade(): number {
-       return this.quantidade;
+
+    public set $valor(value: number) {
+        this.valor = value;
     }
-    
+
 
 }
