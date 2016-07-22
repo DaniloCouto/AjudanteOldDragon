@@ -1,5 +1,6 @@
 # AjudanteOldDragon
 Um ajudante de mestres de mesa old dragon.
+O Aplicativo pode ser testado em https://play.google.com/apps/testing/com.danilocouto.ajudanteOldDragon
 
 Este foi um projeto de estudo sobre Ionic 2.
 
