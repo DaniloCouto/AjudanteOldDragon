@@ -3,26 +3,28 @@
   src: url("../fonts/DPoly-Four-Sider.otf") format("woff2"), url("../fonts/DPoly-Four-Sider.otf") format("woff"), url("../fonts/DPoly-Four-Sider.otf") format("truetype");
   font-weight: normal;
   font-style: normal;
+  
 }
 
 .ion-logo-d4-4:before{
     font-family: "dicefontd4";
-    content: 'P'
+    content: 'J';
+    font-size: 3rem;
 }
 
 .ion-logo-d4-3:before{
     font-family: "dicefontd4";
-    content: 'O'
+    content: 'H'
 }
 
 .ion-d4-2:before{
     font-family: "dicefontd4";
-    content: 'L'
+    content: 'D'
 }
 
 .ion-d4-1:before{
     font-family: "dicefontd4";
-    content: 'I'
+    content: 'A'
 }
 
 @font-face {
@@ -48,5 +50,81 @@
     font-family: "dings";
     content: 'j'
 }
+
+@font-face {
+  font-family: "dicefontd6";
+  src: url("../fonts/DPoly-Six-Sider.otf") format("woff2"), url("../fonts/DPoly-Six-Sider.otf") format("woff"), url("../fonts/DPoly-Six-Sider.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.ion-logo-d6:before{
+    font-family: "dicefontd6";
+    content: 'F';
+    font-size: 3rem;
+}
+
+@font-face {
+  font-family: "dicefontd8";
+  src: url("../fonts/DPoly-Eight-Sider.otf") format("woff2"), url("../fonts/DPoly-Eight-Sider.otf") format("woff"), url("../fonts/DPoly-Eight-Sider.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.ion-logo-d8:before{
+    font-family: "dicefontd8";
+    content: 'H';
+    font-size: 3rem;
+}
+
+@font-face {
+  font-family: "dicefontd10";
+  src: url("../fonts/DPoly-Ten-Sider.otf") format("woff2"), url("../fonts/DPoly-Ten-Sider.otf") format("woff"), url("../fonts/DPoly-Ten-Sider.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.ion-logo-d10:before{
+    font-family: "dicefontd10";
+    content: 'L';
+    font-size: 3rem;
+}
+
+@font-face {
+  font-family: "dicefontd12";
+  src: url("../fonts/DPoly-Twelve-Sider.otf") format("woff2"), url("../fonts/DPoly-Twelve-Sider.otf") format("woff"), url("../fonts/DPoly-Twelve-Sider.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.ion-logo-d12:before{
+    font-family: "dicefontd12";
+    content: '+';
+    font-size: 3rem;
+}
+
+@font-face {
+  font-family: "dicefontd20";
+  src: url("../fonts/DPoly-Twenty-Sider.otf") format("woff2"), url("../fonts/DPoly-Twenty-Sider.otf") format("woff"), url("../fonts/DPoly-Twenty-Sider.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.ion-logo-d20:before{
+    font-family: "dicefontd20";
+    content: 'T';
+    font-size: 3rem;
+}
+.ion-logo-d0:before{
+    content: '0';
+}
+.ion-logo-d2:before{
+    content: 'd2';
+}
+.ion-logo-d100:before{
+    content: 'd100';
+}
+
+
 
 

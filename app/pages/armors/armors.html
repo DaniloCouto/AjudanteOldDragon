@@ -5,7 +5,12 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar>
+  <ion-navbar danger>
+    <ion-buttons left>
+      <button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>Ferreiro</ion-title>
     <ion-buttons right>
       <button (click)="addItem()">
@@ -14,8 +19,27 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of itens">
+      <ion-item >
+        <h2>{{item.nome}}</h2>
+        <p>{{item.peso}}kg , {{item.convertedPrice}}</p>
+        <p>{{item.movimentacao}} metros</p>
 
-
-<ion-content padding>
-
+        <div item-right>{{item.bonusCa}} CA</div>
+        
+      </ion-item>
+      <ion-item-options>
+        <button primary (click)="editItem(item)">
+          <ion-icon name="open"></ion-icon>
+          Editar
+        </button>
+        <button danger (click)="deleteItem(item)">
+          <ion-icon name="close"></ion-icon>
+          Excluir
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>

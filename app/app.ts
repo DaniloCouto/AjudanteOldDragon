@@ -17,8 +17,9 @@ export class MyApp {
 
   constructor(platform: Platform, private menu: MenuController) {
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
+      setTimeout(function() {
+        Splashscreen.hide();
+      }, 1000);
       StatusBar.styleDefault();
     });
   }
@@ -26,7 +27,6 @@ export class MyApp {
   abrirPagina(pagina) {
     this.rootPage = pagina.componente;
     this.menu.close();
-    
   }
 
 }

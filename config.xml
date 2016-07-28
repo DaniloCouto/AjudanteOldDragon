@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.olddragonregister642524" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Calculadora Old Dragon</name>
+<widget id="com.danilocouto.ajudanteOldDragon" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Ajudante Old Dragon</name>
   <description>Uma calculadora para auxiliar na rapidez na rolagem de atributos</description>
   <author email="danilo.s.couto@gmail.com" href="">Danilo Soares Couto</author>
   <content src="index.html"/>
@@ -12,6 +12,7 @@
   <allow-intent href="mailto:*"/>
   <allow-intent href="geo:*"/>
   <platform name="android">
+    <preference name="android-windowSoftInputMode" value="adjustNothing" />
     <allow-intent href="market:*"/>
     <icon src="resources\android\icon\drawable-ldpi-icon.png" density="ldpi"/>
     <icon src="resources\android\icon\drawable-mdpi-icon.png" density="mdpi"/>

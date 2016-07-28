@@ -4,15 +4,15 @@ import {TipoArmadura} from './tipoArmadura';
 export class Armadura extends Item {
     private bonusCa: number;
     private movimentacao: number;
-    private equipado: Boolean;
     private tipo: TipoArmadura;
+    private limiteAjusteDex: number;
 
-    constructor(nome: string, peso: number, preco: number, $bonusCa: number, $movimentacao: number, $equipado: Boolean, $tipo: TipoArmadura) {
-        super(name, peso, preco);
+    constructor(nome: string, peso: number, preco: number, $bonusCa: number, $movimentacao: number, $tipo: TipoArmadura, $limiteDes: number) {
+        super(nome, peso, preco);
         this.bonusCa = $bonusCa;
         this.movimentacao = $movimentacao;
-        this.equipado = $equipado;
         this.tipo = $tipo;
+        this.limiteAjusteDex = $limiteDes;
     }
 
     public get $bonusCa(): number {
@@ -31,14 +31,6 @@ export class Armadura extends Item {
         this.movimentacao = value;
     }
 
-    public get $equipado(): Boolean {
-        return this.equipado;
-    }
-
-    public set $equipado(value: Boolean) {
-        this.equipado = value;
-    }
-
     public get $tipo(): TipoArmadura {
         return this.tipo;
     }
@@ -46,5 +38,14 @@ export class Armadura extends Item {
     public set $tipo(value: TipoArmadura) {
         this.tipo = value;
     }
+
+    public get $limiteAjusteDex(): number {
+        return this.limiteAjusteDex;
+    }
+
+    public set $limiteAjusteDex(value: number) {
+        this.limiteAjusteDex = value;
+    }
+
 
 }

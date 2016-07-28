@@ -106,8 +106,4 @@ export class CalculadoraAtributosPage {
     this.carChanged();
   }
 
-  ionViewDidEnter() {
-    Splashscreen.hide();
-  }
-
 }

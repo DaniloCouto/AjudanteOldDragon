@@ -1,5 +1,6 @@
 export enum TamanhoArma {
-    PEQUENA = 0,
-    MEDIA = 1,
-    GRANDE = 2
+    NULO = 0,
+    PEQUENA = 1,
+    MEDIA = 2,
+    GRANDE = 3
 }

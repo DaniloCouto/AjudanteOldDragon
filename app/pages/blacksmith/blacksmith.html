@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 
-<ion-tabs tabbarLayout="icon-left">
+<ion-tabs tabbarLayout="icon-left" danger>
     <ion-tab [root]="tab1Root"  tabTitle="Armas" tabIcon="logo-sword"></ion-tab>
-    <ion-tab [root]="tab2Root"  tabTitle="Armaduras" tabIcon="logo-armor"></ion-tab>
+    <ion-tab [root]="tab2Root"  tabTitle="Armaduras" tabIcon="logo-armor" [disabled]="true"></ion-tab>
   </ion-tabs>
