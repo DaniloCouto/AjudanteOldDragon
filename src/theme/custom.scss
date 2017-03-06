@@ -1,0 +1,138 @@
+@font-face {
+    font-family: "dicefontd4";
+    src: url($font-path+"/DPoly-Four-Sider.otf") format("woff2"), url($font-path+"/DPoly-Four-Sider.otf") format("woff"), url($font-path+"/DPoly-Four-Sider.otf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.ion-logo-d4-4:before {
+    font-family: "dicefontd4";
+    content: 'J';
+    font-size: 3rem;
+}
+
+.ion-logo-d4-3:before {
+    font-family: "dicefontd4";
+    content: 'H'
+}
+
+.ion-d4-2:before {
+    font-family: "dicefontd4";
+    content: 'D'
+}
+
+.ion-d4-1:before {
+    font-family: "dicefontd4";
+    content: 'A'
+}
+
+@font-face {
+    font-family: "breath-fire";
+    src: url($font-path+"/Breathe-Fire.otf") format("woff2"), url($font-path+"/Breathe-Fire.otf") format("woff"), url($font-path+"/Breathe-Fire.otf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "dings";
+    src: url($font-path+"/Fourth-Edition-Dings.otf") format("woff2"), url($font-path+"/Fourth-Edition-Dings.otf") format("woff"), url($font-path+"/Fourth-Edition-Dings.otf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.ion-logo-sword:before {
+    font-family: "dings";
+    content: 'o'
+}
+
+.ion-logo-armor:before {
+    font-family: "dings";
+    content: 'j'
+}
+
+.ion-logo-skull:before {
+    font-family: "dings";
+    content: 'i'
+}
+
+.ion-logo-crest:before {
+    font-family: "dings";
+    content: 't'
+}
+
+@font-face {
+    font-family: "dicefontd6";
+    src: url($font-path+"/DPoly-Six-Sider.otf") format("woff2"), url($font-path+"/DPoly-Six-Sider.otf") format("woff"), url($font-path+"/DPoly-Six-Sider.otf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.ion-logo-d6:before {
+    font-family: "dicefontd6";
+    content: 'F';
+    font-size: 3rem;
+}
+
+@font-face {
+    font-family: "dicefontd8";
+    src: url($font-path+"/DPoly-Eight-Sider.otf") format("woff2"), url($font-path+"/DPoly-Eight-Sider.otf") format("woff"), url($font-path+"/DPoly-Eight-Sider.otf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.ion-logo-d8:before {
+    font-family: "dicefontd8";
+    content: 'H';
+    font-size: 3rem;
+}
+
+@font-face {
+    font-family: "dicefontd10";
+    src: url($font-path+"/DPoly-Ten-Sider.otf") format("woff2"), url($font-path+"/DPoly-Ten-Sider.otf") format("woff"), url($font-path+"/DPoly-Ten-Sider.otf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.ion-logo-d10:before {
+    font-family: "dicefontd10";
+    content: 'L';
+    font-size: 3rem;
+}
+
+@font-face {
+    font-family: "dicefontd12";
+    src: url($font-path+"/DPoly-Twelve-Sider.otf") format("woff2"), url($font-path+"/DPoly-Twelve-Sider.otf") format("woff"), url($font-path+"/DPoly-Twelve-Sider.otf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.ion-logo-d12:before {
+    font-family: "dicefontd12";
+    content: '+';
+    font-size: 3rem;
+}
+
+@font-face {
+    font-family: "dicefontd20";
+    src: url($font-path+"/DPoly-Twenty-Sider.otf") format("woff2"), url($font-path+"/DPoly-Twenty-Sider.otf") format("woff"), url($font-path+"/DPoly-Twenty-Sider.otf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.ion-logo-d20:before {
+    font-family: "dicefontd20";
+    content: 'T';
+    font-size: 3rem;
+}
+
+.ion-logo-d0:before {
+    content: '0';
+}
+
+.ion-logo-d2:before {
+    content: 'd2';
+}
+
+.ion-logo-d100:before {
+    content: 'd100';
+}

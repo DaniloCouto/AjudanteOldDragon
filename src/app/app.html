@@ -1,0 +1,17 @@
+<ion-menu [content]="content">
+    <ion-header danger>
+        <ion-toolbar>
+            <ion-title>Old Dragon Helper</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content class="menu">
+        <ion-list>
+            <button ion-item *ngFor="let p of paginas" (click)="abrirPagina(p)">
+                {{p.texto}}
+            </button>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<ion-nav #content [root]="rootPage">
+</ion-nav>
