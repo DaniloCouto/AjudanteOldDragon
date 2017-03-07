@@ -6,250 +6,250 @@
 -->
 <ion-header>
 
-  <ion-navbar danger>
-    <ion-buttons left>
-      <button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-title class="calculadora-atributos-toolbar-title">Calculadora</ion-title>
-  </ion-navbar>
+    <ion-navbar color="danger">
+        <ion-buttons left>
+            <button ion-button icon-only menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title class="calculadora-atributos-toolbar-title">Calculadora</ion-title>
+    </ion-navbar>
 </ion-header>
 
 
 <ion-content class="calculadora-atributos">
-  
-  <ion-grid>
-    <ion-row wrap>
-      <!-- Forca -->
-      <ion-card>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <ion-item>
-                <ion-label stacked>Força</ion-label>
-                <ion-input type="number" [(ngModel)]="atributos.$forca" (ngModelChange)="forcaChanged()"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item>
-                <h3>Ajuste</h3>
-                <p>{{atributosSecundarios.forca.ajuste}}</p>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <ion-item>
-                <h2 style="text-align: center;">Carga</h2>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <ion-item>
-                <h3>Sem</h3>
-                <p style="text-align: center;">{{atributosSecundarios.forca.semCarga}} kg</p>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item>
-                <h3>Leve</h3>
-                <p style="text-align: center;">{{atributosSecundarios.forca.cargaLeve}} kg</p>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item>
-                <h3>Pesada</h3>
-                <p style="text-align: center;">{{atributosSecundarios.forca.cargaPesada}} kg</p>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card>
-      <!-- Destreza -->
-      <ion-card>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <ion-item>
-                <ion-label stacked>Destreza</ion-label>
-                <ion-input type="number" [(ngModel)]="atributos.$destreza" (ngModelChange)="destrezaChanged()"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item>
-                <h3>Ajuste</h3>
-                <p>{{atributosSecundarios.destreza.ajuste}}</p>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-        <ion-item>
-          <h2 style="text-align: center;">Talentos Ladinos</h2>
-        </ion-item>
-        <ion-item>
-          <h3>Localizar e desarmar Armadilhas</h3>
-          <p>{{atributosSecundarios.destreza.armadilhas}}%</p>
-        </ion-item>
-        <ion-item>
-          <h3>Mover-se em silencio e Abrir Fechaduras</h3>
-          <p>{{atributosSecundarios.destreza.furtividade_arrombar}}%</p>
-        </ion-item>
-        <ion-item>
-          <h3>Esconder-se nas sombras e pungar</h3>
-          <p>{{atributosSecundarios.destreza.pungar}}%</p>
-        </ion-item>
-      </ion-card>
-      <!-- Constituição -->
-      <ion-card>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <ion-item>
-                <ion-label stacked>Constituição</ion-label>
-                <ion-input type="number" [(ngModel)]="atributos.$constituicao" (ngModelChange)="conChanged()"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item>
-                <h3>Ajuste</h3>
-                <p>{{atributosSecundarios.constituicao.ajuste}}</p>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <ion-item>
-                <h3>Chance Ressureição</h3>
-                <p>{{atributosSecundarios.constituicao.chance_res}}%</p>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card>
-      <!-- Inteligencia -->
-      <ion-card>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <ion-item>
-                <ion-label stacked>Inteligência</ion-label>
-                <ion-input type="number" [(ngModel)]="atributos.$inteligencia" (ngModelChange)="intChanged()"></ion-input>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <ion-item>
-                <h3>Idiomas Adicionais</h3>
-                <p>{{atributosSecundarios.inteligencia.idiomas}}</p>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item>
-                <h3>Aprender Magia</h3>
-                <p>{{atributosSecundarios.inteligencia.chance_aprender_magia}}%</p>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <ion-item>
-                <h3 style="text-align: center;">Magias Arcanas Adicionais</h3>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col width-33>
-              <ion-item>
-                <h3 style="text-align: center;">1º</h3>
-                <p style="text-align: center;">{{atributosSecundarios.inteligencia.primeiroCirculo}}</p>
-              </ion-item>
-            </ion-col>
-            <ion-col width-33>
-              <ion-item>
-                <h3 style="text-align: center;">2º</h3>
-                <p style="text-align: center;">{{atributosSecundarios.inteligencia.segundoCirculo}}</p>
-              </ion-item>
-            </ion-col>
-            <ion-col width-33>
-              <ion-item>
-                <h3 style="text-align: center;">3º</h3>
-                <p style="text-align: center;">{{atributosSecundarios.inteligencia.terceiroCirculo}}</p>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card>
-      <!-- Sabedoria -->
-      <ion-card>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <ion-item>
-                <ion-label stacked>Sabedoria</ion-label>
-                <ion-input type="number" [(ngModel)]="atributos.$sabedoria" (ngModelChange)="sabChanged()"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item>
-                <h3>Ajuste</h3>
-                <p>{{atributosSecundarios.sabedoria.ajuste}}</p>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <ion-item>
-                <h3 style="text-align: center;">Magias Divinas Adicionais</h3>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <ion-item>
-                <h3 style="text-align: center;">1º</h3>
-                <p style="text-align: center;">{{atributosSecundarios.sabedoria.primeiroCirculo}}</p>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item>
-                <h3 style="text-align: center;">2º</h3>
-                <p style="text-align: center;">{{atributosSecundarios.sabedoria.segundoCirculo}}</p>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item>
-                <h3 style="text-align: center;">3º</h3>
-                <p style="text-align: center;">{{atributosSecundarios.sabedoria.terceiroCirculo}}</p>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card>
-      <!-- Carisma -->
-      <ion-card>
-        <ion-list>
-          <ion-item>
-            <ion-label stacked>Carisma</ion-label>
-            <ion-input type="number" [(ngModel)]="atributos.$carisma" (ngModelChange)="carChanged()"></ion-input>
-          </ion-item>
-          <ion-item>
-            <h3>Ajuste de Reação</h3>
-            <p>{{atributosSecundarios.carisma.ajusteReacao}}%</p>
-          </ion-item>
-          <ion-item>
-            <h3>Numero de Seguidores</h3>
-            <p>{{atributosSecundarios.carisma.seguidores}}</p>
-          </ion-item>
-          <ion-item>
-            <h3>Mortos Vivos Afastados</h3>
-            <p>{{atributosSecundarios.carisma.mortosVivosAfastados}}</p>
-          </ion-item>
-        </ion-list>
-      </ion-card>
-    </ion-row>
-  </ion-grid>
+
+    <ion-grid>
+        <ion-row wrap>
+            <!-- Forca -->
+            <ion-card>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label stacked>Força</ion-label>
+                                <ion-input type="number" [(ngModel)]="atributos.$forca" (ngModelChange)="forcaChanged()"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col>
+                            <ion-item>
+                                <h3>Ajuste</h3>
+                                <p>{{atributosSecundarios.forca.ajuste}}</p>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <h2 style="text-align: center;">Carga</h2>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <h3>Sem</h3>
+                                <p style="text-align: center;">{{atributosSecundarios.forca.semCarga}} kg</p>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col>
+                            <ion-item>
+                                <h3>Leve</h3>
+                                <p style="text-align: center;">{{atributosSecundarios.forca.cargaLeve}} kg</p>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col>
+                            <ion-item>
+                                <h3>Pesada</h3>
+                                <p style="text-align: center;">{{atributosSecundarios.forca.cargaPesada}} kg</p>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card>
+            <!-- Destreza -->
+            <ion-card>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label stacked>Destreza</ion-label>
+                                <ion-input type="number" [(ngModel)]="atributos.$destreza" (ngModelChange)="destrezaChanged()"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col>
+                            <ion-item>
+                                <h3>Ajuste</h3>
+                                <p>{{atributosSecundarios.destreza.ajuste}}</p>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <ion-item>
+                    <h2 style="text-align: center;">Talentos Ladinos</h2>
+                </ion-item>
+                <ion-item>
+                    <h3>Localizar e desarmar Armadilhas</h3>
+                    <p>{{atributosSecundarios.destreza.armadilhas}}%</p>
+                </ion-item>
+                <ion-item>
+                    <h3>Mover-se em silencio e Abrir Fechaduras</h3>
+                    <p>{{atributosSecundarios.destreza.furtividade_arrombar}}%</p>
+                </ion-item>
+                <ion-item>
+                    <h3>Esconder-se nas sombras e pungar</h3>
+                    <p>{{atributosSecundarios.destreza.pungar}}%</p>
+                </ion-item>
+            </ion-card>
+            <!-- Constituição -->
+            <ion-card>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label stacked>Constituição</ion-label>
+                                <ion-input type="number" [(ngModel)]="atributos.$constituicao" (ngModelChange)="conChanged()"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col>
+                            <ion-item>
+                                <h3>Ajuste</h3>
+                                <p>{{atributosSecundarios.constituicao.ajuste}}</p>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <h3>Chance Ressureição</h3>
+                                <p>{{atributosSecundarios.constituicao.chance_res}}%</p>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card>
+            <!-- Inteligencia -->
+            <ion-card>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label stacked>Inteligência</ion-label>
+                                <ion-input type="number" [(ngModel)]="atributos.$inteligencia" (ngModelChange)="intChanged()"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <h3>Idiomas Adicionais</h3>
+                                <p>{{atributosSecundarios.inteligencia.idiomas}}</p>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col>
+                            <ion-item>
+                                <h3>Aprender Magia</h3>
+                                <p>{{atributosSecundarios.inteligencia.chance_aprender_magia}}%</p>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <h3 style="text-align: center;">Magias Arcanas Adicionais</h3>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col width-33>
+                            <ion-item>
+                                <h3 style="text-align: center;">1º</h3>
+                                <p style="text-align: center;">{{atributosSecundarios.inteligencia.primeiroCirculo}}</p>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col width-33>
+                            <ion-item>
+                                <h3 style="text-align: center;">2º</h3>
+                                <p style="text-align: center;">{{atributosSecundarios.inteligencia.segundoCirculo}}</p>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col width-33>
+                            <ion-item>
+                                <h3 style="text-align: center;">3º</h3>
+                                <p style="text-align: center;">{{atributosSecundarios.inteligencia.terceiroCirculo}}</p>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card>
+            <!-- Sabedoria -->
+            <ion-card>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label stacked>Sabedoria</ion-label>
+                                <ion-input type="number" [(ngModel)]="atributos.$sabedoria" (ngModelChange)="sabChanged()"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col>
+                            <ion-item>
+                                <h3>Ajuste</h3>
+                                <p>{{atributosSecundarios.sabedoria.ajuste}}</p>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <h3 style="text-align: center;">Magias Divinas Adicionais</h3>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <h3 style="text-align: center;">1º</h3>
+                                <p style="text-align: center;">{{atributosSecundarios.sabedoria.primeiroCirculo}}</p>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col>
+                            <ion-item>
+                                <h3 style="text-align: center;">2º</h3>
+                                <p style="text-align: center;">{{atributosSecundarios.sabedoria.segundoCirculo}}</p>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col>
+                            <ion-item>
+                                <h3 style="text-align: center;">3º</h3>
+                                <p style="text-align: center;">{{atributosSecundarios.sabedoria.terceiroCirculo}}</p>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card>
+            <!-- Carisma -->
+            <ion-card>
+                <ion-list>
+                    <ion-item>
+                        <ion-label stacked>Carisma</ion-label>
+                        <ion-input type="number" [(ngModel)]="atributos.$carisma" (ngModelChange)="carChanged()"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <h3>Ajuste de Reação</h3>
+                        <p>{{atributosSecundarios.carisma.ajusteReacao}}%</p>
+                    </ion-item>
+                    <ion-item>
+                        <h3>Numero de Seguidores</h3>
+                        <p>{{atributosSecundarios.carisma.seguidores}}</p>
+                    </ion-item>
+                    <ion-item>
+                        <h3>Mortos Vivos Afastados</h3>
+                        <p>{{atributosSecundarios.carisma.mortosVivosAfastados}}</p>
+                    </ion-item>
+                </ion-list>
+            </ion-card>
+        </ion-row>
+    </ion-grid>
 
 </ion-content>

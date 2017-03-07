@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Armadura } from '../../classes/armadura/armadura';
+import { BaseArmaduras } from './base-armors';
 import { SQLite} from 'ionic-native';
 
 @Injectable()
@@ -11,6 +12,45 @@ export class ArmorsService {
   constructor(private platform: Platform) {
     this.platform.ready().then(() => {
       this.sqlite = new SQLite();
+      let service = this;
+      this.openDatabase().then(function (db) {
+        db.transaction(function (tx) {
+          var query = 'CREATE TABLE IF NOT EXISTS armors ('+
+            '_id	INTEGER PRIMARY KEY AUTOINCREMENT,'+
+            'nome	TEXT,'+
+            'peso	INTEGER,'+
+            'valor	INTEGER,'+
+            'bonusCa	INTEGER,'+
+            'movimentacao	INTEGER,'+
+            'tipo	INTEGER,'+
+            'limiteAjusteDes	INTEGER'+
+          ');';
+          tx.executeSql(query, null, function (tx, res) {
+            tx.executeSql('SELECT count(*) AS mycount FROM  armors;', [], function (tx, resultSet) {
+              if (resultSet.rows.item(0).mycount === 0) {
+                let transaction = tx;
+                BaseArmaduras.BASE_ARMADURA.forEach(function (weapon) {
+                  let params = service.armorToArray(weapon);
+                  let query = 'INSERT INTO armors(nome,peso,valor,bonusCa,movimentacao,tipo,limiteAjusteDes) VALUES ( ?,?,?,?,?,?,?);';
+                  transaction.executeSql(query, params, function (tx, resultSet) {
+                  }, function (tx, err) {
+                    console.error(err);
+                  });
+                });
+              }
+            }, function (tx, err) {
+               console.error(err);
+            });
+          }, function (tx, err) {
+            console.log(err);
+
+          });
+        }, function (tx, err) {
+          console.error(tx,err);
+        });
+      }, function (err) {
+        console.error(err);
+      })
     });
   }
 

@@ -37,9 +37,9 @@ $colors: ( primary: #387ef5, secondary: #32db64, danger: #f53d3d, light: #f4f4f4
 // The premium icon font for Ionic. For more info, please see:
 // http://ionicframework.com/docs/v2/ionicons/
 @import "ionic.ionicons";
+@import "custom.icons";
 // Fonts
 // --------------------------------------------------
 @import "roboto";
 @import "noto-sans";
 //another files
-@import "custom";

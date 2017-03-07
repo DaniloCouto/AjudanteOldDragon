@@ -5,7 +5,6 @@ import {StatusBar, Splashscreen} from 'ionic-native';
 import {BlacksmithPage} from '../pages/blacksmith/blacksmith';
 import {CalculadoraAtributosPage} from '../pages/calculadora-atributos/calculadora-atributos';
 import {CalculadoraClassePage} from '../pages/calculadora-classe/calculadora-classe';
-import { WeaponsPage } from '../pages/weapons/weapons';
 
 
 @Component({
@@ -16,7 +15,7 @@ export class MyApp {
   paginas: Array<any> = [
     {texto: 'Atributos', componente: CalculadoraAtributosPage},
     {texto: 'Classes', componente: CalculadoraClassePage},
-    {texto: 'Ferreiro', componente: WeaponsPage},
+    {texto: 'Ferreiro', componente: BlacksmithPage},
   ]
 
   constructor(platform: Platform, private menu: MenuController) {

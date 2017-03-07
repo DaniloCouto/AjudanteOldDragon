@@ -6,70 +6,76 @@
 -->
 <ion-header>
 
-  <ion-navbar danger>
-    <ion-title>Armadura</ion-title>
-  </ion-navbar>
+    <ion-navbar color="danger">
+        <ion-buttons left>
+            <button ion-button icon-only menuToggle>
+              <ion-icon name="menu"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>Armadura</ion-title>
+
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-label>Nome</ion-label>
-      <ion-input type="text" [(ngModel)]="armor.$nome"></ion-input>
-    </ion-item>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label stacked>Peso</ion-label>
-            <ion-input type="number" [(ngModel)]="armor.$peso"></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col>
-          <ion-item>
-            <ion-label stacked>Valor</ion-label>
-            <ion-input type="number" [(ngModel)]="armor.$valor"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label stacked>Bonus em CA</ion-label>
-            <ion-input type="number" [(ngModel)]="armor.$bonusCa"></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col>
-          <ion-item>
-            <ion-label stacked>Movimentação</ion-label>
-            <ion-input type="number" [(ngModel)]="armor.$movimentacao"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label stacked>Tipo</ion-label>
-            <ion-select [(ngModel)]="armor.$tipo">
-              <ion-option value="0">Leve</ion-option>
-              <ion-option value="1">Couro</ion-option>
-              <ion-option value="2">Malha</ion-option>
-              <ion-option value="3">Placa</ion-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
-        <ion-col>
-          <ion-item>
-            <ion-label stacked>Limite de Ajuste de Destreza</ion-label>
-            <ion-input type="number" [(ngModel)]="armor.$limiteAjusteDex"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-list>
-  <div padding>
-    <button danger block (click)="addItem()">Cadastrar</button>
-  </div>
+    <ion-list>
+        <ion-item>
+            <ion-label>Nome</ion-label>
+            <ion-input type="text" [(ngModel)]="armor.$nome"></ion-input>
+        </ion-item>
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Peso</ion-label>
+                        <ion-input type="number" [(ngModel)]="armor.$peso"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Valor</ion-label>
+                        <ion-input type="number" [(ngModel)]="armor.$valor"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Bonus em CA</ion-label>
+                        <ion-input type="number" [(ngModel)]="armor.$bonusCa"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Movimentação</ion-label>
+                        <ion-input type="number" [(ngModel)]="armor.$movimentacao"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Tipo</ion-label>
+                        <ion-select [(ngModel)]="armor.$tipo">
+                            <ion-option value="0">Leve</ion-option>
+                            <ion-option value="1">Couro</ion-option>
+                            <ion-option value="2">Malha</ion-option>
+                            <ion-option value="3">Placa</ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Limite de Ajuste de Destreza</ion-label>
+                        <ion-input type="number" [(ngModel)]="armor.$limiteAjusteDex"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-list>
+    <div padding>
+        <button color="danger" ion-button block (click)="addItem()">Cadastrar</button>
+    </div>
 </ion-content>
