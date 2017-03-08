@@ -5,6 +5,7 @@ import {StatusBar, Splashscreen} from 'ionic-native';
 import {BlacksmithPage} from '../pages/blacksmith/blacksmith';
 import {CalculadoraAtributosPage} from '../pages/calculadora-atributos/calculadora-atributos';
 import {CalculadoraClassePage} from '../pages/calculadora-classe/calculadora-classe';
+import {TipoMagiasPage} from '../pages/tipo-magias/tipo-magias';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class MyApp {
     {texto: 'Atributos', componente: CalculadoraAtributosPage},
     {texto: 'Classes', componente: CalculadoraClassePage},
     {texto: 'Ferreiro', componente: BlacksmithPage},
+    {texto: 'Magias', componente: TipoMagiasPage},
   ]
 
   constructor(platform: Platform, private menu: MenuController) {
