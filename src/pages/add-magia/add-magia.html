@@ -1,0 +1,112 @@
+<!--
+  Generated template for the AddMagia page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar color="danger">
+
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item *ngFor="let select of tiposSelecionados">
+                        <ion-label stacked>Tipo</ion-label>
+                        <ion-select [(ngModel)]="select.objetoTipo" (ngModelChange)="saverange()">
+                            <ion-option *ngFor="let item of tipos">{{item.nome}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item *ngFor="let select of tiposSelecionados">
+                        <ion-label stacked>Circulo</ion-label>
+                        <ion-input type="number" [(ngModel)]="select.nivel"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <button ion-item *ng-if="tiposLista.length > 0">
+                  <ion-icon name="add" item-left></ion-icon>
+                  Adicionar mais tipos.
+                </button>
+            </ion-row>
+            <ion-row>
+                <ion-item-divider color="light"></ion-item-divider>
+            </ion-row>
+            <ion-row>
+                <ion-item>
+                    <ion-label stacked>Nome</ion-label>
+                    <ion-input type="text"></ion-input>
+                </ion-item>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Alcance</ion-label>
+                        <ion-input type="number"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    +
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Metro Por</ion-label>
+                        <ion-input type="number"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Nivel</ion-label>
+                        <ion-input type="number"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-item *ngFor="let select of tiposSelecionados">
+                    <ion-label stacked>Tipo de Duração</ion-label>
+                    <ion-select [(ngModel)]="select.objetoTipo" (ngModelChange)="saverange()">
+                        <ion-option value="">{{item.nome}}</ion-option>
+                    </ion-select>
+                </ion-item>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Duração</ion-label>
+                        <ion-input type="number"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    +
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Metro Por</ion-label>
+                        <ion-input type="number"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Nivel</ion-label>
+                        <ion-input type="number"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-item>
+                    <ion-label stacked>Descrição</ion-label>
+                    <ion-textarea type="text"></ion-textarea>
+                </ion-item>
+            </ion-row>
+        </ion-grid>
+
+
+
+    </ion-list>
+</ion-content>

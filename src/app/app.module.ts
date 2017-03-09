@@ -13,6 +13,7 @@ import { AddArmorPage } from '../pages/add-armor/add-armor';
 
 import { MagiasPage } from '../pages/magias/magias';
 import { TipoMagiasPage } from '../pages/tipo-magias/tipo-magias';
+import { MagiaDetalhePage } from '../pages/magia-detalhe/magia-detalhe';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { TipoMagiasPage } from '../pages/tipo-magias/tipo-magias';
     AddWeaponPage,
     AddArmorPage,
     MagiasPage,
-    TipoMagiasPage
+    TipoMagiasPage,
+    MagiaDetalhePage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -41,7 +43,8 @@ import { TipoMagiasPage } from '../pages/tipo-magias/tipo-magias';
     AddWeaponPage,
     AddArmorPage,
     MagiasPage,
-    TipoMagiasPage
+    TipoMagiasPage,
+    MagiaDetalhePage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},]
 })

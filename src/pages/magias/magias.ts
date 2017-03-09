@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {AlertController,  NavController,   NavParams} from 'ionic-angular';
 import { MagiaService } from '../../providers/magia-service/magia-service';
+import { MagiaDetalhePage } from '../magia-detalhe/magia-detalhe';
 
 /*
   Generated class for the Magias page.
@@ -14,15 +15,32 @@ import { MagiaService } from '../../providers/magia-service/magia-service';
   providers: [MagiaService]
 })
 export class MagiasPage {
-  private magias: Array<any>;
+  magias: Array<any>;
+  title: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private magiaService: MagiaService, public alertCtrl: AlertController) { }
 
+  openDetalhe(item){
+    this.navCtrl.push(MagiaDetalhePage,{
+      item: item
+    })
+  }
+
   init() {
     var idTipos = this.navParams.get("idTipos");
+    this.title = this.navParams.get("nome");
     if (idTipos.length > 0) {
       this.magiaService.getMagiaPorTipo(idTipos).then((result) => {
         this.magias = result;
+        this.magias.forEach(function(element){
+          element.tiposFormatados = [];
+          for(var i = 0; (i < element.tipoArray.length && i < element.tipoNivelArray.length); i++){
+            element.tiposFormatados.push({
+                nome: element.tipoArray[i],
+                nivel: element.tipoNivelArray[i]
+            })
+          }
+        })
         console.log(result)
       });
     } else {

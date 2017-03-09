@@ -21,7 +21,8 @@ export class TipoMagiasPage {
 
   selectTipo(tipo){
     this.navCtrl.push(MagiasPage,{
-      idTipos: [tipo._id]
+      idTipos: [tipo._id],
+      nome: tipo.nome
     })
   }
 

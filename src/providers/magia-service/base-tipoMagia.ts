@@ -7,8 +7,9 @@ export class BaseTipoMagia {
 
     public static get BASE_TIPOMAGIA(): Array<TipoMagia>{
         return [    
-           new TipoMagia('Arcana'),
-           new TipoMagia('Divina')
+            new TipoMagia(1,'Divina'),
+            new TipoMagia(2,'Arcana')
+           
         ]
     }
 }
