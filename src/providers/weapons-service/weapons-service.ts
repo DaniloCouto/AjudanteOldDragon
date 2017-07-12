@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Weapon } from '../../classes/weapon/weapon';
-import { SQLite } from 'ionic-native';
+import { SQLiteObject, SQLiteTransaction } from '@ionic-native/sqlite';
 import { BaseWeapons } from './base-weapons';
+import { SqlCapsuleProvider } from '../test/test';
 
 @Injectable()
 export class WeaponsService {
-  private sqlite;
+  private sqlCapsule: SqlCapsuleProvider;
   private _db;
   private _weapons: any;
 
-  constructor(private platform: Platform) {
+  constructor(private platform: Platform, private $sqlCapsule : SqlCapsuleProvider) {
+    this.sqlCapsule = $sqlCapsule;
     this.platform.ready().then(() => {
-      this.sqlite = new SQLite();
       let service = this;
-      this.openDatabase().then(function (db) {
-        db.transaction(function (tx) {
+      this.sqlCapsule.openDatabase().then(function (db: SQLiteObject) {
+        db.transaction(function (tx: SQLiteTransaction) {
           var query = 'CREATE TABLE IF NOT EXISTS weapons (' +
             '_Id	INTEGER PRIMARY KEY AUTOINCREMENT,' +
             'nome	TEXT,' +
@@ -53,8 +54,8 @@ export class WeaponsService {
             console.log(err);
 
           });
-        }, function (tx, err) {
-          console.error(tx,err);
+        }).then(function(){},function ( err) {
+          console.error(err);
         });
       }, function (err) {
         console.error(err);
@@ -66,7 +67,7 @@ export class WeaponsService {
     let params = this.weaponToArray(weapon);
     return new Promise((resolve, reject) => {
       let query = 'INSERT INTO weapons(nome,peso,valor,iniciativa,baAdicional,danoPuro,danoRolagem,qntdRolagem,alcancePequeno,alcanceMedio,alcanceGrande,tipo1,tipo2,tamanho) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
-      this.openDatabase().then((db) => {
+      this.sqlCapsule.openDatabase().then((db) => {
         db.transaction(function (tx) {
           tx.executeSql(query, params, function (tx, res) {
             resolve(res);
@@ -74,9 +75,6 @@ export class WeaponsService {
             console.log(err);
             reject(err);
           });
-        }, function (tx, err) {
-          console.error(err);
-          reject(err);
         });
       });
     });
@@ -86,7 +84,7 @@ export class WeaponsService {
     arrayParams.push(id);
     return new Promise((resolve, reject) => {
       let query = 'UPDATE weapons SET nome = ? , peso = ? , valor = ? , iniciativa = ? , baAdicional = ? , danoPuro = ? , danoRolagem = ? , qntdRolagem = ? , alcancePequeno = ? , alcanceMedio = ? , alcanceGrande = ? , tipo1 = ? , tipo2 = ? , tamanho = ? WHERE _id = ?;';
-      this.openDatabase().then((db) => {
+      this.sqlCapsule.openDatabase().then((db) => {
         db.transaction(function (tx) {
           tx.executeSql(query, arrayParams, function (tx, res) {
             resolve(res);
@@ -94,12 +92,10 @@ export class WeaponsService {
             console.log(err);
             reject(err);
           });
-        }, function (tx, err) {
-          console.log('Transaction Callback Error', err);
-          reject(err);
-        }, function (tx, succ) {
-          console.log('Transaction Success Callback', tx, succ);
-          reject(tx);
+        }).then(function (sucesso) {
+        }, function (erro) {
+          console.error('Transaction Success Callback',erro);
+          reject(erro);
         });
       })
     });
@@ -107,7 +103,7 @@ export class WeaponsService {
   delete(id: number): Promise<any> {
     return new Promise((resolve, reject) => {
       let query = 'DELETE FROM weapons WHERE _id = ?;';
-      this.openDatabase().then((db) => {
+      this.sqlCapsule.openDatabase().then((db) => {
         db.transaction(function (tx) {
           tx.executeSql(query, [id], function (tx, res) {
             resolve(res);
@@ -115,10 +111,11 @@ export class WeaponsService {
             console.error(err);
             reject(err);
           });
-        }, function (tx, err) {
-          console.error(err);
-          reject(err);
-        });
+        }).then(function (sucesso) {
+        }, function (erro) {
+          console.error('Transaction Success Callback',erro);
+          reject(erro);
+        });;
       })
     });
   }
@@ -126,18 +123,14 @@ export class WeaponsService {
     console.log('Breakpoint');
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
-      this.openDatabase().then((db) => {
-        db.transaction(function (tx) {
+      this.sqlCapsule.openDatabase().then((db) => {
+        db.transaction(function (tx: SQLiteTransaction) {
           tx.executeSql('SELECT * FROM  weapons;', [], function (tx, resultSet) {
             resolve(output(resultSet.rows));
           }, function (tx, err) {
             console.error(err);
             reject();
           });
-        }, function (tx, err) {
-          console.error(err);
-          reject();
-        }, function (tx, succ) {
         });
       })
     });
@@ -146,40 +139,17 @@ export class WeaponsService {
   getCount(): Promise<any> {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
-      this.openDatabase().then((db) => {
-        db.transaction(function (tx) {
+      this.sqlCapsule.openDatabase().then((db) => {
+        db.transaction(function (tx: SQLiteTransaction) {
           tx.executeSql('SELECT count(*) FROM  weapons;', [], function (tx, resultSet) {
             resolve(output(resultSet.rows));
           }, function (tx, err) {
             console.error(err);
             reject();
           });
-        }, function (tx, err) {
-          console.error(err);
-          reject();
-        }, function (tx, succ) {
         });
       })
     });
-  }
-
-  private openDatabase(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.platform.ready().then(() => {
-        this.sqlite.openDatabase({
-          name: 'oldDragonRegister.db',
-          location: 'default',
-          createFromLocation: 1
-        }).then((db) => {
-          this._db = db;
-          resolve(db);
-        }, (err) => {
-          console.error(err);
-          resolve(this._db);
-        });
-      });
-
-    })
   }
 
   private weaponToArray(weapon: Weapon): Array<any> {

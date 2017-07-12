@@ -1,3 +1,9 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
+import { SplashScreen  } from '@ionic-native/splash-screen';
+import { StatusBar  } from '@ionic-native/status-bar';
+import { SQLite} from '@ionic-native/sqlite';
+import { IonicStorageModule } from '@ionic/storage';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
@@ -14,6 +20,7 @@ import { AddArmorPage } from '../pages/add-armor/add-armor';
 import { MagiasPage } from '../pages/magias/magias';
 import { TipoMagiasPage } from '../pages/tipo-magias/tipo-magias';
 import { MagiaDetalhePage } from '../pages/magia-detalhe/magia-detalhe';
+import { SqlCapsuleProvider } from '../providers/test/test';
 
 @NgModule({
   declarations: [
@@ -30,7 +37,10 @@ import { MagiaDetalhePage } from '../pages/magia-detalhe/magia-detalhe';
     MagiaDetalhePage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    BrowserModule,
+    HttpModule,
+    IonicModule.forRoot(MyApp),  
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -46,6 +56,6 @@ import { MagiaDetalhePage } from '../pages/magia-detalhe/magia-detalhe';
     TipoMagiasPage,
     MagiaDetalhePage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider]
 })
 export class AppModule {}

@@ -8,9 +8,9 @@ export class TipoMagia {
         this.nomeTipo = $nomeTipo
     }
 
-     public get $nomeTipo(): string {
+    public get $nomeTipo(): string {
         return this.nomeTipo
-     }
+    }
 
      public set $nomeTipo($nomeTipo : string){
         this.nomeTipo = $nomeTipo;

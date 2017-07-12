@@ -57,14 +57,11 @@ export class AddMagiaPage {
       console.log(this.tipos);
     });
   }
-
+ 
   private alocarTiposSelecionados(magia: Magia){
     var tiposTemp = [];
     for(var i = 0; i < magia.$tipoArray.length; i++){
-      tiposTemp.push(new tipo({
-        _id: magia.$tipoArray[i].$id,
-        nome: magia.$tipoArray[i].$nomeTipo
-      },magia.$tipoNivelArray[i]))
+      tiposTemp.push(new tipo(magia.$tipoArray[i],magia.$tipoNivelArray[i]))
     }
     this.tiposSelecionados = tiposTemp;
   }

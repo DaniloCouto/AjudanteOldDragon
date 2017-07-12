@@ -2,19 +2,17 @@ import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Armadura } from '../../classes/armadura/armadura';
 import { BaseArmaduras } from './base-armors';
-import { SQLite} from 'ionic-native';
+import { SQLite, SQLiteObject, SQLiteTransaction } from '@ionic-native/sqlite';
 
 @Injectable()
 export class ArmorsService {
-  private sqlite;
   private _db;
 
-  constructor(private platform: Platform) {
+  constructor(private platform: Platform, private sqlite: SQLite) {
     this.platform.ready().then(() => {
-      this.sqlite = new SQLite();
       let service = this;
-      this.openDatabase().then(function (db) {
-        db.transaction(function (tx) {
+      this.openDatabase().then(function (db: SQLiteObject) {
+        db.transaction(function (tx: SQLiteTransaction) {
           var query = 'CREATE TABLE IF NOT EXISTS armors ('+
             '_id	INTEGER PRIMARY KEY AUTOINCREMENT,'+
             'nome	TEXT,'+
@@ -45,8 +43,8 @@ export class ArmorsService {
             console.log(err);
 
           });
-        }, function (tx, err) {
-          console.error(tx,err);
+        }).then(function(){}, function (err) {
+          console.error(err);
         });
       }, function (err) {
         console.error(err);
@@ -137,11 +135,11 @@ export class ArmorsService {
   private openDatabase(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.platform.ready().then(() => {
-          this.sqlite.openDatabase({
+          this.sqlite.create({
             name: 'oldDragonRegister.db',
             location: 'default',
             createFromLocation: 1
-          }).then((db) => {
+          }).then((db : SQLiteObject) => {
             this._db = db;
             resolve(db);
           }, (err) => {

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Platform, MenuController } from 'ionic-angular';
 
-import {StatusBar, Splashscreen} from 'ionic-native';
+import { SplashScreen  } from '@ionic-native/splash-screen';
+import { StatusBar  } from '@ionic-native/status-bar';
 import {BlacksmithPage} from '../pages/blacksmith/blacksmith';
 import {CalculadoraAtributosPage} from '../pages/calculadora-atributos/calculadora-atributos';
 import {CalculadoraClassePage} from '../pages/calculadora-classe/calculadora-classe';
@@ -20,12 +21,12 @@ export class MyApp {
     {texto: 'Magias', componente: TipoMagiasPage},
   ]
 
-  constructor(platform: Platform, private menu: MenuController) {
+  constructor(platform: Platform, private menu: MenuController, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
       setTimeout(function() {
-        Splashscreen.hide();
+        splashScreen.hide();
       }, 1000);
-      StatusBar.styleDefault();
+      statusBar.styleDefault();
     });
   }
 

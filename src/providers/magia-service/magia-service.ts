@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { SQLite } from 'ionic-native';
+import { SQLite, SQLiteObject, SQLiteTransaction } from '@ionic-native/sqlite';
 import { Magia } from '../../classes/magia/magia';
-import {TipoMagia, TipoMagia} from '../../classes/magia/tipoMagia';
+import { TipoMagia} from '../../classes/magia/tipoMagia';
 import { BaseTipoMagia } from './base-tipoMagia';
 import { BaseMagia } from './base-magia';
 import 'rxjs/add/operator/map';
@@ -16,16 +16,14 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class MagiaService {
 
-  private sqlite;
   private _db;
   private _weapons: any;
 
-  constructor(private platform: Platform) {
+  constructor(private platform: Platform, private sqlite: SQLite) {
     this.platform.ready().then(() => {
-      this.sqlite = new SQLite();
       let service = this;
-      this.openDatabase().then(function (db) {
-        db.transaction(function (tx) {
+      this.openDatabase().then(function (db : SQLiteObject) {
+        db.transaction(function (tx : SQLiteTransaction) {
           var query = 'CREATE TABLE IF NOT EXISTS magia (' +
             '_id	INTEGER,' +
             'nome	TEXT NOT NULL,' +
@@ -95,8 +93,6 @@ export class MagiaService {
           }, function (tx, err) {
             console.log(err);
           });
-        }, function (tx, err) {
-          console.error(tx, err);
         });
       }, function (err) {
         console.error(err);
@@ -314,11 +310,11 @@ export class MagiaService {
   private openDatabase(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.platform.ready().then(() => {
-        this.sqlite.openDatabase({
+        this.sqlite.create({
           name: 'oldDragonRegister.db',
           location: 'default',
           createFromLocation: 1
-        }).then((db) => {
+        }).then((db: SQLiteObject) => {
           this._db = db;
           resolve(db);
         }, (err) => {
