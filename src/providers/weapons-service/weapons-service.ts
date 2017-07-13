@@ -3,7 +3,7 @@ import { Platform } from 'ionic-angular';
 import { Weapon } from '../../classes/weapon/weapon';
 import { SQLiteObject, SQLiteTransaction } from '@ionic-native/sqlite';
 import { BaseWeapons } from './base-weapons';
-import { SqlCapsuleProvider } from '../test/test';
+import { SqlCapsuleProvider } from '../sql-capsule/sql-capsule';
 
 @Injectable()
 export class WeaponsService {

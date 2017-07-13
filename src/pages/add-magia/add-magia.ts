@@ -39,6 +39,7 @@ export class AddMagiaPage {
         this.alocarTiposSelecionados(this.magia);
       },function(){
         let alert = this.alertCtrl.create({
+            title: 'Erro',
             subTitle: 'Algo deu errado ao procurar o detalhes da magia.',
             buttons: ['OK']
           });

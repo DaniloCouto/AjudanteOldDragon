@@ -19,8 +19,9 @@ import { AddArmorPage } from '../pages/add-armor/add-armor';
 
 import { MagiasPage } from '../pages/magias/magias';
 import { TipoMagiasPage } from '../pages/tipo-magias/tipo-magias';
+import { AddTipoMagiaPage } from '../pages/add-tipo-magia/add-tipo-magia';
 import { MagiaDetalhePage } from '../pages/magia-detalhe/magia-detalhe';
-import { SqlCapsuleProvider } from '../providers/test/test';
+import { SqlCapsuleProvider } from '../providers/sql-capsule/sql-capsule';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { SqlCapsuleProvider } from '../providers/test/test';
     AddArmorPage,
     MagiasPage,
     TipoMagiasPage,
-    MagiaDetalhePage
+    MagiaDetalhePage,
+    AddTipoMagiaPage
   ],
   imports: [
     BrowserModule,
@@ -54,7 +56,8 @@ import { SqlCapsuleProvider } from '../providers/test/test';
     AddArmorPage,
     MagiasPage,
     TipoMagiasPage,
-    MagiaDetalhePage
+    MagiaDetalhePage,
+    AddTipoMagiaPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider]
 })

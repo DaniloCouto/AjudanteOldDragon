@@ -18,7 +18,7 @@ export class MyApp {
     {texto: 'Atributos', componente: CalculadoraAtributosPage},
     {texto: 'Classes', componente: CalculadoraClassePage},
     {texto: 'Ferreiro', componente: BlacksmithPage},
-    {texto: 'Magias', componente: TipoMagiasPage},
+    {texto: 'Biblioteca', componente: TipoMagiasPage}
   ]
 
   constructor(platform: Platform, private menu: MenuController, statusBar: StatusBar, splashScreen: SplashScreen) {

@@ -14,22 +14,24 @@ export class SqlCapsuleProvider {
   constructor(private platform: Platform, private sqlite: SQLite) {
   }
 
-  openDatabase(): Promise<SQLiteObject> {
+  openDatabase(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.platform.ready().then(() => {
-        this.platform.is('cordova')
-        this.sqlite.create({
-          name: 'oldDragonRegister.db',
-          location: 'default',
-          createFromLocation: 1
-        }).then((db: SQLiteObject) => {
-          resolve(db);
-        }, (err) => {
-          console.error(err);
-          reject(err);
-        });
+        if(this.platform.is('cordova')){
+          this.sqlite.create({
+            name: 'oldDragonRegister.db',
+            location: 'default',
+            createFromLocation: 1
+          }).then((db: SQLiteObject) => {
+            resolve(db);
+          }, (err) => {
+            console.error(err);
+            reject(err);
+          });
+        }else{
+          reject("Não ha database em cordova");
+        }
       });
     })
-
-}
+  }
 }

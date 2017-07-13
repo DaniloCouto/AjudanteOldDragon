@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { SQLite, SQLiteObject, SQLiteTransaction } from '@ionic-native/sqlite';
+import { SQLiteObject, SQLiteTransaction } from '@ionic-native/sqlite';
 import { Magia } from '../../classes/magia/magia';
 import { TipoMagia} from '../../classes/magia/tipoMagia';
 import { BaseTipoMagia } from './base-tipoMagia';
 import { BaseMagia } from './base-magia';
+import { SqlCapsuleProvider } from '../sql-capsule/sql-capsule';
 import 'rxjs/add/operator/map';
 
 /*
@@ -16,13 +17,15 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class MagiaService {
 
+  private sqlCapsule: SqlCapsuleProvider;
   private _db;
   private _weapons: any;
 
-  constructor(private platform: Platform, private sqlite: SQLite) {
+  constructor(private platform: Platform, private $sqlCapsule: SqlCapsuleProvider) {
+    this.sqlCapsule = $sqlCapsule;
     this.platform.ready().then(() => {
       let service = this;
-      this.openDatabase().then(function (db : SQLiteObject) {
+      this.sqlCapsule.openDatabase().then(function (db : SQLiteObject) {
         db.transaction(function (tx : SQLiteTransaction) {
           var query = 'CREATE TABLE IF NOT EXISTS magia (' +
             '_id	INTEGER,' +
@@ -38,13 +41,16 @@ export class MagiaService {
             'tipoDuracaoAdicional	INTEGER,' +
             'PRIMARY KEY(_id)' +
             ');';
+
           tx.executeSql(query, null, function (tx, res) {
+            console.log('Query Executed', query);
             var query = 'CREATE TABLE IF NOT EXISTS tipoMagia (' +
               '_id	INTEGER,' +
               'nome	TEXT NOT NULL,' +
               'PRIMARY KEY(_id)' +
               ');';
             tx.executeSql(query, null, function (tx, res) {
+              console.log('Query Executed', query);
               var query = 'CREATE TABLE IF NOT EXISTS tipoMagia_magia (' +
                 '_id_tipoMagia	INTEGER,' +
                 '_id_magia	INTEGER,' +
@@ -53,7 +59,9 @@ export class MagiaService {
                 'FOREIGN KEY(_id_magia) REFERENCES magia(_id)' +
                 ');';
               tx.executeSql(query, null, function (tx, res) {
+                console.log('Query Executed', query);
                 tx.executeSql('SELECT count(*) AS mycount FROM  magia;', [], function (tx, resultSet) {
+                  console.log('Count', resultSet.rows.item(0).mycount);
                   if (resultSet.rows.item(0).mycount === 0) {
                     let idsTipoMagias = [];
                     let transaction = tx;
@@ -143,7 +151,7 @@ export class MagiaService {
               ")";
             queryCompletion = whereClause + inClause;
           } else {
-            var whereClause = ' WHERE (_id_tipoMagia = ?)';
+            whereClause = ' WHERE (_id_tipoMagia = ?)';
             queryCompletion = whereClause;
           }
           query += queryCompletion;
@@ -260,6 +268,42 @@ export class MagiaService {
     });
   }
 
+  deleteTipo( id: number): Promise<any> {
+    let output = this.sqliteOutputToArray;
+    console.log('id dessa bosta', id);
+    return new Promise((resolve, reject) => {
+      this.openDatabase().then((db) => {
+        db.transaction(function (tx) {
+          tx.executeSql("SELECT _id_magia,_id_tipoMagia FROM(SELECT _id_magia,_id_tipoMagia  FROM tipoMagia_magia GROUP BY _id_magia HAVING count(_id_magia) = 1) WHERE _id_tipoMagia = ?;", [id], function (tx, resultSet) {
+            if(resultSet.rows.length > 0){
+              for(var i = 0; i < resultSet.rows.length; i++ ){
+                tx.executeSql('DELETE FROM magia WHERE _id = ?;', [resultSet.rows.index(i)._id_magia])
+              }
+            }
+            tx.executeSql('DELETE FROM tipoMagia_magia WHERE _id_tipoMagia = ?;', [id], function (tx, resultSet) {
+              tx.executeSql('DELETE FROM tipoMagia WHERE _id = ?;', [id], function (tx, resultSet) {
+                resolve(true);
+              }, function (tx, err) {
+                console.error(err);
+                reject(false);
+              });
+            }, function (tx, err) {
+              console.error(err);
+              reject(false);
+            });
+          }, function (tx, err) {
+            console.error(err);
+            reject();
+          });
+        }, function (tx, err) {
+          reject();
+        }, function (tx, succ) {
+          reject();
+        });
+      })
+    });
+  }
+
   public addMagia(magia: Magia, idTipo: Array<number>): Promise<any> {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
@@ -308,21 +352,7 @@ export class MagiaService {
   }
 
   private openDatabase(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.platform.ready().then(() => {
-        this.sqlite.create({
-          name: 'oldDragonRegister.db',
-          location: 'default',
-          createFromLocation: 1
-        }).then((db: SQLiteObject) => {
-          this._db = db;
-          resolve(db);
-        }, (err) => {
-          console.error(err);
-          resolve(this._db);
-        });
-      });
-    })
+    return this.sqlCapsule.openDatabase();
   }
 
   private magiaToArray(magia: Magia): Array<any> {

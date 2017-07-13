@@ -1,182 +1,128 @@
 <!--
-  Generated template for the CalculadoraClassePage page.
+  Generated template for the AddWeaponPage page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 -->
 <ion-header>
-
     <ion-navbar color="danger">
-        <ion-buttons left>
-            <button ion-button icon-only menuToggle>
-              <ion-icon name="menu"></ion-icon>
-            </button>
-        </ion-buttons>
-        <ion-title class="calculadora-atributos-toolbar-title">Calculadora</ion-title>
+        <ion-title>Arma</ion-title>
     </ion-navbar>
 </ion-header>
 
-
-<ion-content class="calculadora-classe">
-    <ion-card>
+<ion-content>
+    <ion-list>
         <ion-item>
-            <ion-label>Classe</ion-label>
-            <ion-select [(ngModel)]="selectedClass" (ngModelChange)="classChanged()">
-                <ion-option value="0">Clérigo</ion-option>
-                <ion-option value="1">Homem de Armas</ion-option>
-                <ion-option value="2">Mago</ion-option>
-                <ion-option value="3">Ladrão</ion-option>
-            </ion-select>
+            <ion-label>Nome</ion-label>
+            <ion-input type="text" [(ngModel)]="weapon.$nome"></ion-input>
         </ion-item>
-        <ion-item>
-            <ion-label fixed>Nivel</ion-label>
-            <ion-input type="number" max="20" min="1" [(ngModel)]="nivel" (ngModelChange)="nivelChanged()"></ion-input>
-        </ion-item>
-    </ion-card>
-
-    <div *ngIf="nivel > 0 && nivel < 21">
-        <ion-card>
-            <ion-card-header>
-                Bonus de Classe
-            </ion-card-header>
-            <ion-item>
-                <ion-icon name="trending-up" item-left large></ion-icon>
-                <h2>Experiencia para proximo nivel</h2>
-                <p>{{currentClass.$bonus.xp}}</p>
-            </ion-item>
-            <ion-item>
-                <ion-icon name="{{getDiceClass()}}" item-left large></ion-icon>
-                <h2>Dados de Vida</h2>
-                <p>{{currentClass.$bonus.dadoDeVida}}</p>
-            </ion-item>
-            <ion-item>
-                <ion-icon name="logo-sword" item-left large></ion-icon>
-                <h2>Bonus de Ataque</h2>
-                <p>{{currentClass.$bonus.bonusDeAtaque}}</p>
-            </ion-item>
-            <ion-item>
-                <ion-icon name="logo-armor" item-left large></ion-icon>
-                <h2>Jogada de Proteção</h2>
-                <p>{{currentClass.$bonus.jogadaDeProtecao}}</p>
-            </ion-item>
-        </ion-card>
-
-        <ion-card *ngIf="selectedClass === 0 || selectedClass === 2">
-            <ion-item>
-                <ion-icon name="book" item-left large></ion-icon>
-                <h2>Acesso a Magia</h2>
-                <p></p>
-            </ion-item>
-            <ion-item>
-                <ion-grid>
-                    <ion-row style="-webkit-flex-wrap: wrap;flex-wrap: wrap;justify-content: flex-start;">
-                        <ion-col width-10 *ngFor='let value of currentClass.$magia.acessoMagia; let i = index'>
-                            {{i+1}}º
-                            <p>
-                                {{value}}
-                            </p>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </ion-item>
-        </ion-card>
-
-        <ion-card *ngIf="selectedClass === 0">
-            <ion-item>
-                <ion-icon name="logo-skull" item-left large></ion-icon>
-                <h2>Afastar Mortos Vivos</h2>
-            </ion-item>
-            <ion-card-header>
-                Por dados de Vida
-            </ion-card-header>
-            <ion-item>
-                <ion-grid>
-                    <ion-row style="-webkit-flex-wrap: wrap;flex-wrap: wrap;justify-content: flex-start;">
-                        <ion-col width-10 *ngFor='let value of currentClass.$afastarMortosDadoDeVida.mortosVivos; let i = index'>
-                            {{i+1}}
-                            <p>
-                                {{value}}
-                            </p>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </ion-item>
-            <ion-card-header>
-                Por Criatura
-            </ion-card-header>
-            <ion-item>
-                Esqueleto
-                <b item-right>{{currentClass.$afastarMortos.esqueleto}}</b>
-            </ion-item>
-            <ion-item>
-                Zumbi
-                <b item-right>{{currentClass.$afastarMortos.zumbi}}</b>
-            </ion-item>
-            <ion-item>
-                Carnical
-                <b item-right>{{currentClass.$afastarMortos.carnical}}</b>
-            </ion-item>
-            <ion-item>
-                Inumano
-                <b item-right>{{currentClass.$afastarMortos.inumano}}</b>
-            </ion-item>
-            <ion-item>
-                Aparicao
-                <b item-right>{{currentClass.$afastarMortos.aparicao}}</b>
-            </ion-item>
-            <ion-item>
-                Mumia
-                <b item-right>{{currentClass.$afastarMortos.mumia}}</b>
-            </ion-item>
-            <ion-item>
-                Espectro
-                <b item-right>{{currentClass.$afastarMortos.espectro}}</b>
-            </ion-item>
-            <ion-item>
-                Vampiro
-                <b item-right>{{currentClass.$afastarMortos.vampiro}}</b>
-            </ion-item>
-        </ion-card>
-
-        <ion-card *ngIf="selectedClass === 3">
-            <ion-item>
-                <ion-icon name="logo-crest" item-left large></ion-icon>
-                <h2>Talentos Ladinos</h2>
-            </ion-item>
-            <ion-item>
-                Abrir Fechaduras
-                <b item-right>{{currentClass.$talentos.abrirFechaduras}}%</b>
-            </ion-item>
-            <ion-item>
-                Desarmar Armadilhas
-                <b item-right>{{currentClass.$talentos.reconhecerDesarmarArmadilhas}}%</b>
-            </ion-item>
-            <ion-item>
-                Escalar Muros
-                <b item-right>{{currentClass.$talentos.escalarMuros}}%</b>
-            </ion-item>
-            <ion-item>
-                Mover em Silencio
-                <b item-right>{{currentClass.$talentos.moverEmSilencio}}%</b>
-            </ion-item>
-            <ion-item>
-                Esconder nas Sombras
-                <b item-right>{{currentClass.$talentos.esconderNasSombras}}%</b>
-            </ion-item>
-            <ion-item>
-                Pungar
-                <b item-right>{{currentClass.$talentos.pungar}}%</b>
-            </ion-item>
-            <ion-item>
-                Ouvir Barulhos
-                <b item-right>{{currentClass.$talentos.ouvirBarulhos}}</b>
-            </ion-item>
-            <ion-item>
-                Ataque Pelas Costas
-                <b item-right>x{{currentClass.$talentos.ataquePelasCostas}}</b>
-            </ion-item>
-        </ion-card>
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Peso</ion-label>
+                        <ion-input type="number" [(ngModel)]="weapon.$peso"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Valor</ion-label>
+                        <ion-input type="number" [(ngModel)]="weapon.$valor"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Tamanho</ion-label>
+                        <ion-select [(ngModel)]="weapon.$tamanho">
+                            <ion-option value="0">Pequena</ion-option>
+                            <ion-option value="1">Média</ion-option>
+                            <ion-option value="2">Grande</ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Iniciativa</ion-label>
+                        <ion-input type="number" [(ngModel)]="weapon.$iniciativa"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Bonus de Ataque</ion-label>
+                        <ion-input type="number" [(ngModel)]="weapon.$BaAdicional"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-item>
+                    <h2>Dano</h2>
+                </ion-item>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Base</ion-label>
+                        <ion-input type="number" [(ngModel)]="weapon.$dano.$danoPuro"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Qtd</ion-label>
+                        <ion-input type="number" [(ngModel)]="weapon.$dano.$qntdRolagem"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Rolagem</ion-label>
+                        <ion-select [(ngModel)]="weapon.$dano.$danoRolagem">
+                            <ion-option value="2">D2</ion-option>
+                            <ion-option value="4">D4</ion-option>
+                            <ion-option value="6">D6</ion-option>
+                            <ion-option value="8">D8</ion-option>
+                            <ion-option value="10">D10</ion-option>
+                            <ion-option value="12">D12</ion-option>
+                            <ion-option value="20">D20</ion-option>
+                            <ion-option value="100">D100</ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-item>
+                    <h2>Alcance</h2>
+                </ion-item>
+            </ion-row>
+            <ion-row>
+                <ion-col *ngFor="let item of weapon.$alcance; let i = index">
+                    <ion-item>
+                        <ion-input type="number" [(ngModel)]="weapon.$alcance[i]"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-item>
+                    <h2>Tipo</h2>
+                </ion-item>
+            </ion-row>
+            <ion-row>
+                <ion-col *ngFor="let item of weapon.$tipo; let i = index">
+                    <ion-item>
+                        <ion-label stacked></ion-label>
+                        <ion-select [(ngModel)]="weapon.$tipo[i]">
+                            <ion-option value="0">-</ion-option>
+                            <ion-option value="1">Perfuração</ion-option>
+                            <ion-option value="2">Corte</ion-option>
+                            <ion-option value="3">Impacto</ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-list>
+    <div padding>
+        <button color="danger" ion-button block (click)="addItem()">Cadastrar</button>
     </div>
-
 
 </ion-content>

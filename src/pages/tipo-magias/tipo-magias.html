@@ -12,12 +12,12 @@
                 <ion-icon name="menu"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-title>Magias</ion-title>
-        <!--<ion-buttons right>
-            <button ion-button icon-only (click)="addItem()">
+        <ion-title>Escolas</ion-title>
+        <ion-buttons right>
+            <button ion-button icon-only (click)="addTipo()">
                 <ion-icon name="add"></ion-icon>
             </button>
-        </ion-buttons>-->
+        </ion-buttons>
     </ion-navbar>
 
 </ion-header>
@@ -29,6 +29,16 @@
             <button ion-item (click)="selectTipo(item)">
                 <h2>{{item.nome}}</h2>
             </button>
+            <ion-item-options>
+                <button ion-button color="primary" (click)="editTipo(item)">
+                    <ion-icon name="open"></ion-icon>
+                    Editar
+                </button>
+                <button ion-button color="danger" (click)="deleteTipo(item)">
+                    <ion-icon name="close"></ion-icon>
+                    Excluir
+                </button>
+            </ion-item-options>
         </ion-item-sliding>
     </ion-list>
 </ion-content>

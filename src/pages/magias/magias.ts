@@ -32,11 +32,12 @@ export class MagiasPage {
     if (idTipos.length > 0) {
       this.magiaService.getMagiaPorTipo(idTipos).then((result) => {
         this.magias = result;
+        console.log("Magias",this.magias);
         this.magias.forEach(function(element){
           element.tiposFormatados = [];
           for(var i = 0; (i < element.tipoArray.length && i < element.tipoNivelArray.length); i++){
             element.tiposFormatados.push({
-                nome: element.tipoArray[i],
+                nome: element.tipoArray[i].nomeTipo,
                 nivel: element.tipoNivelArray[i]
             })
           }

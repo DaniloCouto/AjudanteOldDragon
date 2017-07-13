@@ -15,11 +15,11 @@ import { NavController, NavParams } from 'ionic-angular';
 export class MagiaDetalhePage {
   item: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MagiaDetalhePage');
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.item  = this.navParams.get('item');
+    console.log("Item",this.item);
   }
+
+  ionViewDidLoad() {}
 
 }
