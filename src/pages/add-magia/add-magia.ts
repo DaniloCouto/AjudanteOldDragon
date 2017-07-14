@@ -16,8 +16,10 @@ export class AddMagiaPage {
   idMagia: any;
   magia: Magia;
   tiposSelecionados: Array<TipoMagiaComNivel>;
-  tiposLista: Array<any>
-  tipos: any;
+  tiposLista: Array<TipoMagia>;
+  tipoCadastro: TipoMagiaComNivel;
+  enum = medidaDeTempoENUM;
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private magiaService: MagiaService, public alertCtrl: AlertController) { }
 
@@ -38,35 +40,23 @@ export class AddMagiaPage {
           this.navCtrl.pop();
       })
     } else {
-      this.magia = new Magia([new TipoMagiaComNivel(0,'', 0)],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0),'','')
-      this.alocarTiposSelecionados(this.magia);
+      this.magia = new Magia([],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0),'','')
     }
-    this.addTipos();
-    this.magiaService.getAllTipos().then((result) => {
+    this.magiaService.getAllTipos().then((result: Array<TipoMagia>) => {
       console.log(result);
-      this.tipos = result;
       this.tiposLista = result;
-      console.log(this.tipos);
+      if(result.length != 0){
+        this.tipoCadastro = new TipoMagiaComNivel(result[0].$id, result[0].$nomeTipo, 1);
+      }
     });
   }
- 
-  private alocarTiposSelecionados(magia: Magia){
-    var tiposTemp = [];
-    for(var i = 0; i < magia.$tipoArray.length; i++){
-      tiposTemp.push(magia.$tipoArray[i]);
-    }
-    this.tiposSelecionados = tiposTemp;
+
+  addTipos( tipo : TipoMagiaComNivel) {
+    this.magia.$tipoArray.push(tipo);
   }
 
-  addTipos() {
-    this.tiposSelecionados.push(new TipoMagiaComNivel(null, null, 1));
-  }
-
-  selectedTipo() {
-    this.tiposLista = this.tipos;
-    for (var i = 0; i < this.tiposSelecionados.length; i++) {
-      this.tiposLista.splice(this.tiposLista.indexOf(this.tiposSelecionados[i]), 1)
-    }
+  deleteTipo( tipo : TipoMagiaComNivel) {
+    this.magia.$tipoArray.splice( this.magia.$tipoArray.indexOf(tipo), 1);
   }
 
   tipoDuracao(tipo: number): string {
