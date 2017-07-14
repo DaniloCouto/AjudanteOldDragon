@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { SQLiteObject, SQLiteTransaction } from '@ionic-native/sqlite';
 import { Magia } from '../../classes/magia/magia';
-import { TipoMagia} from '../../classes/magia/tipoMagia';
+import { AlcanceMagia } from '../../classes/magia/alcanceMagia';
+import { DuracaoMagia } from '../../classes/magia/duracaoMagia';
+import { TipoMagia, TipoMagiaComNivel } from '../../classes/magia/tipoMagia';
 import { BaseTipoMagia } from './base-tipoMagia';
 import { BaseMagia } from './base-magia';
 import { SqlCapsuleProvider } from '../sql-capsule/sql-capsule';
@@ -108,13 +110,17 @@ export class MagiaService {
     });
   }
 
-  getAllTipos(): Promise<any> {
+  getAllTipos(): Promise<Array<TipoMagia>> {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
       this.openDatabase().then((db) => {
         db.transaction(function (tx) {
           tx.executeSql('SELECT * FROM  tipoMagia;', [], function (tx, resultSet) {
-            resolve(output(resultSet.rows));
+            var retorno = []
+            for(var i = 0; i < resultSet.rows.length; i++){
+              retorno.push(new TipoMagia(resultSet.rows.item(i)._id, resultSet.rows.item(i).nome))
+            }
+            resolve(retorno);
           }, function (tx, err) {
             console.error(err);
             reject();
@@ -128,10 +134,36 @@ export class MagiaService {
     });
   }
 
-  getMagiaPorTipo(idTipos: Array<Number>): Promise<any> {
+  private getJustMagia(tx, tipos: Array<TipoMagiaComNivel>, id_magia: number){
+    return new Promise((resolve, reject) => {
+      tx.executeSql('SELECT * FROM magia WHERE _id = ?;', [id_magia], function (tx, resultSet) {
+          resolve(new Magia(tipos,
+          new AlcanceMagia(
+            resultSet.rows.item(0).alcanceBase,
+            resultSet.rows.item(0).alcancePorNivel,
+            resultSet.rows.item(0).nivelPorAlcance
+          ),
+          new DuracaoMagia(
+            resultSet.rows.item(0).duracaoBase,
+            resultSet.rows.item(0).nivelPorDuracao,
+            resultSet.rows.item(0).duracaoPorNivel,
+            resultSet.rows.item(0).tipoDuracaoBase,
+            resultSet.rows.item(0).tipoDuracaoAdicional
+          ),
+          resultSet.rows.item(0).nome,
+          resultSet.rows.item(0).descricao
+        ));
+      }, function (tx, err) {
+        reject(err);
+      })
+    })
+  }
+
+  getMagiaPorTipo(idTipos: Array<Number>): Promise<Array<Magia>> {
+    let servico = this;
     return new Promise((resolve, reject) => {
       this.openDatabase().then((db) => {
-        db.transaction(function (tx) {
+        db.transaction(function (tx: SQLiteTransaction) {
           let query = 'SELECT tm._id_magia, tm._id_tipoMagia,  tm.nivel, t.nome FROM tipoMagia_magia tm INNER JOIN magia as m ON m._id = tm._id_magia INNER JOIN tipoMagia as t ON t._id = tm._id_tipoMagia';
           var queryCompletion = ''
           if (idTipos.length >= 2) {
@@ -155,30 +187,29 @@ export class MagiaService {
             queryCompletion = whereClause;
           }
           query += queryCompletion;
-          console.log(query);
-          tx.executeSql(query, idTipos, function (tx, resultSet) {
+          tx.executeSql(query, idTipos, function (tx: SQLiteTransaction, tiposMagia) {
             var retorno = [];
-            var tamanhoDaQuery = resultSet.rows.length;
-            for (var i = 0; i < tamanhoDaQuery; i += idTipos.length) {
-              var nivel = [];
-              for (var k = i; k < (i + idTipos.length); k++) {
-                nivel.push(resultSet.rows.item(k).nivel)
-              }
-              var tipos = [];
-              for (var j = i; j < (i + idTipos.length); j++) {
-                tipos.push(new TipoMagia(resultSet.rows.item(j)._id_tipoMagia,resultSet.rows.item(j).nome))
-              }
-              tx.executeSql('SELECT * FROM magia WHERE _id = ?;', [resultSet.rows.item(i)._id_magia], function (tx, resultSet) {
-                resultSet.rows.item(0).tipoNivelArray = nivel;
-                resultSet.rows.item(0).tipoArray = tipos;
-                retorno.push(resultSet.rows.item(0));
-                if (i === tamanhoDaQuery) {
-                  resolve(retorno);
-                }
+            for (var i = 0; i < tiposMagia.rows.length; i++) {
+              let tempIdMagia = tiposMagia.rows.item(i)._id_magia;
+              let query = 'SELECT tm._id_magia, tm._id_tipoMagia,  tm.nivel, t.nome FROM tipoMagia_magia tm INNER JOIN magia as m ON m._id = tm._id_magia INNER JOIN tipoMagia as t ON t._id = tm._id_tipoMagia WHERE _id_magia = ?;';
+              tx.executeSql(query, [tempIdMagia], function (tx: SQLiteTransaction, resultSet) {
+                var tipos = [];
+                for (var j = 0; j < resultSet.rows.length; j ++) {
+                  tipos.push(new TipoMagiaComNivel(resultSet.rows.item(j)._id_tipoMagia, resultSet.rows.item(j).nome, resultSet.rows.item(j).nivel ));
+                };
+                servico.getJustMagia(tx, tipos, tempIdMagia).then(function(magia: Magia){
+                  retorno.push(magia);
+                  if(tiposMagia.rows.length === i){
+                    resolve(retorno);
+                  }
+                },function(err){
+                  console.error(err);
+                  reject();
+                });
               }, function (tx, err) {
                 console.error(err);
                 reject();
-              })
+              });
             };
           }, function (tx, err) {
             console.error(err);
@@ -193,32 +224,29 @@ export class MagiaService {
     });
   }
 
-  getMagia(idMagia: number): Promise<any> {
+  getMagia(idMagia: number): Promise<Magia> {
+    let servico = this;
     return new Promise((resolve, reject) => {
       this.openDatabase().then((db) => {
         db.transaction(function (tx) {
           let query = 'SELECT tm._id_magia, tm._id_tipoMagia,  tm.nivel, t.nome FROM tipoMagia_magia tm INNER JOIN magia as m ON m._id = tm._id_magia INNER JOIN tipoMagia as t ON t._id = tm._id_tipoMagia WHERE _id_magia = ?;';
           tx.executeSql(query, [idMagia], function (tx, resultSet) {
             var retorno = [];
+            var tipos = [];
             var tamanhoDaQuery = resultSet.rows.length;
             for (var i = 0; i < tamanhoDaQuery; i ++) {
-              var nivel = [];
-              nivel.push(resultSet.rows.item(i).nivel);
-              var tipos = [];
-              tipos.push(new TipoMagia(resultSet.rows.item(i)._id_tipoMagia,resultSet.rows.item(i).nome));
+              tipos.push(new TipoMagiaComNivel(resultSet.rows.item(i)._id_tipoMagia, resultSet.rows.item(i).nome, resultSet.rows.item(i).nivel ));
             };
-            tx.executeSql('SELECT * FROM magia WHERE _id = ?;', [idMagia], function (tx, resultSet) {
-                resultSet.rows.item(0).tipoNivelArray = nivel;
-                resultSet.rows.item(0).tipoArray = tipos;
-                resolve(resultSet.rows.item(0));
-              }, function (tx, err) {
-                console.error(err);
-                reject();
-              })
+            servico.getJustMagia(tx, tipos, idMagia).then(function(magia: Magia){
+              resolve(magia);
+            },function(err){
+              console.error(err);
+              reject();
+            });
           }, function (tx, err) {
             console.error(err);
             reject();
-          })
+          });
         }, function (tx, err) {
           reject();
         }, function (tx, succ) {
@@ -329,21 +357,19 @@ export class MagiaService {
       let params = this.magiaToArray(element);
       let query = 'INSERT INTO magia(nome,descricao,alcanceBase,nivelPorAlcance,alcancePorNivel,duracaoBase,nivelPorDuracao,duracaoPorNivel,tipoDuracaoBase,tipoDuracaoAdicional) VALUES (?,?,?,?,?,?,?,?,?,? );';
       transaction.executeSql(query, params, function (tx, resultSet) {
-        if (idTipo.length === element.$tipoNivelArray.length) {
-          for (var i = 0; i < idTipo.length; i++) {
-            let params = [idTipo[i], resultSet.insertId, element.$tipoNivelArray[i]];
+          for (var i = 0; i < element.$tipoArray.length; i++) {
+            let params = [element.$tipoArray[i].$id, resultSet.insertId, element.$tipoArray[i].$nivel];
             let query = 'INSERT INTO tipoMagia_magia(_id_tipoMagia,_id_magia,nivel) VALUES ( ?,?,? );';
             transaction.executeSql(query, params, function (tx, resultSet) {
+              if(element.$tipoArray.length === i){
+
+              }
               resolve(resultSet);
             }, function (tx, err) {
               console.error(err);
               reject(err);
             });
           }
-        } else {
-          console.error('Quantidade de tipos difere da de niveis.');
-          reject();
-        }
       }, function (tx, err) {
         console.error(err);
         reject(err);

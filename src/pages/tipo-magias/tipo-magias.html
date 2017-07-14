@@ -27,7 +27,7 @@
     <ion-list>
         <ion-item-sliding *ngFor="let item of tipoMagias">
             <button ion-item (click)="selectTipo(item)">
-                <h2>{{item.nome}}</h2>
+                <h2>{{item.nomeTipo}}</h2>
             </button>
             <ion-item-options>
                 <button ion-button color="primary" (click)="editTipo(item)">

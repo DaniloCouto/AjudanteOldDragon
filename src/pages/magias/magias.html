@@ -26,10 +26,10 @@
 <ion-content>
     <ion-item-sliding *ngFor="let item of magias">
         <button ion-item (click)="openDetalhe(item)">
-            <span *ngFor="let tipos of item.tiposFormatados">{{tipos.nomeTipo}}: {{tipos.nivel}}</span>
+            <span *ngFor="let tipos of item.tipoArray">{{tipos.nomeTipo}}: {{tipos.nivel}}</span>
             <h2><b>Nome</b>: {{item.nome}}</h2>
-            <p><b>Alcance</b>: {{item.alcanceBase}} m + {{item.alcancePorNivel}} metros a cada {{item.nivelPorAlcance}} nivel(s)</p>
-            <p><b>Duração</b>: {{item.duracaoBase}} m + {{item.duracaoPorNivel}} metros a cada {{item.nivelPorDuracao}} nivel(s)</p>
+            <p><b>Alcance</b>: {{item.alcance.alcanceBase}} m + {{item.alcance.alcanceAdicional}} metros a cada {{item.alcance.niveisParaAdicao}} nivel(s)</p>
+            <p><b>Duração</b>: {{item.duracao.duracaoBase}} {{enum[item.duracao.medidaDuracaoBase]}} + {{item.duracao.duracaoAdicional}} {{enum[item.duracao.medidaDuracaoAdicional]}} a cada {{item.duracao.niveisParaAdicao}} nivel(s)</p>
             <p><b>Descrição</b>: {{item.descricao}}</p>
         </button>
     </ion-item-sliding>

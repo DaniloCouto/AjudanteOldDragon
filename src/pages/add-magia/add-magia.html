@@ -13,9 +13,30 @@
 <ion-content>
     <ion-list>
         <ion-grid>
+            <ion-row *ngFor="let select of magia.$tipoArray">
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Tipo</ion-label>
+                        <ion-select [(ngModel)]="select.objetoTipo" (ngModelChange)="saverange()">
+                            <ion-option *ngFor="let item of tipos">{{item.nome}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Circulo</ion-label>
+                        <ion-input type="number" [(ngModel)]="select.nivel"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
             <ion-row>
                 <ion-col>
-                    <ion-item *ngFor="let select of tiposSelecionados">
+                    <button ion-button icon-only (click)="abrirPagina(p)">
+                        <ion-icon name="add" ></ion-icon>
+                    </button>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
                         <ion-label stacked>Tipo</ion-label>
                         <ion-select [(ngModel)]="select.objetoTipo" (ngModelChange)="saverange()">
                             <ion-option *ngFor="let item of tipos">{{item.nome}}</ion-option>

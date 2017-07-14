@@ -27,3 +27,21 @@ export class TipoMagia {
     
 
 }
+
+export class TipoMagiaComNivel extends TipoMagia{
+    private nivel: number;
+
+    constructor($id: number,$nomeTipo : string, $nivel: number) {
+        super($id,$nomeTipo);
+        this.nivel = $nivel;
+    }
+
+    public get $nivel(): number {
+		return this.nivel;
+	}
+
+	public set $nivel(value: number) {
+		this.nivel = value;
+	}
+
+}

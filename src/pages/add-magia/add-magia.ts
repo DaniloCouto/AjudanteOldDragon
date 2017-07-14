@@ -3,18 +3,9 @@ import { AlertController, NavController, NavParams } from 'ionic-angular';
 import { MagiaService } from '../../providers/magia-service/magia-service';
 import { medidaDeTempoENUM } from '../../classes/magia/medidaDeTempoENUM';
 import { Magia } from '../../classes/magia/magia';
-import { TipoMagia } from '../../classes/magia/tipoMagia';
+import { TipoMagia, TipoMagiaComNivel } from '../../classes/magia/tipoMagia';
 import { AlcanceMagia } from '../../classes/magia/alcanceMagia';
 import { DuracaoMagia } from '../../classes/magia/duracaoMagia';
-
-class tipo {
-  public objetoTipo: TipoMagia;
-  public nivel: number;
-  constructor($objetoTipo: TipoMagia, $nivel: number) {
-    this.objetoTipo = $objetoTipo;  
-    this.nivel = $nivel
-  }
-}
 
 @Component({
   selector: 'page-add-magia',
@@ -24,7 +15,7 @@ class tipo {
 export class AddMagiaPage {
   idMagia: any;
   magia: Magia;
-  tiposSelecionados: Array<tipo>;
+  tiposSelecionados: Array<TipoMagiaComNivel>;
   tiposLista: Array<any>
   tipos: any;
 
@@ -34,8 +25,8 @@ export class AddMagiaPage {
     console.log('ionViewDidLoad AddMagiaPage');
     this.idMagia = this.navParams.get('idMagia');
     if(typeof this.idMagia === "number"){
-      this.magiaService.getMagia(this.idMagia).then(function(resultSet){
-        this.magia = new Magia(resultSet.tipoArray,resultSet.tipoNivelArray,new AlcanceMagia(resultSet.alcanceBase,resultSet.nivelPorAlcance,resultSet.alcancePorNivel),new DuracaoMagia(resultSet.duracaoBase,resultSet.nivelPorDuracao,resultSet.duracaoPorNivel,resultSet.tipoDuracaoBase,resultSet.tipoDuracaoAdicional),resultSet.nome,resultSet.descricao);
+      this.magiaService.getMagia(this.idMagia).then(function(magia : Magia){
+        this.magia = magia
         this.alocarTiposSelecionados(this.magia);
       },function(){
         let alert = this.alertCtrl.create({
@@ -47,7 +38,7 @@ export class AddMagiaPage {
           this.navCtrl.pop();
       })
     } else {
-      this.magia = new Magia([new TipoMagia(0,'')],[0],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0),'','')
+      this.magia = new Magia([new TipoMagiaComNivel(0,'', 0)],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0),'','')
       this.alocarTiposSelecionados(this.magia);
     }
     this.addTipos();
@@ -62,19 +53,19 @@ export class AddMagiaPage {
   private alocarTiposSelecionados(magia: Magia){
     var tiposTemp = [];
     for(var i = 0; i < magia.$tipoArray.length; i++){
-      tiposTemp.push(new tipo(magia.$tipoArray[i],magia.$tipoNivelArray[i]))
+      tiposTemp.push(magia.$tipoArray[i]);
     }
     this.tiposSelecionados = tiposTemp;
   }
 
   addTipos() {
-    this.tiposSelecionados.push(new tipo(null, 1));
+    this.tiposSelecionados.push(new TipoMagiaComNivel(null, null, 1));
   }
 
   selectedTipo() {
     this.tiposLista = this.tipos;
     for (var i = 0; i < this.tiposSelecionados.length; i++) {
-      this.tiposLista.splice(this.tiposLista.indexOf(this.tiposSelecionados[i].objetoTipo), 1)
+      this.tiposLista.splice(this.tiposLista.indexOf(this.tiposSelecionados[i]), 1)
     }
   }
 

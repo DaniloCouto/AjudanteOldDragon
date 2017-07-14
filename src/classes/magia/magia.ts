@@ -1,30 +1,20 @@
 import { AlcanceMagia } from './alcanceMagia';
 import { DuracaoMagia } from './duracaoMagia';
-import { TipoMagia } from './tipoMagia';
+import { TipoMagiaComNivel } from './tipoMagia';
 
 export class Magia {
-	private tipoArray: Array<TipoMagia>;
-    private tipoNivelArray: Array<number>;
+	private tipoArray: Array<TipoMagiaComNivel>;
     private alcance: AlcanceMagia;
     private duracao: DuracaoMagia;
     private nome: string;
     private descricao: string;
 
-	constructor($tipoArray: Array<TipoMagia>, $tipoNivelArray: Array<number>, $alcance: AlcanceMagia, $duracao: DuracaoMagia, $nome: string, $descricao: string) {
+	constructor($tipoArray: Array<TipoMagiaComNivel>, $alcance: AlcanceMagia, $duracao: DuracaoMagia, $nome: string, $descricao: string) {
 		this.tipoArray = $tipoArray;
-		this.tipoNivelArray = $tipoNivelArray;
 		this.alcance = $alcance;
 		this.duracao = $duracao;
 		this.nome = $nome;
 		this.descricao = $descricao;
-	}
-
-	public get $tipoNivelArray(): Array<number> {
-		return this.tipoNivelArray;
-	}
-
-	public set $tipoNivelArray(value: Array<number>) {
-		this.tipoNivelArray = value;
 	}
     
 	public get $alcance(): AlcanceMagia {
@@ -59,11 +49,11 @@ export class Magia {
 		this.descricao = value;
 	}
 
-	public get $tipoArray(): Array<TipoMagia> {
+	public get $tipoArray(): Array<TipoMagiaComNivel> {
 		return this.tipoArray;
 	}
 
-	public set $tipoArray(value: Array<TipoMagia>) {
+	public set $tipoArray(value: Array<TipoMagiaComNivel>) {
 		this.tipoArray = value;
 	}
 	

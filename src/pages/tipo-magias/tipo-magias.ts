@@ -3,6 +3,7 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { MagiaService } from '../../providers/magia-service/magia-service';
 import { MagiasPage } from '../magias/magias';
 import { AddTipoMagiaPage } from '../add-tipo-magia/add-tipo-magia';
+import { TipoMagia } from "../../classes/magia/tipoMagia";
 
 /*
   Generated class for the TipoMagias page.
@@ -16,14 +17,15 @@ import { AddTipoMagiaPage } from '../add-tipo-magia/add-tipo-magia';
   providers: [MagiaService]
 })
 export class TipoMagiasPage {
-  tipoMagias: any;
+  tipoMagias: Array<TipoMagia>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private magiaService: MagiaService, private alertCtrl: AlertController) { }
 
   selectTipo(tipo){
+    console.log(tipo);
     this.navCtrl.push(MagiasPage,{
-      idTipos: [tipo._id],
-      nome: tipo.nome
+      idTipos: [tipo.id],
+      nome: tipo.nomeTipo
     })
   }
 
@@ -33,8 +35,8 @@ export class TipoMagiasPage {
 
   editTipo(tipo){
     this.navCtrl.push(AddTipoMagiaPage,{
-      id: tipo._id,
-      nome: tipo.nome
+      id: tipo.id,
+      nome: tipo.nomeTipo
     })
   }
 
@@ -53,7 +55,7 @@ export class TipoMagiasPage {
           text: 'Sim',
           handler: () => {
             console.log('q q eu to enviando?',item);
-            this.magiaService.deleteTipo(item._id).then((result) => {
+            this.magiaService.deleteTipo(item.id).then((result) => {
               this.tipoMagias.splice(this.tipoMagias.indexOf(item), 1);
             });
           }
@@ -68,10 +70,8 @@ export class TipoMagiasPage {
   }
 
   init() {
-    this.magiaService.getAllTipos().then((result) => {
-        console.log(result);
+    this.magiaService.getAllTipos().then((result: Array<TipoMagia>) => {
         this.tipoMagias = result;
-        console.log(this.tipoMagias);
       });
   }
 
