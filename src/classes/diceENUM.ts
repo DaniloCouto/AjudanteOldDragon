@@ -1,5 +1,5 @@
 export enum diceENUM {
-    nada = 0,
+    inteiro = 0,
     d2 = 2,
     d4 = 4,
     d6 = 6,

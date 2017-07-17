@@ -39,6 +39,7 @@ export class MagiaService {
             'duracaoBase	INTEGER NOT NULL,' +
             'nivelPorDuracao	INTEGER,' +
             'duracaoPorNivel	INTEGER,' +
+            'medidaDuracao	INTEGER,' +
             'tipoDuracaoBase	INTEGER,' +
             'tipoDuracaoAdicional	INTEGER,' +
             'PRIMARY KEY(_id)' +
@@ -74,16 +75,16 @@ export class MagiaService {
                         idsTipoMagias.push(resultSet.insertId);
                         if (tipoMagia.$nomeTipo === 'Arcana') {
                           BaseMagia.BASE_MAGIA_ARCANA.forEach(function (element) {
-                            service.addMagiaPrivate(element, [resultSet.insertId], tx)
+                            service.addMagiaPrivate(element, tx)
                           })
                         } else if (tipoMagia.$nomeTipo === 'Divina') {
                           BaseMagia.BASE_MAGIA_DIVINA.forEach(function (element) {
-                            service.addMagiaPrivate(element, [resultSet.insertId], tx)
+                            service.addMagiaPrivate(element, tx)
                           })
                         }
                         if (idsTipoMagias.length === 2) {
                           BaseMagia.BASE_MAGIA_ARCANA_DIVINA.forEach(function (element) {
-                            service.addMagiaPrivate(element, idsTipoMagias, tx)
+                            service.addMagiaPrivate(element,  tx)
                           })
                         }
                       }, function (tx, err) {
@@ -145,6 +146,7 @@ export class MagiaService {
           ),
           new DuracaoMagia(
             resultSet.rows.item(0).duracaoBase,
+            resultSet.rows.item(0).medida,
             resultSet.rows.item(0).nivelPorDuracao,
             resultSet.rows.item(0).duracaoPorNivel,
             resultSet.rows.item(0).tipoDuracaoBase,
@@ -332,12 +334,12 @@ export class MagiaService {
     });
   }
 
-  public addMagia(magia: Magia, idTipo: Array<number>): Promise<any> {
+  public addMagia(magia: Magia): Promise<any> {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
       this.openDatabase().then((db) => {
         db.transaction(function (tx) {
-          this.addMagiaPrivate(magia, idTipo).then(function (resultSet) {
+          this.addMagiaPrivate(magia).then(function (resultSet) {
             resolve(resultSet);
           }, function (err) {
             reject(err);
@@ -352,10 +354,10 @@ export class MagiaService {
     })
   }
 
-  private addMagiaPrivate(element: Magia, idTipo: Array<number>, transaction): Promise<any> {
+  private addMagiaPrivate(element: Magia, transaction): Promise<any> {
     return new Promise((resolve, reject) => {
       let params = this.magiaToArray(element);
-      let query = 'INSERT INTO magia(nome,descricao,alcanceBase,nivelPorAlcance,alcancePorNivel,duracaoBase,nivelPorDuracao,duracaoPorNivel,tipoDuracaoBase,tipoDuracaoAdicional) VALUES (?,?,?,?,?,?,?,?,?,? );';
+      let query = 'INSERT INTO magia(nome,descricao,alcanceBase,nivelPorAlcance,alcancePorNivel,duracaoBase,medidaDuracao,nivelPorDuracao,duracaoPorNivel,tipoDuracaoBase,tipoDuracaoAdicional) VALUES (?,?,?,?,?,?,?,?,?,?,? );';
       transaction.executeSql(query, params, function (tx, resultSet) {
           for (var i = 0; i < element.$tipoArray.length; i++) {
             let params = [element.$tipoArray[i].$id, resultSet.insertId, element.$tipoArray[i].$nivel];
@@ -389,6 +391,7 @@ export class MagiaService {
     array.push(magia.$alcance.$niveisParaAdicao);
     array.push(magia.$alcance.$alcanceAdicional);
     array.push(magia.$duracao.$duracaoBase);
+    array.push(magia.$duracao.$tipoDuracaoBase);
     array.push(magia.$duracao.$niveisParaAdicao);
     array.push(magia.$duracao.$duracaoAdicional);
     array.push(magia.$duracao.$medidaDuracaoBase);

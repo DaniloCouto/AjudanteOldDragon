@@ -2,12 +2,13 @@ import { medidaDeTempoENUM } from './medidaDeTempoENUM';
 
 export class DuracaoMagia {
     private duracaoBase: number;
+    private tipoDuracaoBase: number;
     private niveisParaAdicao : number;
     private duracaoAdicional: number;
     private medidaDuracaoBase: medidaDeTempoENUM;
     private medidaDuracaoAdicional: medidaDeTempoENUM;
 
-    constructor($duracaoBase : number, $niveisParaAdicao : number, $duracaoAdicional : number, $medidaDuracaoBase: medidaDeTempoENUM, $medidaDuracaoAdicional: medidaDeTempoENUM) {
+    constructor($duracaoBase : number, $tipoDuracaoBase: number, $niveisParaAdicao : number, $duracaoAdicional : number, $medidaDuracaoBase: medidaDeTempoENUM, $medidaDuracaoAdicional: medidaDeTempoENUM) {
         this.duracaoBase = $duracaoBase;
         this.niveisParaAdicao = $niveisParaAdicao;
         this.duracaoAdicional = $duracaoAdicional;
@@ -53,6 +54,15 @@ export class DuracaoMagia {
 
 	public set $medidaDuracaoAdicional(value: medidaDeTempoENUM) {
 		this.medidaDuracaoAdicional = value;
+    }
+
+	public get $tipoDuracaoBase(): number {
+		return this.tipoDuracaoBase;
 	}
+
+	public set $tipoDuracaoBase(value: number) {
+		this.tipoDuracaoBase = value;
+	}
+    
     
 }

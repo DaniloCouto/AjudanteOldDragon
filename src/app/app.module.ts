@@ -1,3 +1,4 @@
+import { AddMagiaPage } from '../pages/add-magia/add-magia';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { SplashScreen  } from '@ionic-native/splash-screen';
@@ -22,6 +23,8 @@ import { TipoMagiasPage } from '../pages/tipo-magias/tipo-magias';
 import { AddTipoMagiaPage } from '../pages/add-tipo-magia/add-tipo-magia';
 import { MagiaDetalhePage } from '../pages/magia-detalhe/magia-detalhe';
 import { SqlCapsuleProvider } from '../providers/sql-capsule/sql-capsule';
+import { MedidaDeTempoPipe } from '../pipes/medida-de-tempo/medida-de-tempo';
+import { DiceMagiaPipe } from '../pipes/dice-magia/dice-magia';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { SqlCapsuleProvider } from '../providers/sql-capsule/sql-capsule';
     MagiasPage,
     TipoMagiasPage,
     MagiaDetalhePage,
-    AddTipoMagiaPage
+    AddTipoMagiaPage,
+    MedidaDeTempoPipe,
+    AddMagiaPage,
+    DiceMagiaPipe
   ],
   imports: [
     BrowserModule,
@@ -57,7 +63,8 @@ import { SqlCapsuleProvider } from '../providers/sql-capsule/sql-capsule';
     MagiasPage,
     TipoMagiasPage,
     MagiaDetalhePage,
-    AddTipoMagiaPage
+    AddTipoMagiaPage,
+    AddMagiaPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider]
 })

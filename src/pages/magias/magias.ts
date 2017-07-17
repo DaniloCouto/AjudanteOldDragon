@@ -1,9 +1,11 @@
+import { diceENUM } from '../../classes/diceENUM';
 import { Component } from '@angular/core';
 import {AlertController,  NavController,   NavParams} from 'ionic-angular';
 import { MagiaService } from '../../providers/magia-service/magia-service';
 import { MagiaDetalhePage } from '../magia-detalhe/magia-detalhe';
 import { Magia } from '../../classes/magia/magia';
 import { medidaDeTempoENUM } from '../../classes/magia/medidaDeTempoENUM';
+import { AddMagiaPage } from "../add-magia/add-magia";
 
 
 /*
@@ -21,6 +23,7 @@ export class MagiasPage {
   magias: Array<Magia>;
   title: string;
   enum = medidaDeTempoENUM;
+  dice = diceENUM;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private magiaService: MagiaService, public alertCtrl: AlertController) { }
 
@@ -29,6 +32,10 @@ export class MagiasPage {
       item: item
     })
   }
+
+  addMagia(){
+    this.navCtrl.push(AddMagiaPage)
+  } 
 
   init() {
     var idTipos = this.navParams.get("idTipos");
@@ -53,7 +60,5 @@ export class MagiasPage {
     console.log('ionViewDidLoad MagiasPage');
     this.init();
   }
-
-
 
 }

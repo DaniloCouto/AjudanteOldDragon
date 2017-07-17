@@ -7,6 +7,11 @@
 <ion-header>
 
     <ion-navbar color="danger">
+        <ion-buttons left>
+            <button ion-button icon-only menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+        </ion-buttons>
         <ion-title>{{item.nome}}</ion-title>
     </ion-navbar>
 
@@ -18,7 +23,9 @@
         <span *ngFor="let tipos of item.tipoArray">{{tipos.nomeTipo}}: {{tipos.nivel}}</span>
         <h2><b>Nome</b>: {{item.nome}}</h2>
         <p><b>Alcance</b>: {{item.alcance.alcanceBase}} m + {{item.alcance.alcanceAdicional}} metros a cada {{item.alcance.niveisParaAdicao}} nivel(s)</p>
-        <p><b>Duração</b>: {{item.duracao.duracaoBase}} {{enum[item.duracao.medidaDuracaoBase]}} + {{item.duracao.duracaoAdicional}} {{enum[item.duracao.medidaDuracaoAdicional]}} a cada {{item.duracao.niveisParaAdicao}} nivel(s)</p>
+        <p><b>Duração</b>: {{item.duracao.duracaoBase}} {{item.duracao.tipoDuracaoBase | dicemagia }} {{enum[item.duracao.medidaDuracaoBase]}} + {{item.duracao.duracaoAdicional}} {{enum[item.duracao.medidaDuracaoAdicional]}} a cada {{item.duracao.niveisParaAdicao}}
+            nivel(s)
+        </p>
         <p><b>Descrição</b>: {{item.descricao}}</p>
     </ion-item>
 </ion-content>

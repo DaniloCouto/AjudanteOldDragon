@@ -1,3 +1,5 @@
+import { diceENUM } from '../../classes/diceENUM';
+import { MedidaDeTempoPipe } from '../../pipes/medida-de-tempo/medida-de-tempo';
 import { Component } from '@angular/core';
 import { AlertController, NavController, NavParams } from 'ionic-angular';
 import { MagiaService } from '../../providers/magia-service/magia-service';
@@ -15,13 +17,15 @@ import { DuracaoMagia } from '../../classes/magia/duracaoMagia';
 export class AddMagiaPage {
   idMagia: any;
   magia: Magia;
-  tiposSelecionados: Array<TipoMagiaComNivel>;
   tiposLista: Array<TipoMagia>;
   tipoCadastro: TipoMagiaComNivel;
   enum = medidaDeTempoENUM;
+  dice = diceENUM;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private magiaService: MagiaService, public alertCtrl: AlertController) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams, private magiaService: MagiaService, public alertCtrl: AlertController) {
+    this.magia = new Magia([],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0,0),'','')
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddMagiaPage');
@@ -40,7 +44,7 @@ export class AddMagiaPage {
           this.navCtrl.pop();
       })
     } else {
-      this.magia = new Magia([],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0),'','')
+      this.magia = new Magia([],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0,0),'','')
     }
     this.magiaService.getAllTipos().then((result: Array<TipoMagia>) => {
       console.log(result);
@@ -52,35 +56,43 @@ export class AddMagiaPage {
   }
 
   addTipos( tipo : TipoMagiaComNivel) {
-    this.magia.$tipoArray.push(tipo);
+    let thisMagia = this.magia
+    if (thisMagia.$tipoArray.length){
+      for(var i = 0; i < thisMagia.$tipoArray.length; i++){
+        if (thisMagia.$tipoArray[i].$id === tipo.$id){
+          thisMagia.$tipoArray[i].$nivel = tipo.$nivel;
+          break;
+        } else if (i+1 === this.magia.$tipoArray.length){
+          this.magia.$tipoArray.push(new TipoMagiaComNivel(tipo.$id,tipo.$nomeTipo,tipo.$nivel));
+        }
+      }
+    } else {
+      this.magia.$tipoArray.push(new TipoMagiaComNivel(tipo.$id,tipo.$nomeTipo,tipo.$nivel));
+    }
   }
 
   deleteTipo( tipo : TipoMagiaComNivel) {
     this.magia.$tipoArray.splice( this.magia.$tipoArray.indexOf(tipo), 1);
   }
 
-  tipoDuracao(tipo: number): string {
-    switch (tipo) {
-      case 0:
-        return 'Instantaneo';
-      case 1:
-        return 'Turno';
-      case 2:
-        return 'Rodada';
-      case 3:
-        return 'Combate';
-      case 4:
-        return 'Segundos';
-      case 5:
-        return 'Minutos';
-      case 6:
-        return 'Horas';
-      case 7:
-        return 'Dia';
-      case 8:
-        return 'Permanente';
-      default:
-        return '';
+  salvar(){
+    if(this.magia.$nome === "" && this.magia.$tipoArray.length != 0){
+      let alert = this.alertCtrl.create({
+        title: 'Cadastro de Magia',
+        message: 'A magia deve ter ao menos um nome e uma escola de magia.',
+        buttons: ['OK']
+      });
+      alert.present();
+    }else{
+      this.magiaService.addMagia(this.magia).then((result: any) => {
+        let alert = this.alertCtrl.create({
+          title: 'Cadastro de Magia',
+          message: 'Cadastro Feito com sucesso.',
+          buttons: ['OK']
+        });
+        alert.present();
+        this.navCtrl.pop();
+      });
     }
   }
 

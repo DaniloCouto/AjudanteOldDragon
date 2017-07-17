@@ -6,16 +6,24 @@
 -->
 <ion-header>
     <ion-navbar color="danger">
-
+        <ion-buttons left>
+            <button ion-button icon-only menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>Cadastro de Magia</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
     <ion-list>
         <ion-grid>
+            <ion-row>
+                <ion-item-divider color="light">Escolas de Magia</ion-item-divider>
+            </ion-row>
             <ion-row *ngFor="let select of magia.tipoArray">
-                <ion-col>
-                    <button ion-button icon-only (click)="deleteTipo(select)">
+                <ion-col col-auto>
+                    <button ion-button icon-only color="danger" (click)="deleteTipo(select)" clear>
                         <ion-icon name="close" ></ion-icon>
                     </button>
                 </ion-col>
@@ -23,7 +31,7 @@
                     <ion-item>
                         <ion-label stacked>Tipo</ion-label>
                         <ion-select [(ngModel)]="select.id">
-                            <ion-option *ngFor="let item of tiposLista">{{item.nomeTipo}}</ion-option>
+                            <ion-option *ngFor="let tipo of tiposLista">{{tipo.nomeTipo}}</ion-option>
                         </ion-select>
                     </ion-item>
                 </ion-col>
@@ -35,8 +43,8 @@
                 </ion-col>
             </ion-row>
             <ion-row *ngIf="tipoCadastro">
-                <ion-col>
-                    <button ion-button icon-only (click)="addTipos(tipoCadastro)">
+                <ion-col col-auto>
+                    <button ion-button icon-only (click)="addTipos(tipoCadastro)" clear>
                         <ion-icon name="add" ></ion-icon>
                     </button>
                 </ion-col>
@@ -44,7 +52,7 @@
                     <ion-item>
                         <ion-label stacked>Tipo</ion-label>
                         <ion-select [(ngModel)]="tipoCadastro.id">
-                            <ion-option *ngFor="let item of tipos">{{item.nomeTipo}}</ion-option>
+                            <ion-option *ngFor="let item of tiposLista">{{item.nomeTipo}}</ion-option>
                         </ion-select>
                     </ion-item>
                 </ion-col>
@@ -65,6 +73,9 @@
                 </ion-item>
             </ion-row>
             <ion-row>
+                <ion-item-divider color="light"></ion-item-divider>
+            </ion-row>
+            <ion-row>
                 <ion-col>
                     <ion-item>
                         <ion-label stacked>Alcance</ion-label>
@@ -72,61 +83,73 @@
                     </ion-item>
                 </ion-col>
                 <ion-col>
-                    +
-                </ion-col>
-                <ion-col>
                     <ion-item>
-                        <ion-label stacked>Metros Por</ion-label>
+                        <ion-label stacked>Alcance Adicional</ion-label>
                         <ion-input type="number" [(ngModel)]="magia.alcance.alcanceAdicional"></ion-input>
                     </ion-item>
                 </ion-col>
                 <ion-col>
                     <ion-item>
-                        <ion-label stacked>Nivel</ion-label>
+                        <ion-label stacked>Nivel por Adição</ion-label>
                         <ion-input type="number" [(ngModel)]="magia.alcance.niveisParaAdicao"></ion-input>
                     </ion-item>
                 </ion-col>
             </ion-row>
             <ion-row>
-                <ion-item *ngFor="let select of tiposSelecionados">
-                    <ion-label stacked>Tipo de Duração</ion-label>
-                    <ion-select [(ngModel)]="select.objetoTipo" (ngModelChange)="saverange()">
-                        <ion-option value="">{{enum}}</ion-option>
-                    </ion-select>
-                </ion-item>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Duração</ion-label>
+                        <ion-input type="number" [(ngModel)]="magia.duracao.duracaoBase"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked></ion-label>
+                        <ion-select [(ngModel)]="magia.duracao.tipoDuracaoBase">
+                            <ion-option *ngFor="let item of dice | medidatempo" [value]="item.key">{{item.value}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Tipo da Duração</ion-label>
+                        <ion-select [(ngModel)]="magia.duracao.medidaDuracaoBase">
+                            <ion-option *ngFor="let item of enum | medidatempo" [value]="item.key">{{item.value}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
             </ion-row>
             <ion-row>
                 <ion-col>
                     <ion-item>
-                        <ion-label stacked>Duração</ion-label>
-                        <ion-input type="number"></ion-input>
-                    </ion-item>
-                </ion-col>
-                <ion-col>
-                    +
-                </ion-col>
-                <ion-col>
-                    <ion-item>
-                        <ion-label stacked>Metro Por</ion-label>
-                        <ion-input type="number"></ion-input>
+                        <ion-label stacked>Duração adicional</ion-label>
+                        <ion-input type="number" [(ngModel)]="magia.duracao.duracaoAdicional"></ion-input>
                     </ion-item>
                 </ion-col>
                 <ion-col>
                     <ion-item>
-                        <ion-label stacked>Nivel</ion-label>
-                        <ion-input type="number"></ion-input>
+                        <ion-label stacked>Tipo da Duração</ion-label>
+                        <ion-select [(ngModel)]="magia.duracao.medidaDuracaoAdicional">
+                            <ion-option *ngFor="let item of enum | medidatempo" [value]="item.key">{{item.value}}</ion-option>
+                        </ion-select>
                     </ion-item>
                 </ion-col>
             </ion-row>
             <ion-row>
                 <ion-item>
+                    <ion-label stacked>Niveis para adição</ion-label>
+                    <ion-input type="number" [(ngModel)]="magia.duracao.duracaoAdicional"></ion-input>
+                </ion-item>
+            </ion-row>
+            <ion-row>
+                <ion-item>
                     <ion-label stacked>Descrição</ion-label>
-                    <ion-textarea type="text"></ion-textarea>
+                    <ion-textarea type="text" [(ngModel)]="magia.descricao"></ion-textarea>
                 </ion-item>
             </ion-row>
         </ion-grid>
-
-
-
     </ion-list>
+    <div padding>
+        <button color="danger" ion-button block (click)="salvar()">Cadastrar</button>
+    </div>
 </ion-content>
