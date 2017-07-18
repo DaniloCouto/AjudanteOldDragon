@@ -24,7 +24,7 @@ export class AddMagiaPage {
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private magiaService: MagiaService, public alertCtrl: AlertController) {
-    this.magia = new Magia([],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0,0),'','')
+    this.magia = new Magia([],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0,0,0),'','')
   }
 
   ionViewDidLoad() {
@@ -44,7 +44,7 @@ export class AddMagiaPage {
           this.navCtrl.pop();
       })
     } else {
-      this.magia = new Magia([],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0,0),'','')
+      this.magia = new Magia([],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0,0,0),'','')
     }
     this.magiaService.getAllTipos().then((result: Array<TipoMagia>) => {
       console.log(result);
