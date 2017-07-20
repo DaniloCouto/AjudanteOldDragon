@@ -35,7 +35,37 @@ export class MagiasPage {
 
   addMagia(){
     this.navCtrl.push(AddMagiaPage)
-  } 
+  }
+
+  editMagia(magia: Magia){
+    this.navCtrl.push(AddMagiaPage, {
+      idMagia: magia.$id
+    })
+  }
+
+  deletarMagia(magia: Magia){
+    let alert = this.alertCtrl.create({
+      title: 'Ferreiro',
+      message: 'Você tem certeza que deseja excluir esta arma?',
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.magiaService.deletarMagia(magia.$id).then((result) => {
+              this.magias.splice(this.magias.indexOf(magia), 1);
+            });
+          }
+        }
+      ]
+    });
+    alert.present(alert);
+  }
 
   init() {
     var idTipos = this.navParams.get("idTipos");

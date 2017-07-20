@@ -139,7 +139,9 @@ export class MagiaService {
   private getJustMagia(tx, tipos: Array<TipoMagiaComNivel>, id_magia: number){
     return new Promise((resolve, reject) => {
       tx.executeSql('SELECT * FROM magia WHERE _id = ?;', [id_magia], function (tx, resultSet) {
-          resolve(new Magia(tipos,
+          resolve(new Magia(
+            resultSet.rows.item(0)._id,
+            tipos,
             new AlcanceMagia(
               resultSet.rows.item(0).alcanceBase,
               resultSet.rows.item(0).alcancePorNivel,
@@ -353,6 +355,60 @@ export class MagiaService {
         }, function (tx, succ) {
           reject(succ);
         });
+      })
+    })
+  }
+
+  deletarMagia(idMagia : number): Promise<any>{
+    return new Promise((resolve, reject) => {
+      this.openDatabase().then((db) => {
+        db.transaction(function (tx) {
+           tx.executeSql('DELETE FROM magia WHERE _id = ?;', [idMagia]).then(function(){
+             tx.executeSql('DELETE FROM tipoMagia_magia WHERE _id_magia = ?;', [idMagia], function (tx, resultSet) {
+              resolve();
+             },function(){
+              reject();
+             })
+           },function(){
+            reject();
+           })
+        })
+      })
+    })
+  }
+
+  updateMagia(magia : Magia): Promise<any>{
+    return new Promise((resolve, reject) => {
+      this.openDatabase().then((db) => {
+        db.transaction(function (tx) {
+          tx.executeSql('SELECT tm._id_magia, tm._id_tipoMagia,  tm.nivel, t.nome FROM tipoMagia_magia tm INNER JOIN magia as m ON m._id = tm._id_magia INNER JOIN tipoMagia as t ON t._id = tm._id_tipoMagia WHERE _id_magia = ?;', [magia.$id], function (tx, resultSet) {      
+            let promiseArray = [];
+            for(var i = 0; i < magia.$tipoArray.length; i++){
+              for(var j = 0; j < resultSet.rows.length; j++){
+                if(magia.$tipoArray[i].$id === resultSet.rows.item(j)._id_tipoMagia){
+                  tx.executeSql('UPDATE magia SET nome = ?, descricao = ?, alcanceBase = ?, nivelPorAlcance = ?, alcancePorNivel = ?, duracaoBase = ?, nivelPorDuracao = ?, duracaoPorNivel = ?, medidaDuracaoBase = ?, medidaDuracaoAdicional = ?, tipoDuracaoBase = ?, tipoDuracaoAdicional = ? WHERE _id = ?;',
+            [magia.$id]).then(function(){
+            
+            },function(){
+              reject();
+            })
+                } else {
+
+                }
+              }
+            }
+            
+            tx.executeSql('UPDATE magia SET nome = ?, descricao = ?, alcanceBase = ?, nivelPorAlcance = ?, alcancePorNivel = ?, duracaoBase = ?, nivelPorDuracao = ?, duracaoPorNivel = ?, medidaDuracaoBase = ?, medidaDuracaoAdicional = ?, tipoDuracaoBase = ?, tipoDuracaoAdicional = ? WHERE _id = ?;',
+            [magia.$id]).then(function(){
+            
+            },function(){
+              reject();
+            })
+          },function(){
+            reject();
+          })
+           
+        })
       })
     })
   }

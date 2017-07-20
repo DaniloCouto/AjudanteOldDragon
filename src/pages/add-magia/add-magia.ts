@@ -24,16 +24,16 @@ export class AddMagiaPage {
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private magiaService: MagiaService, public alertCtrl: AlertController) {
-    this.magia = new Magia([],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0,0,0),'','')
+    this.magia = new Magia(null, [],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0,0,0),'','')
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddMagiaPage');
+    let pagina = this;
     this.idMagia = this.navParams.get('idMagia');
     if(typeof this.idMagia === "number"){
       this.magiaService.getMagia(this.idMagia).then(function(magia : Magia){
-        this.magia = magia
-        this.alocarTiposSelecionados(this.magia);
+        pagina.magia = magia
       },function(){
         let alert = this.alertCtrl.create({
             title: 'Erro',
@@ -44,7 +44,7 @@ export class AddMagiaPage {
           this.navCtrl.pop();
       })
     } else {
-      this.magia = new Magia([],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0,0,0),'','')
+      this.magia = new Magia(null, [],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0,0,0),'','')
     }
     this.magiaService.getAllTipos().then((result: Array<TipoMagia>) => {
       console.log(result);
@@ -56,7 +56,7 @@ export class AddMagiaPage {
   }
 
   addTipos( tipo : TipoMagiaComNivel) {
-    let thisMagia = this.magia
+    let thisMagia = this.magia;
     if (thisMagia.$tipoArray.length){
       for(var i = 0; i < thisMagia.$tipoArray.length; i++){
         if (thisMagia.$tipoArray[i].$id === tipo.$id){

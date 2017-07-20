@@ -13,19 +13,19 @@ export class BaseMagia {
 
     public static get BASE_MAGIA_DIVINA(): Array<Magia>{
         return [    
-           new Magia([new TipoMagiaComNivel(1,'Divina',1)],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0,medidaDeTempoENUM.Instanea,medidaDeTempoENUM.Instanea), 'Curar/Causar Ferimentos Leves', 'Cura ou causa dano equivalente 1D8 pontos + 1 por nivel até nivel 5.'),
+           new Magia(null, [new TipoMagiaComNivel(1,'Divina',1)],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0,medidaDeTempoENUM.Instanea,medidaDeTempoENUM.Instanea), 'Curar/Causar Ferimentos Leves', 'Cura ou causa dano equivalente 1D8 pontos + 1 por nivel até nivel 5.'),
         ]
     }
 
     public static get BASE_MAGIA_ARCANA(): Array<Magia>{
         return [    
-           new Magia([new TipoMagiaComNivel(2,'Arcana',1)],new AlcanceMagia(10,1,3),new DuracaoMagia(0,0,0,0,0,medidaDeTempoENUM.Instanea,medidaDeTempoENUM.Instanea), 'Misseis Mágicos', 'Dispara 1 misseis magicos a cada 3 niveis contando a partir do nivel 1, causando 1d4 de dano + 1 por nivel.'),
+           new Magia(null, [new TipoMagiaComNivel(2,'Arcana',1)],new AlcanceMagia(10,1,3),new DuracaoMagia(0,0,0,0,0,medidaDeTempoENUM.Instanea,medidaDeTempoENUM.Instanea), 'Misseis Mágicos', 'Dispara 1 misseis magicos a cada 3 niveis contando a partir do nivel 1, causando 1d4 de dano + 1 por nivel.'),
         ]
     }
 
     public static get BASE_MAGIA_ARCANA_DIVINA(): Array<Magia>{
         return [    
-           new Magia([new TipoMagiaComNivel(2,'Arcana',1),new TipoMagiaComNivel(1,'Divina',1)], new AlcanceMagia(10,1,3),new DuracaoMagia(1,0,1,3,0,medidaDeTempoENUM.Horas,medidaDeTempoENUM.Minutos), 'Luz', 'Ascende uma luz que ilumina até 6m.'),
+           new Magia(null, [new TipoMagiaComNivel(2,'Arcana',1),new TipoMagiaComNivel(1,'Divina',1)], new AlcanceMagia(10,1,3),new DuracaoMagia(1,0,1,3,0,medidaDeTempoENUM.Horas,medidaDeTempoENUM.Minutos), 'Luz', 'Ascende uma luz que ilumina até 6m.'),
         ]
     }
 }

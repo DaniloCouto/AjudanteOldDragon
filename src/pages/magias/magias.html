@@ -24,13 +24,25 @@
 
 
 <ion-content>
-    <ion-item-sliding *ngFor="let item of magias">
-        <button ion-item (click)="openDetalhe(item)">
-            <span *ngFor="let tipos of item.tipoArray">{{tipos.nomeTipo}}: {{tipos.nivel}} </span>
-            <h2><b>Nome</b>: {{item.nome}}</h2>
-            <p><b>Alcance</b>: {{item.alcance.alcanceBase}} m + {{item.alcance.alcanceAdicional}} metros a cada {{item.alcance.niveisParaAdicao}} nivel(s)</p>
-            <p><b>Duração</b>: {{item.duracao.duracaoBase}} {{item.duracao.tipoDuracaoBase | dicemagia }} {{dice[item.duracao.medidaDuracaoBase]}} + {{item.duracao.duracaoAdicional}} {{enum[item.duracao.medidaDuracaoAdicional]}} a cada {{item.duracao.niveisParaAdicao}} nivel(s)</p>
-            <p><b>Descrição</b>: {{item.descricao}}</p>
-        </button>
-    </ion-item-sliding>
+    <ion-list>
+        <ion-item-sliding *ngFor="let item of magias">
+            <button ion-item (tap)="openDetalhe(item)">
+                <span *ngFor="let tipos of item.tipoArray">{{tipos.nomeTipo}}: {{tipos.nivel}} </span>
+                <h2><b>Nome</b>: {{item.nome}}</h2>
+                <p><b>Alcance</b>: {{item.alcance.alcanceBase}} m + {{item.alcance.alcanceAdicional}} metros a cada {{item.alcance.niveisParaAdicao}} nivel(s)</p>
+                <p><b>Duração</b>: {{item.duracao.duracaoBase}} {{item.duracao.tipoDuracaoBase | dicemagia }} {{dice[item.duracao.medidaDuracaoBase]}} + {{item.duracao.duracaoAdicional}} {{enum[item.duracao.medidaDuracaoAdicional]}} a cada {{item.duracao.niveisParaAdicao}} nivel(s)</p>
+                <p><b>Descrição</b>: {{item.descricao}}</p>
+            </button>
+            <ion-item-options>
+                <button ion-button color="primary" (click)="editMagia(item)">
+                  <ion-icon name="open"></ion-icon>
+                  Editar
+                </button>
+                <button color="danger" ion-button (click)="deletarMagia(item)">
+                  <ion-icon name="close"></ion-icon>
+                  Excluir
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
 </ion-content>
