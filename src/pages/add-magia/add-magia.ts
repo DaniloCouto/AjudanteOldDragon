@@ -27,8 +27,8 @@ export class AddMagiaPage {
     this.magia = new Magia(null, [],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0,0,0),'','')
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AddMagiaPage');
+  ionViewWillEnter () {
+    console.log('ionViewWillEnter  AddMagiaPage');
     let pagina = this;
     this.idMagia = this.navParams.get('idMagia');
     if(typeof this.idMagia === "number"){
@@ -76,7 +76,15 @@ export class AddMagiaPage {
   }
 
   salvar(){
-    if(this.magia.$nome === "" && this.magia.$tipoArray.length != 0){
+    console.log(this)
+    if(this.magia.$tipoArray.length <= 0){
+      let alert = this.alertCtrl.create({
+        title: 'Cadastro de Magia',
+        message: 'A magia deve ter ao menos uma escola de magia.',
+        buttons: ['OK']
+      });
+      alert.present();
+    }else if(this.magia.$nome === "" && this.magia.$tipoArray.length != 0){
       let alert = this.alertCtrl.create({
         title: 'Cadastro de Magia',
         message: 'A magia deve ter ao menos um nome e uma escola de magia.',
@@ -84,15 +92,27 @@ export class AddMagiaPage {
       });
       alert.present();
     }else{
-      this.magiaService.addMagia(this.magia).then((result: any) => {
-        let alert = this.alertCtrl.create({
-          title: 'Cadastro de Magia',
-          message: 'Cadastro Feito com sucesso.',
-          buttons: ['OK']
+      if(this.magia.$id != null && this.magia.$id > 0){
+        this.magiaService.updateMagia(this.magia).then((result: any) => {
+          let alert = this.alertCtrl.create({
+            title: 'Cadastro de Magia',
+            message: 'Edição feita com sucesso.',
+            buttons: ['OK']
+          });
+          alert.present();
+          this.navCtrl.pop();
         });
-        alert.present();
-        this.navCtrl.pop();
-      });
+      }else{
+        this.magiaService.addMagia(this.magia).then((result: any) => {
+          let alert = this.alertCtrl.create({
+            title: 'Cadastro de Magia',
+            message: 'Cadastro Feito com sucesso.',
+            buttons: ['OK']
+          });
+          alert.present();
+          this.navCtrl.pop();
+        });
+      }
     }
   }
 

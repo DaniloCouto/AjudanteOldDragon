@@ -23,6 +23,6 @@ export class MagiaDetalhePage {
     console.log("Item",this.item);
   }
 
-  ionViewDidLoad() {}
+  ionViewWillEnter () {}
 
 }

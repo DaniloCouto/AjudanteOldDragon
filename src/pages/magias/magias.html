@@ -5,7 +5,6 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
     <ion-navbar color="danger">
         <ion-buttons left>
             <button ion-button icon-only menuToggle>
@@ -19,13 +18,12 @@
             </button>
         </ion-buttons>
     </ion-navbar>
-
+    <ion-searchbar color="danger" [(ngModel)]="nomeMagiaFilter" placeholder="Nome magia"></ion-searchbar>
 </ion-header>
-
 
 <ion-content>
     <ion-list>
-        <ion-item-sliding *ngFor="let item of magias">
+        <ion-item-sliding *ngFor="let item of magias | magiafilter : nomeMagiaFilter">
             <button ion-item (tap)="openDetalhe(item)">
                 <span *ngFor="let tipos of item.tipoArray">{{tipos.nomeTipo}}: {{tipos.nivel}} </span>
                 <h2><b>Nome</b>: {{item.nome}}</h2>

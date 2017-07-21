@@ -230,6 +230,49 @@ export class MagiaService {
     });
   }
 
+  getTodasMagia(): Promise<Array<Magia>> {
+    let servico = this;
+    return new Promise((resolve, reject) => {
+      this.openDatabase().then((db) => {
+        db.transaction(function (tx: SQLiteTransaction) {
+          let query = 'SELECT tm._id_magia, tm._id_tipoMagia,  tm.nivel, t.nome FROM tipoMagia_magia tm INNER JOIN magia as m ON m._id = tm._id_magia INNER JOIN tipoMagia as t ON t._id = tm._id_tipoMagia;';
+          tx.executeSql(query, [], function (tx: SQLiteTransaction, tiposMagia) {
+            var retorno = [];
+            for (var i = 0; i < tiposMagia.rows.length; i++) {
+              let tempIdMagia = tiposMagia.rows.item(i)._id_magia;
+              let query = 'SELECT tm._id_magia, tm._id_tipoMagia,  tm.nivel, t.nome FROM tipoMagia_magia tm INNER JOIN magia as m ON m._id = tm._id_magia INNER JOIN tipoMagia as t ON t._id = tm._id_tipoMagia WHERE _id_magia = ?;';
+              tx.executeSql(query, [tempIdMagia], function (tx: SQLiteTransaction, resultSet) {
+                var tipos = [];
+                for (var j = 0; j < resultSet.rows.length; j ++) {
+                  tipos.push(new TipoMagiaComNivel(resultSet.rows.item(j)._id_tipoMagia, resultSet.rows.item(j).nome, resultSet.rows.item(j).nivel ));
+                };
+                servico.getJustMagia(tx, tipos, tempIdMagia).then(function(magia: Magia){
+                  retorno.push(magia);
+                  if(tiposMagia.rows.length === i){
+                    resolve(retorno);
+                  }
+                },function(err){
+                  console.error(err);
+                  reject();
+                });
+              }, function (tx, err) {
+                console.error(err);
+                reject();
+              });
+            };
+          }, function (tx, err) {
+            console.error(err);
+            reject();
+          });
+        }, function (tx, err) {
+          reject();
+        }, function (tx, succ) {
+          reject();
+        });
+      })
+    });
+  }
+
   getMagia(idMagia: number): Promise<Magia> {
     let servico = this;
     return new Promise((resolve, reject) => {
@@ -363,12 +406,12 @@ export class MagiaService {
     return new Promise((resolve, reject) => {
       this.openDatabase().then((db) => {
         db.transaction(function (tx) {
-           tx.executeSql('DELETE FROM magia WHERE _id = ?;', [idMagia]).then(function(){
-             tx.executeSql('DELETE FROM tipoMagia_magia WHERE _id_magia = ?;', [idMagia], function (tx, resultSet) {
+          tx.executeSql('DELETE FROM magia WHERE _id = ?;', [idMagia], function(tx, resultSet){
+            tx.executeSql('DELETE FROM tipoMagia_magia WHERE _id_magia = ?;', [idMagia], function (tx, resultSet) {
               resolve();
-             },function(){
+            },function(){
               reject();
-             })
+            })
            },function(){
             reject();
            })
@@ -381,33 +424,50 @@ export class MagiaService {
     return new Promise((resolve, reject) => {
       this.openDatabase().then((db) => {
         db.transaction(function (tx) {
-          tx.executeSql('SELECT tm._id_magia, tm._id_tipoMagia,  tm.nivel, t.nome FROM tipoMagia_magia tm INNER JOIN magia as m ON m._id = tm._id_magia INNER JOIN tipoMagia as t ON t._id = tm._id_tipoMagia WHERE _id_magia = ?;', [magia.$id], function (tx, resultSet) {      
-            let promiseArray = [];
-            for(var i = 0; i < magia.$tipoArray.length; i++){
-              for(var j = 0; j < resultSet.rows.length; j++){
-                if(magia.$tipoArray[i].$id === resultSet.rows.item(j)._id_tipoMagia){
-                  tx.executeSql('UPDATE magia SET nome = ?, descricao = ?, alcanceBase = ?, nivelPorAlcance = ?, alcancePorNivel = ?, duracaoBase = ?, nivelPorDuracao = ?, duracaoPorNivel = ?, medidaDuracaoBase = ?, medidaDuracaoAdicional = ?, tipoDuracaoBase = ?, tipoDuracaoAdicional = ? WHERE _id = ?;',
-            [magia.$id]).then(function(){
-            
-            },function(){
-              reject();
-            })
-                } else {
-
-                }
-              }
-            }
-            
-            tx.executeSql('UPDATE magia SET nome = ?, descricao = ?, alcanceBase = ?, nivelPorAlcance = ?, alcancePorNivel = ?, duracaoBase = ?, nivelPorDuracao = ?, duracaoPorNivel = ?, medidaDuracaoBase = ?, medidaDuracaoAdicional = ?, tipoDuracaoBase = ?, tipoDuracaoAdicional = ? WHERE _id = ?;',
-            [magia.$id]).then(function(){
-            
-            },function(){
-              reject();
-            })
-          },function(){
+          let promiseArray = [];
+          promiseArray.push(tx.executeSql('DELETE FROM tipoMagia_magia WHERE _id_magia = ?;', [magia.$id]));
+          for(var i = 0; i < magia.$tipoArray.length; i++){
+            promiseArray.push(tx.executeSql('INSERT INTO tipoMagia_magia(_id_tipoMagia,_id_magia,nivel) VALUES ( ?,?,? );', [magia.$tipoArray[i].$id, magia.$id, magia.$tipoArray[i].$nivel]));
+          }
+          Promise.all(promiseArray).then(function(){
+            tx.executeSql('UPDATE magia SET'+
+              ' nome = ?,'+
+              ' descricao = ?,'+
+              ' alcanceBase = ?,'+
+              ' nivelPorAlcance = ?,'+
+              ' alcancePorNivel = ?,'+
+              ' duracaoBase = ?,'+
+              ' nivelPorDuracao = ?,'+
+              ' duracaoPorNivel = ?,'+
+              ' medidaDuracaoBase = ?,'+
+              ' medidaDuracaoAdicional = ?,'+
+              ' tipoDuracaoBase = ?,'+
+              ' tipoDuracaoAdicional = ?'+
+              ' WHERE _id = ?;',
+              [
+                magia.$nome,
+                magia.$descricao,
+                magia.$alcance.$alcanceBase,
+                magia.$alcance.$niveisParaAdicao,
+                magia.$alcance.$alcanceAdicional,
+                magia.$duracao.$duracaoBase,
+                magia.$duracao.$niveisParaAdicao,
+                magia.$duracao.$duracaoAdicional,
+                magia.$duracao.$medidaDuracaoBase,
+                magia.$duracao.$medidaDuracaoAdicional,
+                magia.$duracao.$tipoDuracaoBase,
+                magia.$duracao.$tipoDuracaoAdicional,
+                magia.$id
+              ],function(){
+                resolve();
+              },function(error){
+                console.error(error)
+                reject();
+              })
+          },function(error){
+            console.error(error)
             reject();
           })
-           
         })
       })
     })

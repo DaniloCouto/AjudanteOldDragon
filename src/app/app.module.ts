@@ -25,6 +25,7 @@ import { MagiaDetalhePage } from '../pages/magia-detalhe/magia-detalhe';
 import { SqlCapsuleProvider } from '../providers/sql-capsule/sql-capsule';
 import { MedidaDeTempoPipe } from '../pipes/medida-de-tempo/medida-de-tempo';
 import { DiceMagiaPipe } from '../pipes/dice-magia/dice-magia';
+import { MagiaFilterPipe } from '../pipes/magia-filter/magia-filter';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { DiceMagiaPipe } from '../pipes/dice-magia/dice-magia';
     AddTipoMagiaPage,
     MedidaDeTempoPipe,
     AddMagiaPage,
-    DiceMagiaPipe
+    DiceMagiaPipe,
+    MagiaFilterPipe
   ],
   imports: [
     BrowserModule,

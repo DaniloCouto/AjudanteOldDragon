@@ -22,7 +22,7 @@ export class AddTipoMagiaPage {
     this.stringNome = this.navParams.get("nome");
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter () {
   }
 
   confirmar() {

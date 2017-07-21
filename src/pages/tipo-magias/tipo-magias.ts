@@ -29,6 +29,13 @@ export class TipoMagiasPage {
     })
   }
 
+  selectTodos(){
+    this.navCtrl.push(MagiasPage,{
+      idTipos: [],
+      nome: "Todas as Escolas"
+    })
+  }
+
   addTipo(){
     this.navCtrl.push(AddTipoMagiaPage);
   }

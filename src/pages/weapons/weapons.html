@@ -22,16 +22,14 @@
 
 <ion-content>
     <ion-list>
-        <ion-item-sliding *ngFor="let item of itens" ng-if="itens">
+        <ion-item-sliding *ngFor="let item of itens">
             <ion-item>
                 <h2>{{item.nome}}</h2>
                 <p>{{item.peso}}kg , {{item.convertedPrice}} </p>
                 <p>Iniciativa : {{item.iniciativa}} , BA : {{item.BaAdicional}} </p>
-
                 <div item-right>{{item.danoPuro}} + {{item.qntdRolagem}} x
                     <ion-icon name="{{item.diceClass}}"></ion-icon>
                 </div>
-
             </ion-item>
             <ion-item-options>
                 <button ion-button color="primary" (click)="editItem(item)">

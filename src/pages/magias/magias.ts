@@ -1,3 +1,4 @@
+import { TipoMagia, TipoMagiaComNivel } from '../../classes/magia/tipoMagia';
 import { diceENUM } from '../../classes/diceENUM';
 import { Component } from '@angular/core';
 import {AlertController,  NavController,   NavParams} from 'ionic-angular';
@@ -6,6 +7,7 @@ import { MagiaDetalhePage } from '../magia-detalhe/magia-detalhe';
 import { Magia } from '../../classes/magia/magia';
 import { medidaDeTempoENUM } from '../../classes/magia/medidaDeTempoENUM';
 import { AddMagiaPage } from "../add-magia/add-magia";
+import { MagiaFilterPipe } from '../../pipes/magia-filter/magia-filter';
 
 
 /*
@@ -24,6 +26,11 @@ export class MagiasPage {
   title: string;
   enum = medidaDeTempoENUM;
   dice = diceENUM;
+  tiposLista : Array<TipoMagia>;
+
+  idTipoMagiaFilter : number;
+  nivelTipoFilter: number;
+  nomeMagiaFilter: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private magiaService: MagiaService, public alertCtrl: AlertController) { }
 
@@ -45,8 +52,8 @@ export class MagiasPage {
 
   deletarMagia(magia: Magia){
     let alert = this.alertCtrl.create({
-      title: 'Ferreiro',
-      message: 'Você tem certeza que deseja excluir esta arma?',
+      title: 'Escriba',
+      message: 'Você tem certeza que deseja excluir esta magia?',
       buttons: [
         {
           text: 'Não',
@@ -69,26 +76,25 @@ export class MagiasPage {
 
   init() {
     var idTipos = this.navParams.get("idTipos");
+    this.idTipoMagiaFilter = idTipos.length ? idTipos[0] : null;
     this.title = this.navParams.get("nome");
     if (idTipos.length > 0) {
       this.magiaService.getMagiaPorTipo(idTipos).then((result : Array<Magia>) => {
-        console.log(result);
         this.magias = result;
       });
     } else {
-      let alert = this.alertCtrl.create({
-        title: 'Algo deu Errado',
-        subTitle: 'Não foi possivel encotrar o tipo de magia.',
-        buttons: ['OK']
+      this.magiaService.getTodasMagia().then((result : Array<Magia>) => {
+        this.magias = result;
       });
-      alert.present();
-      this.navCtrl.pop();
     }
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MagiasPage');
+  ionViewWillEnter() {
     this.init();
+    this.magiaService.getAllTipos().then((result: Array<TipoMagia>) => {
+      console.log(result);
+      this.tiposLista = result;
+    });
   }
 
 }
