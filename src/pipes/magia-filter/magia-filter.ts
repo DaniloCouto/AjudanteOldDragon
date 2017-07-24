@@ -14,16 +14,31 @@ export class MagiaFilterPipe implements PipeTransform {
   /**
    * Takes a value and makes it lowercase.
    */
-  transform(arrayMagia: Array<Magia>, nomeMagia: string) {
+  transform(arrayMagia: Array<Magia>, nomeMagia: string, nivelMagia: string) {
     //(arrayMagia: Array<Magia>, tipoId: number, tipoNivel: number, nomeMagia: string)
     if(arrayMagia == null ){
       return null;
     }
-    if(nomeMagia == null){
+    if(nomeMagia == null && nivelMagia == null){
       return arrayMagia;
     }
     return arrayMagia.filter(item => {
-      return (item.$nome.indexOf(nomeMagia) !== -1 )
+      let retorno = [];
+      if(item.$nome.indexOf(nomeMagia) !== -1 || typeof nomeMagia === 'undefined' || nomeMagia == null || nomeMagia === ""){
+        if(nivelMagia === null || nivelMagia === "0" || typeof nivelMagia == 'undefined' || nivelMagia === ""){
+          return true;
+        }else{
+          for(var j = 0; j < item.$tipoArray.length; j++){
+            if( item.$tipoArray[j].$nivel !== Number(nivelMagia)){
+              return false;
+            }else if(j+1 == item.$tipoArray.length){
+              return true;
+            }
+          }
+        }
+      }else{
+        return false;
+      }
     });
   }
   // transform(arrayMagia: Array<Magia>, tipoId: number, tipoNivel: number, nomeMagia: string) {

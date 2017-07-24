@@ -18,12 +18,21 @@
             </button>
         </ion-buttons>
     </ion-navbar>
-    <ion-searchbar color="danger" [(ngModel)]="nomeMagiaFilter" placeholder="Nome magia"></ion-searchbar>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-input type="text" [(ngModel)]="nomeMagiaFilter" placeholder="Nome Magia"></ion-input>
+            </ion-col>
+            <ion-col>
+                <ion-input type="number" [(ngModel)]="nivelTipoFilter" placeholder="Nivel da Magia"></ion-input>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-header>
 
 <ion-content>
     <ion-list>
-        <ion-item-sliding *ngFor="let item of magias | magiafilter : nomeMagiaFilter">
+        <ion-item-sliding *ngFor="let item of magias | magiafilter : nomeMagiaFilter : nivelTipoFilter">
             <button ion-item (tap)="openDetalhe(item)">
                 <span *ngFor="let tipos of item.tipoArray">{{tipos.nomeTipo}}: {{tipos.nivel}} </span>
                 <h2><b>Nome</b>: {{item.nome}}</h2>
