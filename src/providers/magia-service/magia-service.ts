@@ -43,6 +43,7 @@ export class MagiaService {
             'medidaDuracaoAdicional	INTEGER,' +
             'tipoDuracaoBase	INTEGER,' +
             'tipoDuracaoAdicional	INTEGER,' +
+            'favorito	INTEGER,' +
             'PRIMARY KEY(_id)' +
             ');';
 
@@ -272,6 +273,68 @@ export class MagiaService {
       })
     });
   }
+  getTodasMagiaFavorita(): Promise<Array<Magia>> {
+    let servico = this;
+    return new Promise((resolve, reject) => {
+      this.openDatabase().then((db) => {
+        db.transaction(function (tx: SQLiteTransaction) {
+          let query = 'SELECT tm._id_magia, tm._id_tipoMagia,  tm.nivel, t.nome FROM tipoMagia_magia tm INNER JOIN magia as m ON m._id = tm._id_magia INNER JOIN tipoMagia as t ON t._id = tm._id_tipoMagia;';
+          tx.executeSql(query, [], function (tx: SQLiteTransaction, tiposMagia) {
+            var retorno = [];
+            for (var i = 0; i < tiposMagia.rows.length; i++) {
+              let tempIdMagia = tiposMagia.rows.item(i)._id_magia;
+              let query = 'SELECT tm._id_magia, tm._id_tipoMagia,  tm.nivel, t.nome FROM tipoMagia_magia tm INNER JOIN magia as m ON m._id = tm._id_magia INNER JOIN tipoMagia as t ON t._id = tm._id_tipoMagia WHERE _id_magia = ?;';
+              tx.executeSql(query, [tempIdMagia], function (tx: SQLiteTransaction, resultSet) {
+                var tipos = [];
+                for (var j = 0; j < resultSet.rows.length; j ++) {
+                  tipos.push(new TipoMagiaComNivel(resultSet.rows.item(j)._id_tipoMagia, resultSet.rows.item(j).nome, resultSet.rows.item(j).nivel ));
+                };
+                tx.executeSql('SELECT * FROM magia WHERE _id = ? AND favorito = 1;', [tempIdMagia], function (tx, resultSet) {
+                  if(resultSet.rows.length){
+                    retorno.push(new Magia(
+                      resultSet.rows.item(0)._id,
+                      tipos,
+                      new AlcanceMagia(
+                        resultSet.rows.item(0).alcanceBase,
+                        resultSet.rows.item(0).alcancePorNivel,
+                        resultSet.rows.item(0).nivelPorAlcance
+                      ),
+                      new DuracaoMagia(
+                        resultSet.rows.item(0).duracaoBase,
+                        resultSet.rows.item(0).medidaDuracaoBase,
+                        resultSet.rows.item(0).nivelPorDuracao,
+                        resultSet.rows.item(0).duracaoPorNivel,
+                        resultSet.rows.item(0).medidaDuracaoAdicional,
+                        resultSet.rows.item(0).tipoDuracaoBase,
+                        resultSet.rows.item(0).tipoDuracaoAdicional
+                      ),
+                      resultSet.rows.item(0).nome,
+                      resultSet.rows.item(0).descricao
+                    ));
+                  }
+                  if(tiposMagia.rows.length === i){
+                    resolve(retorno);
+                  }
+                }, function (tx, err) {
+                  reject(err);
+                })
+              }, function (tx, err) {
+                console.error(err);
+                reject();
+              });
+            };
+          }, function (tx, err) {
+            console.error(err);
+            reject();
+          });
+        }, function (tx, err) {
+          reject();
+        }, function (tx, succ) {
+          reject();
+        });
+      })
+    });
+  }
 
   getMagia(idMagia: number): Promise<Magia> {
     let servico = this;
@@ -292,6 +355,35 @@ export class MagiaService {
               console.error(err);
               reject();
             });
+          }, function (tx, err) {
+            console.error(err);
+            reject();
+          });
+        }, function (tx, err) {
+          reject();
+        }, function (tx, succ) {
+          reject();
+        });
+      })
+    })
+  }
+
+  getMagiaIsFavorite(idMagia: number): Promise<Boolean> {
+    let servico = this;
+    return new Promise((resolve, reject) => {
+      this.openDatabase().then((db) => {
+        db.transaction(function (tx) {
+          let query = 'SELECT favorito FROM magia WHERE _id = ?;';
+          tx.executeSql(query, [idMagia], function (tx, resultSet) {
+            if(resultSet.rows.length){
+              if(resultSet.rows.item(0).favorito){
+                resolve(true);
+              }else{
+                resolve(false);
+              }
+            }else{
+              resolve(false)
+            }
           }, function (tx, err) {
             console.error(err);
             reject();
@@ -473,10 +565,31 @@ export class MagiaService {
     })
   }
 
+  setFavorito(favorito: Boolean, idMagia : number): Promise<Boolean>{
+    return new Promise((resolve, reject) => {
+      this.openDatabase().then((db) => {
+        db.transaction(function (tx) {
+          tx.executeSql('UPDATE magia SET'+
+          ' favorito = ?'+
+          ' WHERE _id = ?;',
+          [
+            favorito ? 1 : 0,
+            idMagia
+          ],function(){
+            resolve(favorito);
+          },function(error){
+            console.error(error)
+            reject();
+          })
+        })
+      })
+    })
+  }
+
   private addMagiaPrivate(element: Magia, transaction): Promise<any> {
     return new Promise((resolve, reject) => {
       let params = this.magiaToArray(element);
-      let query = 'INSERT INTO magia(nome,descricao,alcanceBase,nivelPorAlcance,alcancePorNivel,duracaoBase,medidaDuracaoBase,nivelPorDuracao,duracaoPorNivel,medidaDuracaoAdicional,tipoDuracaoBase,tipoDuracaoAdicional) VALUES (?,?,?,?,?,?,?,?,?,?,?,? );';
+      let query = 'INSERT INTO magia(nome,descricao,alcanceBase,nivelPorAlcance,alcancePorNivel,duracaoBase,medidaDuracaoBase,nivelPorDuracao,duracaoPorNivel,medidaDuracaoAdicional,tipoDuracaoBase,tipoDuracaoAdicional,favorito) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,0 );';
       console.log('Adicionando',query,params,element );
       transaction.executeSql(query, params, function (tx, resultSet) {
           for (var i = 0; i < element.$tipoArray.length; i++) {

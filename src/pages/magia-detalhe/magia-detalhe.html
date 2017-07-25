@@ -13,6 +13,12 @@
             </button>
         </ion-buttons>
         <ion-title>{{item.nome}}</ion-title>
+        <ion-buttons right>
+            <button ion-button icon-only (tap)="setFavorite()">
+                <ion-icon name="star" *ngIf="isFavorite"></ion-icon>
+                <ion-icon name="star-outline" *ngIf="!isFavorite"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 
 </ion-header>

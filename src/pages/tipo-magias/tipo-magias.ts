@@ -25,14 +25,24 @@ export class TipoMagiasPage {
     console.log(tipo);
     this.navCtrl.push(MagiasPage,{
       idTipos: [tipo.id],
-      nome: tipo.nomeTipo
+      nome: tipo.nomeTipo,
+      favorito: false
     })
   }
 
   selectTodos(){
     this.navCtrl.push(MagiasPage,{
       idTipos: [],
-      nome: "Todas as Escolas"
+      nome: "Todas as Escolas",
+      favorito: false
+    })
+  }
+
+  selectFavoritos(){
+    this.navCtrl.push(MagiasPage,{
+      idTipos: [],
+      nome: "Favoritos",
+      favorito: true
     })
   }
 
@@ -79,7 +89,7 @@ export class TipoMagiasPage {
   init() {
     this.magiaService.getAllTipos().then((result: Array<TipoMagia>) => {
         this.tipoMagias = result;
-      });
+    });
   }
 
 }

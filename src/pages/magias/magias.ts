@@ -76,9 +76,14 @@ export class MagiasPage {
 
   init() {
     var idTipos = this.navParams.get("idTipos");
+    var favorito = this.navParams.get("favorito");
     this.idTipoMagiaFilter = idTipos.length ? idTipos[0] : null;
     this.title = this.navParams.get("nome");
-    if (idTipos.length > 0) {
+    if(favorito){
+      this.magiaService.getTodasMagiaFavorita().then((result : Array<Magia>) => {
+        this.magias = result;
+      });
+    }else if (idTipos.length > 0) {
       this.magiaService.getMagiaPorTipo(idTipos).then((result : Array<Magia>) => {
         this.magias = result;
       });
