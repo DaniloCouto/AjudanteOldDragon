@@ -27,25 +27,37 @@ export class Atributos {
     }
 
     public get $ajusteForca(): number {
-        if (this.forca <= 0) {
+        let value = Number(this.forca);
+        if (value <= 0) {
             return 0;
-        } else {
+        } else if(value > 29){
+            if(!(value % 2)){
+                value += 1;
+            };
+            return (0.5*value)-5.5;
+        }else{
             let ajustes = Constantes.AJUSTE_FORCA;
             for (let i = 0; i < ajustes.length; i++) {
-                if (this.forca >= ajustes[i].forMin && this.forca <= ajustes[i].forMax) {
+                 if (value >= ajustes[i].forMin && value <= ajustes[i].forMax) {
                     return ajustes[i].ajuste;
-                }
+                } 
             }
         }
     }
 
     public get $linearSemCarga(): number {
-        if (this.forca <= 0) {
+        let value = Number(this.forca);
+        if (value <= 0) {
             return 0;
-        } else {
+        } else if(value > 29){
+            if( !(value % 2)){
+                value += 1;
+            };
+            return (30*value)-635;
+        }else {
             let ajustes = Constantes.AJUSTE_FORCA;
             for (var index = 0; index < ajustes.length; index++) {
-                if (this.forca >= ajustes[index].forMin && this.forca <= ajustes[index].forMax) {
+                if (value >= ajustes[index].forMin && value <= ajustes[index].forMax) {
                     return ajustes[index].linearSemCarga;
                 }
             }
@@ -53,12 +65,18 @@ export class Atributos {
     }
 
     public get $linearCargaLeve(): number {
-        if (this.forca <= 0) {
+        let value = Number(this.forca);
+        if (value <= 0) {
             return 0;
-        } else {
+        } else if(value > 29){
+            if( !(value % 2)){
+                value += 1;
+            };
+            return (50*value)-1100;
+        }  else {
             let ajustes = Constantes.AJUSTE_FORCA;
             for (var index = 0; index < ajustes.length; index++) {
-                if (this.forca >= ajustes[index].forMin && this.forca <= ajustes[index].forMax) {
+                if (value >= ajustes[index].forMin && value <= ajustes[index].forMax) {
                     return ajustes[index].linearCargaLeve;
                 }
             }
@@ -66,16 +84,26 @@ export class Atributos {
     }
 
     public get $linearCargaPesada(): number {
-        let ajustes = Constantes.AJUSTE_FORCA;
-        for (var index = 0; index < ajustes.length; index++) {
-            if (this.forca >= ajustes[index].forMin && this.forca <= ajustes[index].forMax) {
-                return ajustes[index].linearCargaPesada;
+        let value = Number(this.forca);
+        if (value <= 0) {
+            return 0;
+        } else if(value > 29){
+            if( !(value % 2)){
+                value += 1;
+            };
+            return (90*value)-1910;
+        }  else {
+            let ajustes = Constantes.AJUSTE_FORCA;
+            for (var index = 0; index < ajustes.length; index++) {
+                if (this.forca >= ajustes[index].forMin && this.forca <= ajustes[index].forMax) {
+                    return ajustes[index].linearCargaPesada;
+                }
             }
         }
     }
 
     public set $destreza(value: number) {
-        this.destreza = value;
+        this.destreza = Number(value);
     }
 
     public get $destreza(): number {
@@ -85,7 +113,13 @@ export class Atributos {
     public get $ajusteDestreza(): number {
         if (this.destreza <= 0) {
             return 0;
-        } else {
+        } else if (this.destreza > 29) {
+            let value = this.destreza;
+            if( !(value % 2)){
+                value += 1;
+            };
+            return (0.5*value-5.5);
+        } else  {
             let ajustes = Constantes.AJUSTE_DESTREZA;
             for (var index = 0; index < ajustes.length; index++) {
                 if (this.destreza >= ajustes[index].desMin && this.destreza <= ajustes[index].desMax) {
@@ -98,6 +132,13 @@ export class Atributos {
     public get $armadilhas(): number {
         if (this.destreza <= 0) {
             return 0;
+        } else if (this.destreza > 29) {
+            let dex = this.destreza;
+            if( !(dex % 2) ){
+                dex += 1
+            }
+            let result = Math.floor(2.5*dex-37.5);
+            return result > 100 ? 100 : result;
         } else {
             let ajustes = Constantes.AJUSTE_DESTREZA;
             for (var index = 0; index < ajustes.length; index++) {
@@ -111,6 +152,13 @@ export class Atributos {
     public get $furtividade_arrombar(): number {
         if (this.destreza <= 0) {
             return 0;
+        } else if (this.destreza > 29) {
+            let dex = this.destreza;
+            if( !(dex % 2) ){
+                dex += 1
+            }
+            let result = Math.floor(2.5*dex-27.5);
+            return result > 100 ? 100 : result;
         } else {
             let ajustes = Constantes.AJUSTE_DESTREZA;
             for (var index = 0; index < ajustes.length; index++) {
@@ -124,6 +172,13 @@ export class Atributos {
     public get $pungar(): number {
         if (this.destreza <= 0) {
             return 0;
+        } else if (this.destreza > 29) {
+            let dex = this.destreza;
+            if( !(dex % 2) ){
+                dex += 1
+            }
+            let result = 2.5*dex-32.5;
+            return result > 100 ? 100 : result;
         } else {
             let ajustes = Constantes.AJUSTE_DESTREZA;
             for (var index = 0; index < ajustes.length; index++) {
@@ -135,7 +190,7 @@ export class Atributos {
     }
 
     public set $constituicao(value: number) {
-        this.constituicao = value;
+        this.constituicao = Number(value);
     }
 
     public get $constituicao(): number {
@@ -145,6 +200,12 @@ export class Atributos {
     public get $ajusteConstituicao(): number {
         if (this.constituicao <= 0) {
             return 0;
+        } else if (this.constituicao > 29) {
+            let value = this.constituicao;
+            if( !(value % 2)){
+                value += 1;
+            };
+            return (0.5*value-5.5);
         } else {
             let ajustes = Constantes.AJUSTE_CONSTITUICAO;
             for (var index = 0; index < ajustes.length; index++) {
@@ -158,6 +219,8 @@ export class Atributos {
     public get $chance_res(): number {
         if (this.constituicao <= 0) {
             return 0;
+        } else if (this.constituicao > 20) {
+            return 100;
         } else {
             let ajustes = Constantes.AJUSTE_CONSTITUICAO;
             for (var index = 0; index < ajustes.length; index++) {
@@ -169,7 +232,7 @@ export class Atributos {
     }
 
     public set $inteligencia(value: number) {
-        this.inteligencia = value;
+        this.inteligencia = Number(value);
     }
 
     public get $inteligencia(): number {
@@ -179,6 +242,12 @@ export class Atributos {
     public get $idiomasAdicionais(): number {
         if (this.inteligencia <= 0) {
             return 0;
+        } else if (this.inteligencia > 29) {
+            let value = this.inteligencia;
+            if( !(value % 2)){
+                value += 1;
+            };
+            return (0.5*value-6.5);
         } else {
             let ajustes = Constantes.AJUSTE_INTELIGENCIA;
             for (var index = 0; index < ajustes.length; index++) {
@@ -192,7 +261,9 @@ export class Atributos {
     public get $chanceAprenderMagia(): number {
         if (this.inteligencia <= 0) {
             return 0;
-        } else {
+        } else if (this.inteligencia > 29) {
+            return 100;
+        }else {
             let ajustes = Constantes.AJUSTE_INTELIGENCIA;
             for (var index = 0; index < ajustes.length; index++) {
                 if (this.inteligencia >= ajustes[index].intMin && this.inteligencia <= ajustes[index].intMax) {
@@ -205,6 +276,12 @@ export class Atributos {
     public get $intPrimeiroCirculo(): number {
         if (this.inteligencia <= 0) {
             return 0;
+        } else if (this.inteligencia > 29) {
+            let value = this.inteligencia;
+            if( !(value % 2)){
+                value += 1;
+            };
+            return Math.floor(0.25*value-4.25);
         } else {
             let ajustes = Constantes.AJUSTE_INTELIGENCIA;
             for (var index = 0; index < ajustes.length; index++) {
@@ -218,6 +295,12 @@ export class Atributos {
     public get $intSegundoCirculo(): number {
         if (this.inteligencia <= 0) {
             return 0;
+        } else if (this.inteligencia > 29) {
+            let value = this.inteligencia;
+            if( !(value % 2)){
+                value += 1;
+            };
+            return Math.floor(0.17*value-1.8);
         } else {
             let ajustes = Constantes.AJUSTE_INTELIGENCIA;
             for (var index = 0; index < ajustes.length; index++) {
@@ -231,6 +314,12 @@ export class Atributos {
     public get $intTerceiroCirculo(): number {
         if (this.inteligencia <= 0) {
             return 0;
+        } else if (this.inteligencia > 29) {
+            let value = this.inteligencia;
+            if( !(value % 2)){
+                value += 1;
+            };
+            return Math.floor(0.042*value-0.042);
         } else {
             let ajustes = Constantes.AJUSTE_INTELIGENCIA;
             for (var index = 0; index < ajustes.length; index++) {
@@ -246,12 +335,18 @@ export class Atributos {
     }
 
     public set $sabedoria(value: number) {
-        this.sabedoria = value;
+        this.sabedoria = Number(value);
     }
 
     public get $ajusteSabedoria(): number {
         if (this.sabedoria <= 0) {
             return 0;
+        } else if (this.sabedoria > 29) {
+            let value = this.sabedoria;
+            if( !(value % 2)){
+                value += 1;
+            };
+            return (0.5*value-5.5);
         } else {
             let ajustes = Constantes.AJUSTE_SABEDORIA;
             for (var index = 0; index < ajustes.length; index++) {
@@ -265,6 +360,12 @@ export class Atributos {
     public get $sabPrimeiroCirculo(): number {
         if (this.sabedoria <= 0) {
             return 0;
+        } else if (this.sabedoria > 29) {
+            let value = this.sabedoria;
+            if( !(value % 2)){
+                value += 1;
+            };
+            return Math.floor(0.25*value-4.25);
         } else {
             let ajustes = Constantes.AJUSTE_SABEDORIA;
             for (var index = 0; index < ajustes.length; index++) {
@@ -278,6 +379,12 @@ export class Atributos {
     public get $sabSegundoCirculo(): number {
         if (this.sabedoria <= 0) {
             return 0;
+        } else if (this.sabedoria > 29) {
+            let value = this.sabedoria;
+            if( !(value % 2)){
+                value += 1;
+            };
+            return Math.floor(0.17*value-1.8);
         } else {
             let ajustes = Constantes.AJUSTE_SABEDORIA;
             for (var index = 0; index < ajustes.length; index++) {
@@ -291,6 +398,12 @@ export class Atributos {
     public get $sabTerceiroCirculo(): number {
         if (this.sabedoria <= 0) {
             return 0;
+        } else if (this.sabedoria > 29) {
+            let value = this.sabedoria;
+            if( !(value % 2)){
+                value += 1;
+            };
+            return Math.floor(0.042*value-0.042);
         } else {
             let ajustes = Constantes.AJUSTE_SABEDORIA;
             for (var index = 0; index < ajustes.length; index++) {
@@ -308,6 +421,8 @@ export class Atributos {
     public get $mortosVivosAfastados(): string {
         if (this.carisma <= 0) {
             return '0';
+        } else if (this.carisma > 29) {
+            return '1d20';
         } else {
             let ajustes = Constantes.AJUSTE_CARISMA;
             for (var index = 0; index < ajustes.length; index++) {
@@ -321,6 +436,13 @@ export class Atributos {
     public get $ajusteReacao(): number {
         if (this.carisma <= 0) {
             return 0;
+        } else if (this.carisma > 29) {
+            let value = this.carisma;
+            if( !(value % 2) ){
+                value += 1
+            }
+            let result = 2.5*value-27.5;
+            return result > 100 ? 100 : result;
         } else {
             let ajustes = Constantes.AJUSTE_CARISMA;
             for (var index = 0; index < ajustes.length; index++) {
@@ -334,6 +456,12 @@ export class Atributos {
     public get $seguidores(): number {
         if (this.carisma <= 0) {
             return 0;
+        } else if (this.carisma > 29) {
+            let value = this.carisma;
+            if( !(value % 2) ){
+                value += 1
+            }
+            return 0.5*value-4.5;
         } else {
             let ajustes = Constantes.AJUSTE_CARISMA;
             for (var index = 0; index < ajustes.length; index++) {
@@ -345,7 +473,7 @@ export class Atributos {
     }
 
     public set $carisma(value: number) {
-        this.carisma = value;
+        this.carisma = Number(value);
     }
 
 }
