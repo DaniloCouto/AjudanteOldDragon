@@ -1,5 +1,5 @@
 export enum medidaDeTempoENUM {
-    Instanea = 0,
+    Instantanea = 0,
     Turno = 1,
     Rodada = 2,
     Combate = 3,
