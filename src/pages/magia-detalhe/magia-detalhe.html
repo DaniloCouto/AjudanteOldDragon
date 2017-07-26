@@ -29,8 +29,9 @@
         <span *ngFor="let tipos of item.tipoArray">{{tipos.nomeTipo}}: {{tipos.nivel}}</span>
         <h2><b>Nome</b>: {{item.nome}}</h2>
         <p><b>Alcance</b>: {{item.alcance.alcanceBase}} m + {{item.alcance.alcanceAdicional}} metros a cada {{item.alcance.niveisParaAdicao}} nivel(s)</p>
-        <p><b>Duração</b>: {{item.duracao.duracaoBase}} {{item.duracao.tipoDuracaoBase | dicemagia }} {{enum[item.duracao.medidaDuracaoBase]}} + {{item.duracao.duracaoAdicional}} {{enum[item.duracao.medidaDuracaoAdicional]}} a cada {{item.duracao.niveisParaAdicao}}
-            nivel(s)
+        <p><b>Duração</b>:
+            <span *ngIf="item.duracao.medidaDuracaoBase != 0 && item.duracao.medidaDuracaoBase != 8">{{item.duracao.duracaoBase}}{{dice[item.duracao.tipoDuracaoBase]}} {{enum[item.duracao.medidaDuracaoBase]}} + {{item.duracao.duracaoAdicional}} {{enum[item.duracao.medidaDuracaoAdicional]}} a cada {{item.duracao.niveisParaAdicao}} nivel(s)</span>
+            <span *ngIf="item.duracao.medidaDuracaoBase == 0 || item.duracao.medidaDuracaoBase == 8">{{enum[item.duracao.medidaDuracaoBase]}}</span>
         </p>
         <p><b>Descrição</b>: {{item.descricao}}</p>
     </ion-item>

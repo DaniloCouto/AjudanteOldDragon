@@ -18,16 +18,16 @@ export class AddWeaponPage {
     let item = params.get('item');
     if (item != null) {
       this.edit = true;
-      this.weapon = new Weapon(item.nome, item.peso, item.valor, item.iniciativa, item.BaAdcional, new Dano(item.danoPuro, item.danoRolagem, item.qntdRolagem), [item.alcancePequeno,item.alcanceMedio,item.alcanceGrande], item.tamanho, [item.tipo1,item.tipo2]);
+      this.weapon = new Weapon(item.nome, item.descricao, item.peso, item.valor, item.iniciativa, item.baAdicional, new Dano(item.danoPuro, item.danoRolagem, item.qntdRolagem), [item.alcancePequeno,item.alcanceMedio,item.alcanceGrande], item.tamanho, [item.tipo1,item.tipo2]);
     } else {
-      this.weapon = new Weapon('Nova Arma', 0 , 0, 0, 0, new Dano(0, 2, 1), [0, 0, 0], TamanhoArma.PEQUENA, [TipoArma.NULO, TipoArma.NULO]);
+      this.weapon = new Weapon('Nova Arma','' , 0 , 0, 0, 0, new Dano(0, 2, 1), [0, 0, 0], TamanhoArma.PEQUENA, [TipoArma.NULO, TipoArma.NULO]);
     }
   }
 
   addItem() {
     let item = this.params.get('item');
     if (this.edit) {
-      this._db.update(this.weapon, item._Id).then(() => {
+      this._db.update(this.weapon, item._id).then(() => {
         this.nav.pop();
       });
     }else {

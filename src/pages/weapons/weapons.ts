@@ -1,3 +1,4 @@
+import { WeaponDetalhePage } from '../weapon-detalhe/weapon-detalhe';
 import { Component } from '@angular/core';
 import { NavController, Platform, AlertController} from 'ionic-angular';
 import { WeaponsService } from '../../providers/weapons-service/weapons-service';
@@ -19,6 +20,10 @@ export class WeaponsPage {
     this.nav.push(AddWeaponPage);
   }
 
+  openDetail(item){
+    this.nav.push(WeaponDetalhePage, { item: item });
+  }
+
   editItem(item) {
     console.log(item);
     this.nav.push(AddWeaponPage, { item: item });
@@ -26,7 +31,7 @@ export class WeaponsPage {
 
   deleteItem(item) {
     let alert = this.alertCtrl.create({
-      title: 'Ferreiro',
+      title: 'Loja',
       message: 'Você tem certeza que deseja excluir esta arma?',
       buttons: [
         {
@@ -52,10 +57,6 @@ export class WeaponsPage {
     this.platform.ready().then(() => {
       this.weapService.getAll().then((result) => {
         this.itens = result;
-        this.itens.forEach(element => {
-          element.diceClass = this.diceService.identify(element.danoRolagem);
-          element.convertedPrice = this.conventer.convertMaxPO(element.valor);
-        });
       });
     });
   }

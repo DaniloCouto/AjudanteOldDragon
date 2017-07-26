@@ -26,6 +26,15 @@ import { SqlCapsuleProvider } from '../providers/sql-capsule/sql-capsule';
 import { MedidaDeTempoPipe } from '../pipes/medida-de-tempo/medida-de-tempo';
 import { DiceMagiaPipe } from '../pipes/dice-magia/dice-magia';
 import { MagiaFilterPipe } from '../pipes/magia-filter/magia-filter';
+import { WeaponDetalhePage } from "../pages/weapon-detalhe/weapon-detalhe";
+import { DiceIconPipe } from '../pipes/dice-icon/dice-icon';
+import { TipoArmaPipe } from '../pipes/tipo-arma/tipo-arma';
+import { MoneyConventerPipe } from '../pipes/money-conventer/money-conventer';
+import { ArmorDetalhePage } from "../pages/armor-detalhe/armor-detalhe";
+import { ItemComumProvider } from '../providers/item-comum/item-comum';
+import { ItemComumDetalhePage } from "../pages/item-comum-detalhe/item-comum-detalhe";
+import { ItemComumPage } from "../pages/item-comum/item-comum";
+import { AddItemComumPage } from "../pages/add-item-comum/add-item-comum";
 
 @NgModule({
   declarations: [
@@ -44,7 +53,15 @@ import { MagiaFilterPipe } from '../pipes/magia-filter/magia-filter';
     MedidaDeTempoPipe,
     AddMagiaPage,
     DiceMagiaPipe,
-    MagiaFilterPipe
+    MagiaFilterPipe,
+    WeaponDetalhePage,
+    DiceIconPipe,
+    TipoArmaPipe,
+    MoneyConventerPipe,
+    ArmorDetalhePage,
+    ItemComumDetalhePage,
+    ItemComumPage,
+    AddItemComumPage
   ],
   imports: [
     BrowserModule,
@@ -66,8 +83,13 @@ import { MagiaFilterPipe } from '../pipes/magia-filter/magia-filter';
     TipoMagiasPage,
     MagiaDetalhePage,
     AddTipoMagiaPage,
-    AddMagiaPage
+    AddMagiaPage,
+    WeaponDetalhePage,
+    ArmorDetalhePage,
+    ItemComumDetalhePage,
+    ItemComumPage,
+    AddItemComumPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider]
 })
 export class AppModule {}

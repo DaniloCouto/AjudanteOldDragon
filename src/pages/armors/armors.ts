@@ -3,6 +3,7 @@ import { NavController, Platform, AlertController} from 'ionic-angular';
 import { ArmorsService } from '../../providers/armors-service/armors-service';
 import { MoneyConventer } from '../../providers/money-conventer/money-conventer';
 import { AddArmorPage } from '../add-armor/add-armor';
+import { ArmorDetalhePage } from "../armor-detalhe/armor-detalhe";
 /*
   Generated class for the ArmorsPage page.
 
@@ -30,9 +31,14 @@ export class ArmorsPage {
     this.nav.push(AddArmorPage, { item: item });
   }
 
+  selectItem(item) {
+    console.log(item);
+    this.nav.push(ArmorDetalhePage, { item: item });
+  }
+
   deleteItem(item) {
     let alert = this.alertCtrl.create({
-      title: 'Ferreiro',
+      title: 'Loja',
       message: 'Você tem certeza que deseja excluir esta arma?',
       buttons: [
         {
@@ -57,9 +63,6 @@ export class ArmorsPage {
   init() {
     this.platform.ready().then(() => {
       this.armorsService.getAll().then((result) => {
-        result.forEach(element => {
-          element.convertedPrice = this.conventer.convertMaxPO(element.valor);
-        });
         this.itens = result;
         console.log(result);
       });

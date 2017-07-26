@@ -19,7 +19,7 @@ export class SqlCapsuleProvider {
       this.platform.ready().then(() => {
         if(this.platform.is('cordova')){
           this.sqlite.create({
-            name: 'oldDragonRegister.db',
+            name: 'oldDragonRegister.db.1',
             location: 'default',
             createFromLocation: 1
           }).then((db: SQLiteObject) => {

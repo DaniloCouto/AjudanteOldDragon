@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { WeaponsPage } from '../weapons/weapons';
 import { ArmorsPage } from '../armors/armors';
+import { ItemComumPage } from "../item-comum/item-comum";
 
 /*
   Generated class for the BlacksmithPage page.
@@ -16,6 +17,7 @@ export class BlacksmithPage {
 
   tab1Root = WeaponsPage;
   tab2Root = ArmorsPage;
+  tab3Root = ItemComumPage;
 
   constructor(private nav: NavController) {
 

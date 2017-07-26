@@ -11,8 +11,8 @@ export class Weapon extends Item {
     private tamanho: TamanhoArma;
     private tipo: Array<TipoArma>;
 
-    constructor(name: string, peso: number, valor: number, iniciativa: number, BaAdicional: number, dano: Dano, alcance: Array<number>, tamanho: TamanhoArma, tipo: Array<TipoArma>) {
-        super(name, peso, valor);
+    constructor(name: string, descricao: string, peso: number, valor: number, iniciativa: number, BaAdicional: number, dano: Dano, alcance: Array<number>, tamanho: TamanhoArma, tipo: Array<TipoArma>) {
+        super(name, descricao, peso, valor);
         this.iniciativa = iniciativa;
         this.dano = dano;
         this.alcance = alcance;

@@ -11,7 +11,7 @@
                 <ion-icon name="menu"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-title>Ferreiro</ion-title>
+        <ion-title>Loja</ion-title>
         <ion-buttons right>
             <button ion-button icon-only (click)="addItem()">
                 <ion-icon name="add"></ion-icon>
@@ -23,14 +23,14 @@
 <ion-content>
     <ion-list>
         <ion-item-sliding *ngFor="let item of itens">
-            <ion-item>
+            <button ion-item (tap)="openDetail(item)">
                 <h2>{{item.nome}}</h2>
-                <p>{{item.peso}}kg , {{item.convertedPrice}} </p>
-                <p>Iniciativa : {{item.iniciativa}} , BA : {{item.BaAdicional}} </p>
+                <p>{{item.peso}}kg , {{item.valor | moneyconventer}} </p>
+                <p>Iniciativa : {{item.iniciativa}} , BA : {{item.baAdicional}} </p>
                 <div item-right>{{item.danoPuro}} + {{item.qntdRolagem}} x
-                    <ion-icon name="{{item.diceClass}}"></ion-icon>
+                    <ion-icon name="{{item.danoRolagem | diceicon}}"></ion-icon>
                 </div>
-            </ion-item>
+            </button>
             <ion-item-options>
                 <button ion-button color="primary" (click)="editItem(item)">
                     <ion-icon name="open"></ion-icon>

@@ -1,0 +1,51 @@
+<!--
+  Generated template for the WeaponDetalhePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar color="danger">
+        <ion-title>{{weapon.nome}}</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-grid>
+        <ion-row>
+            <ion-col>{{weapon.nome}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>Peso : {{weapon.peso}}kg</ion-col>
+            <ion-col>Valor : {{weapon.valor | moneyconventer}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>Iniciativa : {{weapon.iniciativa}}</ion-col>
+            <ion-col>BA : {{weapon.BaAdicional}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>Dano: {{weapon.dano.danoPuro}} + {{weapon.dano.qntdRolagem}} x
+                <ion-icon name="{{weapon.dano.danoRolagem | diceicon}}"></ion-icon>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-auto>
+                Alcance:
+            </ion-col>
+            <ion-col *ngFor="let item of weapon.alcance" col-auto>
+                {{item}} m
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-auto>
+                Tipo:
+            </ion-col>
+            <ion-col *ngFor="let item of weapon.tipo" col-auto>
+                {{item | tipoarma}}
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

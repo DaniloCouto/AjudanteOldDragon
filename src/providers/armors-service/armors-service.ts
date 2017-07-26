@@ -16,6 +16,7 @@ export class ArmorsService {
           var query = 'CREATE TABLE IF NOT EXISTS armors ('+
             '_id	INTEGER PRIMARY KEY AUTOINCREMENT,'+
             'nome	TEXT,'+
+            'descricao	TEXT,'+
             'peso	INTEGER,'+
             'valor	INTEGER,'+
             'bonusCa	INTEGER,'+
@@ -29,7 +30,7 @@ export class ArmorsService {
                 let transaction = tx;
                 BaseArmaduras.BASE_ARMADURA.forEach(function (weapon) {
                   let params = service.armorToArray(weapon);
-                  let query = 'INSERT INTO armors(nome,peso,valor,bonusCa,movimentacao,tipo,limiteAjusteDes) VALUES ( ?,?,?,?,?,?,?);';
+                  let query = 'INSERT INTO armors(nome,descricao,peso,valor,bonusCa,movimentacao,tipo,limiteAjusteDes) VALUES ( ?,?,?,?,?,?,?,?);';
                   transaction.executeSql(query, params, function (tx, resultSet) {
                   }, function (tx, err) {
                     console.error(err);
@@ -55,7 +56,7 @@ export class ArmorsService {
   add(armor: Armadura): Promise<any> {
     let params = this.armorToArray(armor);
     return new Promise((resolve, reject) => {
-      let query = 'INSERT INTO armors(nome,peso,valor,bonusCa,movimentacao,tipo,limiteAjusteDes) VALUES ( ?,?,?,?,?,?,?);';
+      let query = 'INSERT INTO armors(nome,descricao,peso,valor,bonusCa,movimentacao,tipo,limiteAjusteDes) VALUES ( ?,?,?,?,?,?,?,?);';
       this.openDatabase().then((db) => {
         db.transaction(function (tx) {
           tx.executeSql(query, params, function (tx, res) {
@@ -74,9 +75,8 @@ export class ArmorsService {
   update(armor: Armadura, id: number): Promise<any> {
     let arrayParams = this.armorToArray(armor);
     arrayParams.push(id);
-    console.log(arrayParams);
     return new Promise((resolve, reject) => {
-      let query = 'UPDATE armors SET nome = ? , peso = ? , valor = ? , bonusCa = ? , movimentacao = ? , tipo = ? , limiteAjusteDes = ? WHERE _id = ?;';
+      let query = 'UPDATE armors SET nome = ?, descricao = ? , peso = ? , valor = ? , bonusCa = ? , movimentacao = ? , tipo = ? , limiteAjusteDes = ? WHERE _id = ?;';
       this.openDatabase().then((db) => {
         db.transaction(function (tx) {
           tx.executeSql(query, arrayParams, function (tx, res) {
@@ -154,6 +154,7 @@ export class ArmorsService {
   private armorToArray(weapon: Armadura): Array<any> {
     let array = [];
     array.push(weapon.$nome);
+    array.push(weapon.$descricao);
     array.push(weapon.$peso);
     array.push(weapon.$valor);
     array.push(weapon.$bonusCa);

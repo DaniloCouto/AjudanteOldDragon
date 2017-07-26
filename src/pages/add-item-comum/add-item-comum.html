@@ -1,0 +1,46 @@
+<!--
+  Generated template for the AddItemComumPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>addItemComum</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-label>Nome</ion-label>
+            <ion-input type="text" [(ngModel)]="item.nome"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Descrição</ion-label>
+            <ion-textarea type="text" [(ngModel)]="item.descricao"></ion-textarea>
+        </ion-item>
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Peso</ion-label>
+                        <ion-input type="number" [(ngModel)]="item.peso"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label stacked>Valor</ion-label>
+                        <ion-input type="number" [(ngModel)]="item.valor"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-list>
+    <div padding>
+        <button color="danger" ion-button block (click)="addItem()">Cadastrar</button>
+    </div>
+</ion-content>
