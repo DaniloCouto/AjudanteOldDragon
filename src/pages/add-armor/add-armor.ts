@@ -21,16 +21,19 @@ export class AddArmorPage {
     let item = params.get('item');
     if (item != null) {
       this.edit = true;
-      this.armor = new Armadura(item.nome,item.descricao, item.peso, item.valor, item.bonusCa, item.movimentacao, item.tipo, item.limiteAjusteDes);
+      if(item instanceof Armadura){
+        this.armor = item;
+      }
+      this.armor = new Armadura(item.id, item.nome,item.descricao, item.peso, item.valor, item.bonusCa, item.movimentacao, item.tipo, item.limiteAjusteDes);
     } else {
-      this.armor = new Armadura('Nova Armadura','', 0, 0, 0, 0, 0, 0);
+      this.armor = new Armadura(null,'Nova Armadura','', 0, 0, 0, 0, 0, 0);
     }
   }
 
   addItem() {
     let item = this.params.get('item');
     if (this.edit) {
-      this._db.update(this.armor, item._id).then(() => {
+      this._db.update(this.armor).then(() => {
         this.nav.pop();
       });
     }else {

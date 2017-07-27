@@ -14,33 +14,31 @@
     <ion-list>
         <ion-item>
             <ion-label>Nome</ion-label>
-            <ion-input type="text" [(ngModel)]="weapon.$nome"></ion-input>
+            <ion-input type="text" [(ngModel)]="weapon.nome"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label stacked>Descrição</ion-label>
-            <ion-textarea type="text" [(ngModel)]="weapon.$descricao"></ion-textarea>
+            <ion-textarea type="text" [(ngModel)]="weapon.descricao"></ion-textarea>
         </ion-item>
         <ion-grid>
             <ion-row>
                 <ion-col>
                     <ion-item>
                         <ion-label stacked>Peso</ion-label>
-                        <ion-input type="number" [(ngModel)]="weapon.$peso"></ion-input>
+                        <ion-input type="number" [(ngModel)]="weapon.peso"></ion-input>
                     </ion-item>
                 </ion-col>
                 <ion-col>
                     <ion-item>
                         <ion-label stacked>Valor</ion-label>
-                        <ion-input type="number" [(ngModel)]="weapon.$valor"></ion-input>
+                        <ion-input type="number" [(ngModel)]="weapon.valor"></ion-input>
                     </ion-item>
                 </ion-col>
                 <ion-col>
                     <ion-item>
                         <ion-label stacked>Tamanho</ion-label>
-                        <ion-select [(ngModel)]="weapon.$tamanho">
-                            <ion-option value="0">Pequena</ion-option>
-                            <ion-option value="1">Média</ion-option>
-                            <ion-option value="2">Grande</ion-option>
+                        <ion-select [(ngModel)]="weapon.tamanho">
+                            <ion-option *ngFor="let item of tamanhoEnum | keys" [value]="item.key">{{item.value}}</ion-option>
                         </ion-select>
                     </ion-item>
                 </ion-col>
@@ -49,13 +47,13 @@
                 <ion-col>
                     <ion-item>
                         <ion-label stacked>Iniciativa</ion-label>
-                        <ion-input type="number" [(ngModel)]="weapon.$iniciativa"></ion-input>
+                        <ion-input type="number" [(ngModel)]="weapon.iniciativa"></ion-input>
                     </ion-item>
                 </ion-col>
                 <ion-col>
                     <ion-item>
                         <ion-label stacked>Bonus de Ataque</ion-label>
-                        <ion-input type="number" [(ngModel)]="weapon.$BaAdicional"></ion-input>
+                        <ion-input type="number" [(ngModel)]="weapon.BaAdicional"></ion-input>
                     </ion-item>
                 </ion-col>
             </ion-row>
@@ -68,27 +66,20 @@
                 <ion-col>
                     <ion-item>
                         <ion-label stacked>Base</ion-label>
-                        <ion-input type="number" [(ngModel)]="weapon.$dano.$danoPuro"></ion-input>
+                        <ion-input type="number" [(ngModel)]="weapon.dano.danoPuro"></ion-input>
                     </ion-item>
                 </ion-col>
                 <ion-col>
                     <ion-item>
                         <ion-label stacked>Qtd</ion-label>
-                        <ion-input type="number" [(ngModel)]="weapon.$dano.$qntdRolagem"></ion-input>
+                        <ion-input type="number" [(ngModel)]="weapon.dano.qntdRolagem"></ion-input>
                     </ion-item>
                 </ion-col>
                 <ion-col>
                     <ion-item>
                         <ion-label stacked>Rolagem</ion-label>
-                        <ion-select [(ngModel)]="weapon.$dano.$danoRolagem">
-                            <ion-option value="2">D2</ion-option>
-                            <ion-option value="4">D4</ion-option>
-                            <ion-option value="6">D6</ion-option>
-                            <ion-option value="8">D8</ion-option>
-                            <ion-option value="10">D10</ion-option>
-                            <ion-option value="12">D12</ion-option>
-                            <ion-option value="20">D20</ion-option>
-                            <ion-option value="100">D100</ion-option>
+                        <ion-select [(ngModel)]="weapon.dano.danoRolagem">
+                            <ion-option *ngFor="let item of diceEnum | keys" [value]="item.key">{{item.value}}</ion-option>
                         </ion-select>
                     </ion-item>
                 </ion-col>
@@ -99,9 +90,9 @@
                 </ion-item>
             </ion-row>
             <ion-row>
-                <ion-col *ngFor="let item of weapon.$alcance; let i = index">
+                <ion-col *ngFor="let item of weapon.alcance; let i = index">
                     <ion-item>
-                        <ion-input type="number" [(ngModel)]="weapon.$alcance[i]"></ion-input>
+                        <ion-input type="number" [(ngModel)]="weapon.alcance[i]"></ion-input>
                     </ion-item>
                 </ion-col>
             </ion-row>
@@ -111,14 +102,11 @@
                 </ion-item>
             </ion-row>
             <ion-row>
-                <ion-col *ngFor="let item of weapon.$tipo; let i = index">
+                <ion-col *ngFor="let item of weapon.tipo; let i = index">
                     <ion-item>
                         <ion-label stacked></ion-label>
-                        <ion-select [(ngModel)]="weapon.$tipo[i]">
-                            <ion-option value="0">-</ion-option>
-                            <ion-option value="1">Perfuração</ion-option>
-                            <ion-option value="2">Corte</ion-option>
-                            <ion-option value="3">Impacto</ion-option>
+                        <ion-select [(ngModel)]="weapon.tipo[i]">
+                            <ion-option *ngFor="let item of tipoEnum | keys" [value]="item.key">{{item.value}}</ion-option>
                         </ion-select>
                     </ion-item>
                 </ion-col>

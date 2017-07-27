@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import { SqlCapsuleProvider } from "../sql-capsule/sql-capsule";
 import { Platform } from "ionic-angular";
 import {SQLiteTransaction, SQLiteObject } from '@ionic-native/sqlite';
-import { BaseItens } from "./base-weapons";
+import { BaseItens } from "./base-item-comum";
 
 /*
   Generated class for the ItemComumProvider provider.
@@ -77,9 +77,9 @@ export class ItemComumProvider {
       });
     });
   }
-  update(item: Item, id: number): Promise<any> {
+  update(item: Item): Promise<any> {
     let arrayParams = this.itemToArray(item);
-    arrayParams.push(id);
+    arrayParams.push(item.$id);
     return new Promise((resolve, reject) => {
       let query = 'UPDATE item SET nome = ? , descricao = ?, peso = ? , valor = ?  WHERE _id = ?;';
       this.sqlCapsule.openDatabase().then((db) => {
@@ -117,13 +117,17 @@ export class ItemComumProvider {
       })
     });
   }
-  getAll(): Promise<Array<any>> {
+  getAll(): Promise<Array<Item>> {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
       this.sqlCapsule.openDatabase().then((db) => {
         db.transaction(function (tx: SQLiteTransaction) {
           tx.executeSql('SELECT * FROM  item;', [], function (tx, resultSet) {
-            resolve(output(resultSet.rows));
+            let retorno = [];
+            for(var i = 0; resultSet.rows.length; i++){
+              retorno.push(new Item(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor))
+            }
+            resolve(retorno);
           }, function (tx, err) {
             console.error(err);
             reject();

@@ -109,7 +109,7 @@
                     <ion-item>
                         <ion-label stacked>Rolagem</ion-label>
                         <ion-select [(ngModel)]="magia.duracao.tipoDuracaoBase">
-                            <ion-option *ngFor="let item of dice | medidatempo" [value]="item.key">{{item.value}}</ion-option>
+                            <ion-option *ngFor="let item of dice | keys" [value]="item.key">{{item.value}}</ion-option>
                         </ion-select>
                     </ion-item>
                 </ion-col>
@@ -117,7 +117,7 @@
                     <ion-item>
                         <ion-label stacked>Tipo</ion-label>
                         <ion-select [(ngModel)]="magia.duracao.medidaDuracaoBase">
-                            <ion-option *ngFor="let item of enum | medidatempo" [value]="item.key">{{item.value}}</ion-option>
+                            <ion-option *ngFor="let item of enum | keys" [value]="item.key">{{item.value}}</ion-option>
                         </ion-select>
                     </ion-item>
                 </ion-col>
@@ -133,7 +133,7 @@
                     <ion-item>
                         <ion-label stacked>Rolagem</ion-label>
                         <ion-select [(ngModel)]="magia.duracao.tipoDuracaoAdicional">
-                            <ion-option *ngFor="let item of dice | medidatempo" [value]="item.key">{{item.value}}</ion-option>
+                            <ion-option *ngFor="let item of dice | keys" [value]="item.key">{{item.value}}</ion-option>
                         </ion-select>
                     </ion-item>
                 </ion-col>
@@ -141,7 +141,7 @@
                     <ion-item>
                         <ion-label stacked>Tipo</ion-label>
                         <ion-select [(ngModel)]="magia.duracao.medidaDuracaoAdicional">
-                            <ion-option *ngFor="let item of enum | medidatempo" [value]="item.key">{{item.value}}</ion-option>
+                            <ion-option *ngFor="let item of enum | keys" [value]="item.key">{{item.value}}</ion-option>
                         </ion-select>
                     </ion-item>
                 </ion-col>

@@ -4,6 +4,7 @@ import { Weapon } from '../../classes/weapon/weapon';
 import { SQLiteObject, SQLiteTransaction } from '@ionic-native/sqlite';
 import { BaseWeapons } from './base-weapons';
 import { SqlCapsuleProvider } from '../sql-capsule/sql-capsule';
+import { Dano } from "../../classes/dano/dano";
 
 @Injectable()
 export class WeaponsService {
@@ -18,7 +19,7 @@ export class WeaponsService {
       this.sqlCapsule.openDatabase().then(function (db: SQLiteObject) {
         db.transaction(function (tx: SQLiteTransaction) {
           var query = 'CREATE TABLE IF NOT EXISTS weapons (' +
-            '_Id	INTEGER PRIMARY KEY AUTOINCREMENT,' +
+            '_id	INTEGER PRIMARY KEY AUTOINCREMENT,' +
             'nome	TEXT,' +
             'descricao TEXT,' +
             'peso	REAL,' +
@@ -80,9 +81,9 @@ export class WeaponsService {
       });
     });
   }
-  update(weapon: Weapon, id: number): Promise<any> {
+  update(weapon: Weapon): Promise<any> {
     let arrayParams = this.weaponToArray(weapon);
-    arrayParams.push(id);
+    arrayParams.push(weapon.$id);
     return new Promise((resolve, reject) => {
       let query = 'UPDATE weapons SET nome = ? , descricao = ?, peso = ? , valor = ? , iniciativa = ? , baAdicional = ? , danoPuro = ? , danoRolagem = ? , qntdRolagem = ? , alcancePequeno = ? , alcanceMedio = ? , alcanceGrande = ? , tipo1 = ? , tipo2 = ? , tamanho = ? WHERE _id = ?;';
       this.sqlCapsule.openDatabase().then((db) => {
@@ -120,14 +121,23 @@ export class WeaponsService {
       })
     });
   }
-  getAll(): Promise<any> {
+  getAll(): Promise<Array<Weapon>> {
     console.log('Breakpoint');
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
       this.sqlCapsule.openDatabase().then((db) => {
         db.transaction(function (tx: SQLiteTransaction) {
           tx.executeSql('SELECT * FROM  weapons;', [], function (tx, resultSet) {
-            resolve(output(resultSet.rows));
+            let retorno = [];
+            for(var i = 0; resultSet.rows.length; i++){
+              retorno.push(new Weapon(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor,
+                resultSet.rows.item(i).iniciativa, resultSet.rows.item(i).baAdicional,
+                new Dano(resultSet.rows.item(i).danoPuro,resultSet.rows.item(i).danoRolagem,resultSet.rows.item(i).qntdRolagem),
+                [resultSet.rows.item(i).alcancePequeno,resultSet.rows.item(i).alcanceMedio,resultSet.rows.item(i).alcanceGrande],
+                resultSet.rows.item(i).tamanho, [resultSet.rows.item(i).tipo1,resultSet.rows.item(i).tipo2]
+              ))
+            }
+            resolve(retorno);
           }, function (tx, err) {
             console.error(err);
             reject();

@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  * Angular Pipes.
  */
 @Pipe({
-  name: 'medidatempo',
+  name: 'keys',
 })
 export class MedidaDeTempoPipe implements PipeTransform {
   transform(value, args:string[]): any {

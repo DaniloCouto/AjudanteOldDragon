@@ -18,7 +18,10 @@ export class ItemComumDetalhePage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     let item = navParams.get('item');
     if (item != null) {
-      this.item = new Item(item.nome, item.descricao, item.peso, item.valor);
+      if(item instanceof Item){
+        this.item = item;
+      }else
+        this.item = new Item(item.id, item.nome, item.descricao, item.peso, item.valor);
     }
   }
 

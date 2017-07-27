@@ -1,10 +1,12 @@
 export class Item {
+    private id: number;
     private nome: string;
     private descricao: string;
     private peso: number;
     private valor: number;
 
-    constructor($nome: string, $descricao: string, $peso: number,$valor: number) {
+    constructor($id: number, $nome: string, $descricao: string, $peso: number,$valor: number) {
+        this.id = $id;
         this.nome = $nome;
         this.peso = $peso;
         this.valor = $valor;
@@ -42,5 +44,13 @@ export class Item {
 	public set $descricao(value: string) {
 		this.descricao = value;
 	}
+
+	public get $id(): number {
+		return this.id;
+	}
+
+	public set $id(value: number) {
+		this.id = value;
+	}    
     
 }

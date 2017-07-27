@@ -27,8 +27,8 @@
                 <h2>{{item.nome}}</h2>
                 <p>{{item.peso}}kg , {{item.valor | moneyconventer}} </p>
                 <p>Iniciativa : {{item.iniciativa}} , BA : {{item.baAdicional}} </p>
-                <div item-right>{{item.danoPuro}} + {{item.qntdRolagem}} x
-                    <ion-icon name="{{item.danoRolagem | diceicon}}"></ion-icon>
+                <div item-right>{{item.dano.danoPuro}} + {{item.dano.qntdRolagem}} x
+                    <ion-icon name="{{item.dano.danoRolagem | diceicon}}"></ion-icon>
                 </div>
             </button>
             <ion-item-options>

@@ -4,6 +4,7 @@ import { ArmorsService } from '../../providers/armors-service/armors-service';
 import { MoneyConventer } from '../../providers/money-conventer/money-conventer';
 import { AddArmorPage } from '../add-armor/add-armor';
 import { ArmorDetalhePage } from "../armor-detalhe/armor-detalhe";
+import { Armadura } from "../../classes/armadura/armadura";
 /*
   Generated class for the ArmorsPage page.
 
@@ -15,7 +16,7 @@ import { ArmorDetalhePage } from "../armor-detalhe/armor-detalhe";
   providers: [ArmorsService, MoneyConventer]
 })
 export class ArmorsPage {
-  itens: Array<any>;
+  itens: Array<Armadura>;
 
 
   constructor(private nav: NavController, private platform: Platform, private armorsService: ArmorsService, private conventer: MoneyConventer, private alertCtrl : AlertController) {
@@ -50,7 +51,7 @@ export class ArmorsPage {
         {
           text: 'Sim',
           handler: () => {
-            this.armorsService.delete(item._id).then((result) => {
+            this.armorsService.delete(item.$id).then((result) => {
               this.itens.splice(this.itens.indexOf(item), 1);
             });
           }

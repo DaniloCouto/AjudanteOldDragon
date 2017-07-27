@@ -18,7 +18,10 @@ export class ArmorDetalhePage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     let item = navParams.get('item');
     if (item != null) {
-      this.armor = new Armadura(item.nome, item.descricao, item.peso, item.valor, item.bonusCa, item.movimentacao, item.tipo, item.limiteAjusteDes);
+      if(item instanceof Armadura){
+        this.armor = item
+      }else
+        this.armor = new Armadura(item.id, item.nome, item.descricao, item.peso, item.valor, item.bonusCa, item.movimentacao, item.tipo, item.limiteAjusteDes);
     }
   }
 

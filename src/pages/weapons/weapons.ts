@@ -5,13 +5,14 @@ import { WeaponsService } from '../../providers/weapons-service/weapons-service'
 import { AddWeaponPage } from '../add-weapon/add-weapon';
 import { DiceClass } from '../../providers/dice-class/dice-class';
 import { MoneyConventer } from '../../providers/money-conventer/money-conventer';
+import { Weapon } from "../../classes/weapon/weapon";
 
 @Component({
   templateUrl: 'weapons.html',
   providers: [WeaponsService, DiceClass, MoneyConventer]
 })
 export class WeaponsPage {
-  itens: any;
+  itens: Array<Weapon>;
 
   constructor(private nav: NavController, private platform: Platform, private weapService: WeaponsService, private diceService: DiceClass, private conventer: MoneyConventer, private alertCtrl: AlertController) {
   }
@@ -43,7 +44,7 @@ export class WeaponsPage {
         {
           text: 'Sim',
           handler: () => {
-            this.weapService.delete(item._Id).then((result) => {
+            this.weapService.delete(item.$id).then((result) => {
               this.itens.splice(this.itens.indexOf(item), 1);
             });
           }

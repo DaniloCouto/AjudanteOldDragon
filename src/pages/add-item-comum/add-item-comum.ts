@@ -21,9 +21,12 @@ export class AddItemComumPage {
     let item = navParams.get('item');
     if (item != null) {
       this.edit = true;
-      this.item = new Item(item.nome, item.descricao, item.peso, item.valor);
+      if(item instanceof Item){
+        this.item = item;
+      }else
+        this.item = new Item(item.id, item.nome, item.descricao, item.peso, item.valor);
     } else {
-      this.item = new Item('','' , 0 , 0);
+      this.item = new Item(null,'','' , 0 , 0);
     }
   }
 
@@ -34,7 +37,7 @@ export class AddItemComumPage {
   addItem() {
     let item = this.navParams.get('item');
     if (this.edit) {
-      this.itemComumProvider.update(this.item, item._id).then(() => {
+      this.itemComumProvider.update(this.item).then(() => {
         this.navCtrl.pop();
       });
     }else {

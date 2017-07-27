@@ -7,8 +7,8 @@ export class Armadura extends Item {
     private tipo: TipoArmadura;
     private limiteAjusteDex: number;
 
-    constructor(nome: string, descricao: string, peso: number, preco: number, $bonusCa: number, $movimentacao: number, $tipo: TipoArmadura, $limiteDes: number) {
-        super(nome,descricao, peso, preco);
+    constructor(id: number, nome: string, descricao: string, peso: number, preco: number, $bonusCa: number, $movimentacao: number, $tipo: TipoArmadura, $limiteDes: number) {
+        super(id,nome,descricao, peso, preco);
         this.bonusCa = $bonusCa;
         this.movimentacao = $movimentacao;
         this.tipo = $tipo;

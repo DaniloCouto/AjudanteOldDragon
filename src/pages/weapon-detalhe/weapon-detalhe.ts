@@ -23,7 +23,10 @@ export class WeaponDetalhePage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     let item = navParams.get('item');
     if (item != null) {
-      this.weapon = new Weapon(item.nome, item.descricao, item.peso, item.valor, item.iniciativa, item.baAdicional, new Dano(item.danoPuro, item.danoRolagem, item.qntdRolagem), [item.alcancePequeno,item.alcanceMedio,item.alcanceGrande], item.tamanho, [item.tipo1,item.tipo2]);
+      if(item instanceof Weapon){
+        this.weapon = item;
+      }else
+        this.weapon = new Weapon(item.id, item.nome, item.descricao, item.peso, item.valor, item.iniciativa, item.baAdicional, new Dano(item.danoPuro, item.danoRolagem, item.qntdRolagem), [item.alcancePequeno,item.alcanceMedio,item.alcanceGrande], item.tamanho, [item.tipo1,item.tipo2]);
     }
   }
 

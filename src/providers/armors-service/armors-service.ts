@@ -72,9 +72,9 @@ export class ArmorsService {
       });
     });
   }
-  update(armor: Armadura, id: number): Promise<any> {
+  update(armor: Armadura): Promise<any> {
     let arrayParams = this.armorToArray(armor);
-    arrayParams.push(id);
+    arrayParams.push(armor.$id);
     return new Promise((resolve, reject) => {
       let query = 'UPDATE armors SET nome = ?, descricao = ? , peso = ? , valor = ? , bonusCa = ? , movimentacao = ? , tipo = ? , limiteAjusteDes = ? WHERE _id = ?;';
       this.openDatabase().then((db) => {
@@ -112,13 +112,17 @@ export class ArmorsService {
       })
     });
   }
-  getAll(): Promise<any> {
+  getAll(): Promise<Array<Armadura>> {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
       this.openDatabase().then((db) => {
         db.transaction(function (tx) {
           tx.executeSql('SELECT * FROM  armors;', [], function (tx, resultSet) {
-            resolve(output(resultSet.rows));
+            let retorno = [];
+            for(var i = 0; resultSet.rows.length; i++){
+              retorno.push(new Armadura(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor, resultSet.rows.item(i).bonusCa, resultSet.rows.item(i).movimentacao,resultSet.rows.item(i).tipo,resultSet.rows.item(i).limiteAjusteDes))
+            }
+            resolve(retorno);
           }, function (tx, err) {
             console.error(err);
             reject();
@@ -151,16 +155,16 @@ export class ArmorsService {
     })
   }
 
-  private armorToArray(weapon: Armadura): Array<any> {
+  private armorToArray(armor: Armadura): Array<any> {
     let array = [];
-    array.push(weapon.$nome);
-    array.push(weapon.$descricao);
-    array.push(weapon.$peso);
-    array.push(weapon.$valor);
-    array.push(weapon.$bonusCa);
-    array.push(weapon.$movimentacao);
-    array.push(weapon.$tipo);
-    array.push(weapon.$limiteAjusteDex);
+    array.push(armor.$nome);
+    array.push(armor.$descricao);
+    array.push(armor.$peso);
+    array.push(armor.$valor);
+    array.push(armor.$bonusCa);
+    array.push(armor.$movimentacao);
+    array.push(armor.$tipo);
+    array.push(armor.$limiteAjusteDex);
     return array;
   }
   private sqliteOutputToArray(sqliteOutPut): Array<any> {
