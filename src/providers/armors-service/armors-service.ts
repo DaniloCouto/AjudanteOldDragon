@@ -25,21 +25,25 @@ export class ArmorsService {
             'limiteAjusteDes	INTEGER'+
           ');';
           tx.executeSql(query, null, function (tx, res) {
-            tx.executeSql('SELECT count(*) AS mycount FROM  armors;', [], function (tx, resultSet) {
-              if (resultSet.rows.item(0).mycount === 0) {
-                let transaction = tx;
-                BaseArmaduras.BASE_ARMADURA.forEach(function (weapon) {
-                  let params = service.armorToArray(weapon);
-                  let query = 'INSERT INTO armors(nome,descricao,peso,valor,bonusCa,movimentacao,tipo,limiteAjusteDes) VALUES ( ?,?,?,?,?,?,?,?);';
-                  transaction.executeSql(query, params, function (tx, resultSet) {
+            tx.executeSql("PRAGMA table_info(armors);", null, function (tx, res) {
+              console.log('Pragma result:',res);
+              let verifyFlag = false;
+              for(let i = 0; i < res.rows.length; i++){
+                if(res.rows.item(i).name == 'descricao'){
+                  service.populateArmorDb(tx);
+                  break;
+                }else if(i+1 === res.rows.length){
+                  tx.executeSql("ALTER TABLE armors ADD COLUMN descricao TEXT;", null, function (tx, res) {
+                    console.log('Sucesso no Altertable',res);
+                    service.populateArmorDb(tx);
                   }, function (tx, err) {
                     console.error(err);
                   });
-                });
+                }
               }
-            }, function (tx, err) {
-               console.error(err);
-            });
+            }, function (tx, err) {});
+            // 
+            
           }, function (tx, err) {
             console.log(err);
 
@@ -50,6 +54,25 @@ export class ArmorsService {
       }, function (err) {
         console.error(err);
       })
+    });
+  }
+
+  private populateArmorDb(tx){
+    let service = this;
+    tx.executeSql('SELECT count(*) AS mycount FROM  armors;', [], function (tx, resultSet) {
+      if (resultSet.rows.item(0).mycount === 0) {
+        let transaction = tx;
+        BaseArmaduras.BASE_ARMADURA.forEach(function (weapon) {
+          let params = service.armorToArray(weapon);
+          let query = 'INSERT INTO armors(nome,descricao,peso,valor,bonusCa,movimentacao,tipo,limiteAjusteDes) VALUES ( ?,?,?,?,?,?,?,?);';
+          transaction.executeSql(query, params, function (tx, resultSet) {
+          }, function (tx, err) {
+            console.error(err);
+          });
+        });
+      }
+    }, function (tx, err) {
+      console.error(err);
     });
   }
 
@@ -119,7 +142,7 @@ export class ArmorsService {
         db.transaction(function (tx) {
           tx.executeSql('SELECT * FROM  armors;', [], function (tx, resultSet) {
             let retorno = [];
-            for(var i = 0; resultSet.rows.length; i++){
+            for(var i = 0; i < resultSet.rows.length; i++){
               retorno.push(new Armadura(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor, resultSet.rows.item(i).bonusCa, resultSet.rows.item(i).movimentacao,resultSet.rows.item(i).tipo,resultSet.rows.item(i).limiteAjusteDes))
             }
             resolve(retorno);

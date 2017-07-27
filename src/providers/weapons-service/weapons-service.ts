@@ -37,21 +37,24 @@ export class WeaponsService {
             '	tamanho	INTEGER' +
             ');'
           tx.executeSql(query, null, function (tx, res) {
-            tx.executeSql('SELECT count(*) AS mycount FROM  weapons;', [], function (tx, resultSet) {
-              if (resultSet.rows.item(0).mycount === 0) {
-                let transaction = tx;
-                BaseWeapons.BASE_WEAPONS.forEach(function (weapon) {
-                  let params = service.weaponToArray(weapon);
-                  let query = 'INSERT INTO weapons(nome,descricao, peso,valor,iniciativa,baAdicional,danoPuro,danoRolagem,qntdRolagem,alcancePequeno,alcanceMedio,alcanceGrande,tipo1,tipo2,tamanho) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?);'
-                  transaction.executeSql(query, params, function (tx, resultSet) {
+            tx.executeSql("PRAGMA table_info(weapons);", null, function (tx, res) {
+              console.log('Pragma result:',res);
+              let verifyFlag = false;
+              for(let i = 0; i < res.rows.length; i++){
+                if(res.rows.item(i).name == 'descricao'){
+                  service.populateWeaponDb(tx);
+                  break;
+                }else if(i+1 === res.rows.length){
+                  tx.executeSql("ALTER TABLE weapons ADD COLUMN descricao TEXT;", null, function (tx, res) {
+                    console.log('Sucesso no Altertable',res);
+                    service.populateWeaponDb(tx);
                   }, function (tx, err) {
                     console.error(err);
                   });
-                });
+                }
               }
-            }, function (tx, err) {
-               console.error(err);
-            });
+            }, function (tx, err) {});
+            
           }, function (tx, err) {
             console.log(err);
 
@@ -62,6 +65,25 @@ export class WeaponsService {
       }, function (err) {
         console.error(err);
       })
+    });
+  }
+
+  private populateWeaponDb(tx){
+    let service = this;
+    tx.executeSql('SELECT count(*) AS mycount FROM  weapons;', [], function (tx, resultSet) {
+      if (resultSet.rows.item(0).mycount === 0) {
+        let transaction = tx;
+        BaseWeapons.BASE_WEAPONS.forEach(function (weapon) {
+          let params = service.weaponToArray(weapon);
+          let query = 'INSERT INTO weapons(nome,descricao, peso,valor,iniciativa,baAdicional,danoPuro,danoRolagem,qntdRolagem,alcancePequeno,alcanceMedio,alcanceGrande,tipo1,tipo2,tamanho) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?);'
+          transaction.executeSql(query, params, function (tx, resultSet) {
+          }, function (tx, err) {
+            console.error(err);
+          });
+        });
+      }
+    }, function (tx, err) {
+       console.error(err);
     });
   }
 
@@ -129,7 +151,7 @@ export class WeaponsService {
         db.transaction(function (tx: SQLiteTransaction) {
           tx.executeSql('SELECT * FROM  weapons;', [], function (tx, resultSet) {
             let retorno = [];
-            for(var i = 0; resultSet.rows.length; i++){
+            for(var i = 0; i < resultSet.rows.length; i++){
               retorno.push(new Weapon(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor,
                 resultSet.rows.item(i).iniciativa, resultSet.rows.item(i).baAdicional,
                 new Dano(resultSet.rows.item(i).danoPuro,resultSet.rows.item(i).danoRolagem,resultSet.rows.item(i).qntdRolagem),

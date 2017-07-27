@@ -124,7 +124,7 @@ export class ItemComumProvider {
         db.transaction(function (tx: SQLiteTransaction) {
           tx.executeSql('SELECT * FROM  item;', [], function (tx, resultSet) {
             let retorno = [];
-            for(var i = 0; resultSet.rows.length; i++){
+            for(var i = 0; i < resultSet.rows.length; i++){
               retorno.push(new Item(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor))
             }
             resolve(retorno);
