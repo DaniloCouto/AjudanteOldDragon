@@ -38,7 +38,6 @@ export class WeaponsService {
             ');'
           tx.executeSql(query, null, function (tx, res) {
             tx.executeSql("PRAGMA table_info(weapons);", null, function (tx, res) {
-              console.log('Pragma result:',res);
               let verifyFlag = false;
               for(let i = 0; i < res.rows.length; i++){
                 if(res.rows.item(i).name == 'descricao'){
@@ -46,7 +45,6 @@ export class WeaponsService {
                   break;
                 }else if(i+1 === res.rows.length){
                   tx.executeSql("ALTER TABLE weapons ADD COLUMN descricao TEXT;", null, function (tx, res) {
-                    console.log('Sucesso no Altertable',res);
                     service.populateWeaponDb(tx);
                   }, function (tx, err) {
                     console.error(err);
@@ -56,7 +54,7 @@ export class WeaponsService {
             }, function (tx, err) {});
             
           }, function (tx, err) {
-            console.log(err);
+            console.error(err);
 
           });
         }).then(function(){},function ( err) {
@@ -75,7 +73,7 @@ export class WeaponsService {
         let transaction = tx;
         BaseWeapons.BASE_WEAPONS.forEach(function (weapon) {
           let params = service.weaponToArray(weapon);
-          let query = 'INSERT INTO weapons(nome,descricao, peso,valor,iniciativa,baAdicional,danoPuro,danoRolagem,qntdRolagem,alcancePequeno,alcanceMedio,alcanceGrande,tipo1,tipo2,tamanho) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?);'
+          let query = 'INSERT INTO weapons(nome,descricao, peso,valor,iniciativa,baAdicional,danoPuro,danoRolagem,qntdRolagem,alcancePequeno,alcanceMedio,alcanceGrande,tipo1,tipo2,tamanho) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
           transaction.executeSql(query, params, function (tx, resultSet) {
           }, function (tx, err) {
             console.error(err);
@@ -90,13 +88,13 @@ export class WeaponsService {
   add(weapon: Weapon): Promise<any> {
     let params = this.weaponToArray(weapon);
     return new Promise((resolve, reject) => {
-      let query = 'INSERT INTO weapons(nome,descricao,peso,valor,iniciativa,baAdicional,danoPuro,danoRolagem,qntdRolagem,alcancePequeno,alcanceMedio,alcanceGrande,tipo1,tipo2,tamanho) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
+      let query = 'INSERT INTO weapons(nome,descricao,peso,valor,iniciativa,baAdicional,danoPuro,danoRolagem,qntdRolagem,alcancePequeno,alcanceMedio,alcanceGrande,tipo1,tipo2,tamanho) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?);'
       this.sqlCapsule.openDatabase().then((db) => {
         db.transaction(function (tx) {
           tx.executeSql(query, params, function (tx, res) {
             resolve(res);
           }, function (tx, err) {
-            console.log(err);
+            console.error(err);
             reject(err);
           });
         });
@@ -113,7 +111,7 @@ export class WeaponsService {
           tx.executeSql(query, arrayParams, function (tx, res) {
             resolve(res);
           }, function (tx, err) {
-            console.log(err);
+            console.error(err);
             reject(err);
           });
         }).then(function (sucesso) {
@@ -144,7 +142,6 @@ export class WeaponsService {
     });
   }
   getAll(): Promise<Array<Weapon>> {
-    console.log('Breakpoint');
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
       this.sqlCapsule.openDatabase().then((db) => {

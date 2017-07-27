@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { AlertController, NavController, NavParams } from 'ionic-angular';
 import { Item } from "../../classes/item";
 import { ItemComumProvider } from "../../providers/item-comum/item-comum";
 
@@ -17,7 +17,7 @@ import { ItemComumProvider } from "../../providers/item-comum/item-comum";
 export class AddItemComumPage {
   edit: boolean;
   item : Item;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private itemComumProvider : ItemComumProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private itemComumProvider : ItemComumProvider, private alertCtrl: AlertController) {
     let item = navParams.get('item');
     if (item != null) {
       this.edit = true;
@@ -31,17 +31,28 @@ export class AddItemComumPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AddItemComumPage');
   }
 
   addItem() {
     let item = this.navParams.get('item');
     if (this.edit) {
       this.itemComumProvider.update(this.item).then(() => {
+        let alert = this.alertCtrl.create({
+          title: 'Loja',
+          message: 'Você alterou o item com sucesso.',
+          buttons: ['OK']
+        });
+        alert.present(alert);
         this.navCtrl.pop();
       });
     }else {
       this.itemComumProvider.add(this.item).then(() => {
+        let alert = this.alertCtrl.create({
+          title: 'Loja',
+          message: 'Você cadastrou o item com sucesso.',
+          buttons: ['OK']
+        });
+        alert.present(alert);
         this.navCtrl.pop();
       }) 
     }

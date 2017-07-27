@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
+import { Injectable } from '@angular/core';
 import { Armadura } from '../../classes/armadura/armadura';
 import { BaseArmaduras } from './base-armors';
 import { SQLite, SQLiteObject, SQLiteTransaction } from '@ionic-native/sqlite';
@@ -26,7 +26,6 @@ export class ArmorsService {
           ');';
           tx.executeSql(query, null, function (tx, res) {
             tx.executeSql("PRAGMA table_info(armors);", null, function (tx, res) {
-              console.log('Pragma result:',res);
               let verifyFlag = false;
               for(let i = 0; i < res.rows.length; i++){
                 if(res.rows.item(i).name == 'descricao'){
@@ -34,7 +33,6 @@ export class ArmorsService {
                   break;
                 }else if(i+1 === res.rows.length){
                   tx.executeSql("ALTER TABLE armors ADD COLUMN descricao TEXT;", null, function (tx, res) {
-                    console.log('Sucesso no Altertable',res);
                     service.populateArmorDb(tx);
                   }, function (tx, err) {
                     console.error(err);
@@ -45,7 +43,7 @@ export class ArmorsService {
             // 
             
           }, function (tx, err) {
-            console.log(err);
+            console.error(err);
 
           });
         }).then(function(){}, function (err) {
@@ -85,11 +83,11 @@ export class ArmorsService {
           tx.executeSql(query, params, function (tx, res) {
             resolve(res);
           }, function (tx, err) {
-            console.log(err);
+            console.error(err);
             reject(err);
           });
         }, function (tx, err) {
-          console.log(err);
+          console.error(err);
           reject(err);
         });
       });
@@ -103,17 +101,15 @@ export class ArmorsService {
       this.openDatabase().then((db) => {
         db.transaction(function (tx) {
           tx.executeSql(query, arrayParams, function (tx, res) {
-             console.log(tx,res);
             resolve(res);
           }, function (tx, err) {
             console.error(err);
             reject(err);
           });
         }, function (tx, err) {
-          console.log('Transaction Callback Error',err);
+          console.error('Transaction Callback Error',err);
           reject(err);
         },function(tx , succ){
-          console.log('Transaction Success Callback',tx,succ);
           reject(tx);
         });
       })
@@ -137,25 +133,29 @@ export class ArmorsService {
   }
   getAll(): Promise<Array<Armadura>> {
     let output = this.sqliteOutputToArray;
+    
     return new Promise((resolve, reject) => {
-      this.openDatabase().then((db) => {
-        db.transaction(function (tx) {
-          tx.executeSql('SELECT * FROM  armors;', [], function (tx, resultSet) {
-            let retorno = [];
-            for(var i = 0; i < resultSet.rows.length; i++){
-              retorno.push(new Armadura(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor, resultSet.rows.item(i).bonusCa, resultSet.rows.item(i).movimentacao,resultSet.rows.item(i).tipo,resultSet.rows.item(i).limiteAjusteDes))
-            }
-            resolve(retorno);
-          }, function (tx, err) {
-            console.error(err);
-            reject();
+        this.openDatabase().then((db) => {
+          db.transaction(function (tx) {
+            tx.executeSql('SELECT * FROM  armors;', [], function (tx, resultSet) {
+              let retorno = [];
+              for(var i = 0; i < resultSet.rows.length; i++){
+                retorno.push(new Armadura(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor, resultSet.rows.item(i).bonusCa, resultSet.rows.item(i).movimentacao,resultSet.rows.item(i).tipo,resultSet.rows.item(i).limiteAjusteDes))
+              }
+              resolve(retorno);
+            }, function(tx, err){
+              console.error(err);
+              reject();
+            });
+          }, function(tx, err){
+              console.error(err);
+              reject();
           });
-        }, function (tx, err) {
-           reject();
-        }, function(tx, succ){
+        },function(err){
+          console.error(err);
           reject();
-        });
-      })
+        })
+      
     });
   }
 

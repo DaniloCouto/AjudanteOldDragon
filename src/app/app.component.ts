@@ -1,3 +1,4 @@
+import { Page } from 'ionic-angular/navigation/nav-util';
 import { Component } from '@angular/core';
 import { Platform, MenuController } from 'ionic-angular';
 
@@ -13,7 +14,7 @@ import {TipoMagiasPage} from '../pages/tipo-magias/tipo-magias';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = CalculadoraClassePage;
+  rootPage: Page;
   paginas: Array<any> = [
     {texto: 'Atributos', componente: CalculadoraAtributosPage},
     {texto: 'Classes', componente: CalculadoraClassePage},
@@ -22,6 +23,7 @@ export class MyApp {
   ]
 
   constructor(platform: Platform, private menu: MenuController, statusBar: StatusBar, splashScreen: SplashScreen) {
+    this.rootPage = CalculadoraAtributosPage;
     platform.ready().then(() => {
       setTimeout(function() {
         splashScreen.hide();
@@ -32,7 +34,7 @@ export class MyApp {
 
   abrirPagina(pagina) {
     this.rootPage = pagina.componente;
-    this.menu.close();
+    this.menu.close();  
   }
 
 }

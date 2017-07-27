@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, Platform, AlertController} from 'ionic-angular';
+import { AlertController, LoadingController, NavController, Platform } from 'ionic-angular';
 import { ArmorsService } from '../../providers/armors-service/armors-service';
 import { MoneyConventer } from '../../providers/money-conventer/money-conventer';
 import { AddArmorPage } from '../add-armor/add-armor';
@@ -19,8 +19,12 @@ export class ArmorsPage {
   itens: Array<Armadura>;
 
 
-  constructor(private nav: NavController, private platform: Platform, private armorsService: ArmorsService, private conventer: MoneyConventer, private alertCtrl : AlertController) {
+  constructor(private nav: NavController, private platform: Platform, private armorsService: ArmorsService, private conventer: MoneyConventer, private alertCtrl : AlertController, private loadingCtrl : LoadingController ) {
+    this.itens = [];
+  }
 
+  trackById(index: number, item: Armadura): number { 
+    return item.$id;
   }
 
   addItem() {
@@ -28,12 +32,10 @@ export class ArmorsPage {
   }
 
   editItem(item) {
-    console.log(item);
     this.nav.push(AddArmorPage, { item: item });
   }
 
   selectItem(item) {
-    console.log(item);
     this.nav.push(ArmorDetalhePage, { item: item });
   }
 
@@ -45,7 +47,6 @@ export class ArmorsPage {
         {
           text: 'Não',
           handler: () => {
-            console.log('Disagree clicked');
           }
         },
         {
@@ -62,10 +63,15 @@ export class ArmorsPage {
   }
 
   init() {
-    this.platform.ready().then(() => {
-      this.armorsService.getAll().then((result) => {
-        this.itens = result;
-        console.log(result);
+    let loading = this.loadingCtrl.create({
+        content: 'Carregando Itens',
+      });
+    loading.present().then(()=>{
+      this.platform.ready().then(() => {
+        this.armorsService.getAll().then((result) => {
+          loading.dismiss();
+          this.itens = result;
+        });
       });
     });
   }

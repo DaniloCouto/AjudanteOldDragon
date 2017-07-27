@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-    <ion-navbar>
+    <ion-navbar color="danger">
         <ion-title>{{item.nome}}</ion-title>
     </ion-navbar>
 
@@ -22,20 +22,15 @@
         </ion-row>
         <ion-row>
             <ion-col>
-                {{item.descricao}}
+                Descrição:{{item.descricao}}
             </ion-col>
         </ion-row>
         <ion-row>
             <ion-col>
-                {{item.peso}}kg
+                Peso:{{item.peso}}kg
             </ion-col>
             <ion-col>
-                {{item.valor | moneyconventer}}
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col>
-                {{item.descricao}}
+                Valor:{{item.valor | moneyconventer}}
             </ion-col>
         </ion-row>
     </ion-grid>

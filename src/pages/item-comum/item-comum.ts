@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController, NavParams, Platform } from 'ionic-angular';
+import {
+  AlertController,
+  NavController,
+  NavParams,
+  Platform,
+  LoadingController
+} from "ionic-angular";
 import { ItemComumProvider } from "../../providers/item-comum/item-comum";
 import { Item } from "../../classes/item";
 import { ItemComumDetalhePage } from "../item-comum-detalhe/item-comum-detalhe";
@@ -18,7 +24,12 @@ import { AddItemComumPage } from "../add-item-comum/add-item-comum";
 })
 export class ItemComumPage {
   itens : Array<Item>;
-  constructor(private platform : Platform, public navCtrl: NavController, public navParams: NavParams, private itemComumProvider : ItemComumProvider, private alertCtrl: AlertController ) {
+  constructor(private platform : Platform, public navCtrl: NavController, public navParams: NavParams, private itemComumProvider : ItemComumProvider, private alertCtrl: AlertController, public loadingCtrl : LoadingController ) {
+    this.itens = [];
+  }
+
+  trackById(index: number, item: Item): number { 
+    return item.$id;
   }
 
   addItem() {
@@ -30,7 +41,7 @@ export class ItemComumPage {
   }
 
   editItem(item) {
-    console.log(item);
+
     this.navCtrl.push(AddItemComumPage, { item: item });
   }
 
@@ -42,13 +53,12 @@ export class ItemComumPage {
         {
           text: 'Não',
           handler: () => {
-            console.log('Disagree clicked');
           }
         },
         {
           text: 'Sim',
           handler: () => {
-            this.itemComumProvider.delete(item._id).then((result) => {
+            this.itemComumProvider.delete(item.$id).then((result) => {
               this.itens.splice(this.itens.indexOf(item), 1);
             });
           }
@@ -63,9 +73,15 @@ export class ItemComumPage {
   }
 
   init() {
-    this.platform.ready().then(() => {
-      this.itemComumProvider.getAll().then((result : Array<Item>) => {
-        this.itens = result;
+    let loading = this.loadingCtrl.create({
+        content: 'Carregando Itens',
+      });
+    loading.present().then(()=>{
+      this.platform.ready().then(() => {
+        this.itemComumProvider.getAll().then((result : Array<Item>) => {
+          loading.dismiss();
+          this.itens = result;
+        });
       });
     });
   }

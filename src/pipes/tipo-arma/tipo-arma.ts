@@ -14,7 +14,6 @@ export class TipoArmaPipe implements PipeTransform {
    * Takes a value and makes it lowercase.
    */
   transform(value: any, args: any ) {
-    console.log('tipoarma pipe',value, args)
     switch(Number(value)){
       case 0:
       return 'Nulo';

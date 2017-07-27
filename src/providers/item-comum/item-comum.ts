@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { SqlCapsuleProvider } from "../sql-capsule/sql-capsule";
-import { Platform } from "ionic-angular";
+import { Platform } from 'ionic-angular';
 import {SQLiteTransaction, SQLiteObject } from '@ionic-native/sqlite';
 import { BaseItens } from "./base-item-comum";
 
@@ -49,7 +49,7 @@ export class ItemComumProvider {
                console.error(err);
             });
           }, function (tx, err) {
-            console.log(err);
+            console.error(err);
 
           });
         }).then(function(){},function ( err) {
@@ -70,7 +70,7 @@ export class ItemComumProvider {
           tx.executeSql(query, params, function (tx, res) {
             resolve(res);
           }, function (tx, err) {
-            console.log(err);
+            console.error(err);
             reject(err);
           });
         });
@@ -87,7 +87,7 @@ export class ItemComumProvider {
           tx.executeSql(query, arrayParams, function (tx, res) {
             resolve(res);
           }, function (tx, err) {
-            console.log(err);
+            console.error(err);
             reject(err);
           });
         }).then(function (sucesso) {
@@ -99,6 +99,7 @@ export class ItemComumProvider {
     });
   }
   delete(id: number): Promise<any> {
+    
     return new Promise((resolve, reject) => {
       let query = 'DELETE FROM item WHERE _id = ?;';
       this.sqlCapsule.openDatabase().then((db) => {
@@ -119,6 +120,7 @@ export class ItemComumProvider {
   }
   getAll(): Promise<Array<Item>> {
     let output = this.sqliteOutputToArray;
+
     return new Promise((resolve, reject) => {
       this.sqlCapsule.openDatabase().then((db) => {
         db.transaction(function (tx: SQLiteTransaction) {
@@ -132,8 +134,14 @@ export class ItemComumProvider {
             console.error(err);
             reject();
           });
+        },function(err){
+          console.error(err);
+          reject();
         });
-      })
+      },function(err){
+          console.error(err);
+          reject();
+        })
     });
   }
 

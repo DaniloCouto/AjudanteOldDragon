@@ -23,7 +23,7 @@
             </ion-row>
             <ion-row *ngFor="let select of magia.tipoArray">
                 <ion-col col-auto>
-                    <button ion-button icon-only color="danger" (click)="deleteTipo(select)" clear>
+                    <button ion-button icon-only color="danger" (tap)="deleteTipo(select)" clear>
                         <ion-icon name="close" ></ion-icon>
                     </button>
                 </ion-col>
@@ -44,7 +44,7 @@
             </ion-row>
             <ion-row *ngIf="tipoCadastro">
                 <ion-col col-auto>
-                    <button ion-button icon-only (click)="addTipos(tipoCadastro)" clear>
+                    <button ion-button icon-only (tap)="addTipos(tipoCadastro)" clear>
                         <ion-icon name="add" ></ion-icon>
                     </button>
                 </ion-col>
@@ -164,6 +164,6 @@
         </ion-grid>
     </ion-list>
     <div padding>
-        <button color="danger" ion-button block (click)="salvar()">Cadastrar</button>
+        <button color="danger" ion-button block (tap)="salvar()">Cadastrar</button>
     </div>
 </ion-content>

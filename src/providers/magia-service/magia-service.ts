@@ -48,14 +48,12 @@ export class MagiaService {
             ');';
 
           tx.executeSql(query, null, function (tx, res) {
-            console.log('Query Executed', query);
             var query = 'CREATE TABLE IF NOT EXISTS tipoMagia (' +
               '_id	INTEGER,' +
               'nome	TEXT NOT NULL,' +
               'PRIMARY KEY(_id)' +
               ');';
             tx.executeSql(query, null, function (tx, res) {
-              console.log('Query Executed', query);
               var query = 'CREATE TABLE IF NOT EXISTS tipoMagia_magia (' +
                 '_id_tipoMagia	INTEGER,' +
                 '_id_magia	INTEGER,' +
@@ -64,9 +62,7 @@ export class MagiaService {
                 'FOREIGN KEY(_id_magia) REFERENCES magia(_id)' +
                 ');';
               tx.executeSql(query, null, function (tx, res) {
-                console.log('Query Executed', query);
                 tx.executeSql('SELECT count(*) AS mycount FROM  magia;', [], function (tx, resultSet) {
-                  console.log('Count', resultSet.rows.item(0).mycount);
                   if (resultSet.rows.item(0).mycount === 0) {
                     let idsTipoMagias = [];
                     let transaction = tx;
@@ -98,13 +94,13 @@ export class MagiaService {
                   console.error(err);
                 });
               }, function (tx, err) {
-                console.log(err);
+                console.error(err);
               });
             }, function (tx, err) {
-              console.log(err);
+              console.error(err);
             });
           }, function (tx, err) {
-            console.log(err);
+            console.error(err);
           });
         });
       }, function (err) {
@@ -439,7 +435,6 @@ export class MagiaService {
 
   deleteTipo( id: number): Promise<any> {
     let output = this.sqliteOutputToArray;
-    console.log('id dessa bosta', id);
     return new Promise((resolve, reject) => {
       this.openDatabase().then((db) => {
         db.transaction(function (tx) {
@@ -590,12 +585,10 @@ export class MagiaService {
     return new Promise((resolve, reject) => {
       let params = this.magiaToArray(element);
       let query = 'INSERT INTO magia(nome,descricao,alcanceBase,nivelPorAlcance,alcancePorNivel,duracaoBase,medidaDuracaoBase,nivelPorDuracao,duracaoPorNivel,medidaDuracaoAdicional,tipoDuracaoBase,tipoDuracaoAdicional,favorito) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,0 );';
-      console.log('Adicionando',query,params,element );
       transaction.executeSql(query, params, function (tx, resultSet) {
           for (var i = 0; i < element.$tipoArray.length; i++) {
             let params = [element.$tipoArray[i].$id, resultSet.insertId, element.$tipoArray[i].$nivel];
             let query = 'INSERT INTO tipoMagia_magia(_id_tipoMagia,_id_magia,nivel) VALUES ( ?,?,? );';
-            console.log('Adicionando tipoMagia_magia',query,params);
             transaction.executeSql(query, params, function (tx, resultSet) {
               if(element.$tipoArray.length === i){
 

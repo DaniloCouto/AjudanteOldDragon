@@ -26,7 +26,6 @@ export class ItemComumDetalhePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ItemComumDetalhePage');
   }
 
 }

@@ -13,15 +13,15 @@
         </ion-buttons>
         <ion-title>Loja</ion-title>
         <ion-buttons right>
-            <button ion-button icon-only (click)="addItem()">
+            <button ion-button icon-only (tap)="addItem()">
               <ion-icon name="add"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-list>
-        <ion-item-sliding *ngFor="let item of itens">
+    <ion-list [virtualScroll]="itens" [virtualTrackBy]="trackById" [approxItemHeight]="'85px'">
+        <ion-item-sliding *virtualItem="let item">
             <button ion-item (tap)="selectItem(item)">
                 <h2>{{item.nome}}</h2>
                 <p>{{item.peso}}kg , {{item.valor | moneyconventer}}</p>
@@ -29,11 +29,11 @@
                 <div item-right>{{item.bonusCa}} CA</div>
             </button>
             <ion-item-options>
-                <button ion-button color="primary" (click)="editItem(item)">
+                <button ion-button color="primary" (tap)="editItem(item)">
                   <ion-icon name="open"></ion-icon>
                   Editar
                 </button>
-                <button color="danger" ion-button (click)="deleteItem(item)">
+                <button color="danger" ion-button (tap)="deleteItem(item)">
                   <ion-icon name="close"></ion-icon>
                   Excluir
                 </button>

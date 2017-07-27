@@ -13,7 +13,7 @@
         </ion-buttons>
         <ion-title>Magias {{title}}</ion-title>
         <ion-buttons right>
-            <button ion-button icon-only (click)="addMagia()">
+            <button ion-button icon-only (tap)="addMagia()">
                 <ion-icon name="add"></ion-icon>
             </button>
         </ion-buttons>
@@ -31,8 +31,8 @@
 </ion-header>
 
 <ion-content>
-    <ion-list>
-        <ion-item-sliding *ngFor="let item of magias | magiafilter : nomeMagiaFilter : nivelTipoFilter">
+    <ion-list [virtualScroll]="magias | magiafilter : nomeMagiaFilter : nivelTipoFilter" [virtualTrackBy]="trackById" [approxItemHeight]="'122px'">
+        <ion-item-sliding *virtualItem="let item">
             <button ion-item (tap)="openDetalhe(item)">
                 <span *ngFor="let tipos of item.tipoArray">{{tipos.nomeTipo}}: {{tipos.nivel}} </span>
                 <h2><b>Nome</b>: {{item.nome}}</h2>
@@ -44,11 +44,11 @@
                 <p><b>Descrição</b>: {{item.descricao}}</p>
             </button>
             <ion-item-options>
-                <button ion-button color="primary" (click)="editMagia(item)">
+                <button ion-button color="primary" (tap)="editMagia(item)">
                   <ion-icon name="open"></ion-icon>
                   Editar
                 </button>
-                <button color="danger" ion-button (click)="deletarMagia(item)">
+                <button color="danger" ion-button (tap)="deletarMagia(item)">
                   <ion-icon name="close"></ion-icon>
                   Excluir
                 </button>

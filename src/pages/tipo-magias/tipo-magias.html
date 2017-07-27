@@ -14,7 +14,7 @@
         </ion-buttons>
         <ion-title>Escolas</ion-title>
         <ion-buttons right>
-            <button ion-button icon-only (click)="addTipo()">
+            <button ion-button icon-only (tap)="addTipo()">
                 <ion-icon name="add"></ion-icon>
             </button>
         </ion-buttons>
@@ -26,24 +26,24 @@
 <ion-content>
     <ion-list>
         <ion-item-sliding *ngFor="let item of tipoMagias">
-            <button ion-item (click)="selectTipo(item)">
+            <button ion-item (tap)="selectTipo(item)">
                 <h2>{{item.nomeTipo}}</h2>
             </button>
             <ion-item-options>
-                <button ion-button color="primary" (click)="editTipo(item)">
+                <button ion-button color="primary" (tap)="editTipo(item)">
                     <ion-icon name="open"></ion-icon>
                     Editar
                 </button>
-                <button ion-button color="danger" (click)="deleteTipo(item)">
+                <button ion-button color="danger" (tap)="deleteTipo(item)">
                     <ion-icon name="close"></ion-icon>
                     Excluir
                 </button>
             </ion-item-options>
         </ion-item-sliding>
-        <button ion-item (click)="selectTodos()">
+        <button ion-item (tap)="selectTodos()">
             <h2>Todas as magias</h2>
         </button>
-        <button ion-item (click)="selectFavoritos()">
+        <button ion-item (tap)="selectFavoritos()">
             <h2>Magias favoritas</h2>
         </button>
     </ion-list>

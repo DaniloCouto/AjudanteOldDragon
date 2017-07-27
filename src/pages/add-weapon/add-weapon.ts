@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { AlertController, NavController, NavParams } from 'ionic-angular';
 import { WeaponsService } from '../../providers/weapons-service/weapons-service';
 import { Weapon } from '../../classes/weapon/weapon';
 import { TipoArma } from '../../classes/weapon/tipoArma';
@@ -18,7 +18,7 @@ export class AddWeaponPage {
   tamanhoEnum: TamanhoArma;
   diceEnum: diceENUM;
 
-  constructor(private nav: NavController, private _db: WeaponsService, private params: NavParams) {
+  constructor(private nav: NavController, private _db: WeaponsService, private params: NavParams, private alertCtrl: AlertController) {
     let item = params.get('item');
     if (item != null) {
       this.edit = true;
@@ -36,10 +36,22 @@ export class AddWeaponPage {
     let item = this.params.get('item');
     if (this.edit) {
       this._db.update(this.weapon).then(() => {
+        let alert = this.alertCtrl.create({
+          title: 'Loja',
+          message: 'Você alterou a arma com sucesso.',
+          buttons: ['OK']
+        });
+        alert.present(alert);
         this.nav.pop();
       });
     }else {
       this._db.add(this.weapon).then(() => {
+        let alert = this.alertCtrl.create({
+          title: 'Loja',
+          message: 'Você cadastrou a arma com sucesso.',
+          buttons: ['OK']
+        });
+        alert.present(alert);
         this.nav.pop();
       }) 
     }

@@ -7,7 +7,6 @@ import { MagiaService } from '../../providers/magia-service/magia-service';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
 @Component({
   selector: 'page-add-tipo-magia',
   templateUrl: 'add-tipo-magia.html',

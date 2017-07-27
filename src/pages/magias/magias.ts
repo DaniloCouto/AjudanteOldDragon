@@ -1,7 +1,7 @@
 import { TipoMagia, TipoMagiaComNivel } from '../../classes/magia/tipoMagia';
 import { diceENUM } from '../../classes/diceENUM';
 import { Component } from '@angular/core';
-import {AlertController,  NavController,   NavParams} from 'ionic-angular';
+import {AlertController,  NavController,   NavParams, LoadingController} from 'ionic-angular';
 import { MagiaService } from '../../providers/magia-service/magia-service';
 import { MagiaDetalhePage } from '../magia-detalhe/magia-detalhe';
 import { Magia } from '../../classes/magia/magia';
@@ -32,7 +32,14 @@ export class MagiasPage {
   nivelTipoFilter: number;
   nomeMagiaFilter: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private magiaService: MagiaService, public alertCtrl: AlertController) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams, private magiaService: MagiaService, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+    this.magias = [];
+    this.init()
+  }
+
+  trackById(index: number, item: Magia): number { 
+    return item.$id;
+  }
 
   openDetalhe(item){
     this.navCtrl.push(MagiaDetalhePage,{
@@ -58,7 +65,6 @@ export class MagiasPage {
         {
           text: 'Não',
           handler: () => {
-            console.log('Disagree clicked');
           }
         },
         {
@@ -79,25 +85,32 @@ export class MagiasPage {
     var favorito = this.navParams.get("favorito");
     this.idTipoMagiaFilter = idTipos.length ? idTipos[0] : null;
     this.title = this.navParams.get("nome");
-    if(favorito){
-      this.magiaService.getTodasMagiaFavorita().then((result : Array<Magia>) => {
-        this.magias = result;
+    let loading = this.loadingCtrl.create({
+        content: 'Carregando Itens',
       });
-    }else if (idTipos.length > 0) {
-      this.magiaService.getMagiaPorTipo(idTipos).then((result : Array<Magia>) => {
-        this.magias = result;
-      });
-    } else {
-      this.magiaService.getTodasMagia().then((result : Array<Magia>) => {
-        this.magias = result;
-      });
-    }
+    loading.present().then(()=>{
+      if(favorito){
+        this.magiaService.getTodasMagiaFavorita().then((result : Array<Magia>) => {
+          this.magias = result;
+          loading.dismiss();
+        });
+      }else if (idTipos.length > 0) {
+        this.magiaService.getMagiaPorTipo(idTipos).then((result : Array<Magia>) => {
+          this.magias = result;
+          loading.dismiss();
+        });
+      } else {
+        this.magiaService.getTodasMagia().then((result : Array<Magia>) => {
+          this.magias = result;
+          loading.dismiss();
+        });
+      }
+    })
   }
 
   ionViewWillEnter() {
     this.init();
     this.magiaService.getAllTipos().then((result: Array<TipoMagia>) => {
-      console.log(result);
       this.tiposLista = result;
     });
   }

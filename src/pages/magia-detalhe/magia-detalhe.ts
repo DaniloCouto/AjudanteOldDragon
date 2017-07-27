@@ -3,6 +3,7 @@ import {medidaDeTempoENUM} from '../../classes/magia/medidaDeTempoENUM';
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Magia } from '../../classes/magia/magia';
+import { diceENUM } from "../../classes/diceENUM";
 
 
 /*
@@ -20,6 +21,7 @@ export class MagiaDetalhePage {
   item: Magia;
   isFavorite : Boolean;
   enum = medidaDeTempoENUM;
+  dice = diceENUM;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private magiaService: MagiaService) {
     this.item  = this.navParams.get('item');

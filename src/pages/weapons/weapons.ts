@@ -1,6 +1,6 @@
 import { WeaponDetalhePage } from '../weapon-detalhe/weapon-detalhe';
 import { Component } from '@angular/core';
-import { NavController, Platform, AlertController} from 'ionic-angular';
+import {AlertController,  LoadingController,  NavController,  Platform} from 'ionic-angular';
 import { WeaponsService } from '../../providers/weapons-service/weapons-service';
 import { AddWeaponPage } from '../add-weapon/add-weapon';
 import { DiceClass } from '../../providers/dice-class/dice-class';
@@ -14,7 +14,12 @@ import { Weapon } from "../../classes/weapon/weapon";
 export class WeaponsPage {
   itens: Array<Weapon>;
 
-  constructor(private nav: NavController, private platform: Platform, private weapService: WeaponsService, private diceService: DiceClass, private conventer: MoneyConventer, private alertCtrl: AlertController) {
+  constructor(private nav: NavController, private platform: Platform, private weapService: WeaponsService, private diceService: DiceClass, private conventer: MoneyConventer, private alertCtrl: AlertController, public loadingCtrl : LoadingController) {
+    this.itens = [];
+  }
+
+  trackById(index: number, item: Weapon): number { 
+    return item.$id;
   }
 
   addItem() {
@@ -26,7 +31,6 @@ export class WeaponsPage {
   }
 
   editItem(item) {
-    console.log(item);
     this.nav.push(AddWeaponPage, { item: item });
   }
 
@@ -38,7 +42,6 @@ export class WeaponsPage {
         {
           text: 'Não',
           handler: () => {
-            console.log('Disagree clicked');
           }
         },
         {
@@ -56,9 +59,16 @@ export class WeaponsPage {
 
   init() {
     this.platform.ready().then(() => {
-      this.weapService.getAll().then((result) => {
-        this.itens = result;
+      let loading = this.loadingCtrl.create({
+        content: 'Carregando Armas',
       });
+      loading.present().then(()=>{
+        this.weapService.getAll().then((result) => {
+          this.itens = result;
+          loading.dismiss();
+        });
+      })
+        
     });
   }
 

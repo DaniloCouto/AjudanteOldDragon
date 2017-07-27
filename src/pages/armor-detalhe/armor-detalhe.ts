@@ -26,7 +26,6 @@ export class ArmorDetalhePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ArmorDetalhePage');
   }
 
 }

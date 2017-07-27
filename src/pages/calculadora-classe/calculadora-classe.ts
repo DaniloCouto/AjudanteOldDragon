@@ -36,7 +36,6 @@ export class CalculadoraClassePage {
   }
 
   classChanged(){
-    console.log('Changed',this.selectedClass)
     this.selectedClass = Number(this.selectedClass);
     switch (this.selectedClass) {
       case 0:
@@ -52,7 +51,6 @@ export class CalculadoraClassePage {
         this.currentClass = new Ladino(Number(this.nivel));
         break;
     }
-    console.log('Changed',this.currentClass)
   }
 
   nivelChanged(){

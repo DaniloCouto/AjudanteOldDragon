@@ -28,7 +28,6 @@ export class AddMagiaPage {
   }
 
   ionViewWillEnter () {
-    console.log('ionViewWillEnter  AddMagiaPage');
     let pagina = this;
     this.idMagia = this.navParams.get('idMagia');
     if(typeof this.idMagia === "number"){
@@ -47,7 +46,6 @@ export class AddMagiaPage {
       this.magia = new Magia(null, [],new AlcanceMagia(0,0,0),new DuracaoMagia(0,0,0,0,0,0,0),'','')
     }
     this.magiaService.getAllTipos().then((result: Array<TipoMagia>) => {
-      console.log(result);
       this.tiposLista = result;
       if(result.length != 0){
         this.tipoCadastro = new TipoMagiaComNivel(result[0].$id, result[0].$nomeTipo, 1);
@@ -76,7 +74,6 @@ export class AddMagiaPage {
   }
 
   salvar(){
-    console.log(this)
     if(this.magia.$tipoArray.length <= 0){
       let alert = this.alertCtrl.create({
         title: 'Cadastro de Magia',

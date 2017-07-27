@@ -27,7 +27,6 @@ export class Ladino extends BaseClass{
             return null;
         } else {
             let bonus = ConstantesClass.LADINO_TALENTOS;
-            console.log(bonus)
             for (var index = 0; index < bonus.length; index++) {
                 if (this.$nivel === bonus[index].nivel) {
                     return bonus[index];

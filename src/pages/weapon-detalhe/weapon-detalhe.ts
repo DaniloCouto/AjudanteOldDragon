@@ -31,7 +31,6 @@ export class WeaponDetalhePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad WeaponDetalhePage');
   }
 
 }

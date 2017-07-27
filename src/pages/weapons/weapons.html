@@ -13,7 +13,7 @@
         </ion-buttons>
         <ion-title>Loja</ion-title>
         <ion-buttons right>
-            <button ion-button icon-only (click)="addItem()">
+            <button ion-button icon-only (tap)="addItem()">
                 <ion-icon name="add"></ion-icon>
             </button>
         </ion-buttons>
@@ -21,22 +21,22 @@
 </ion-header>
 
 <ion-content>
-    <ion-list>
-        <ion-item-sliding *ngFor="let item of itens">
+    <ion-list [virtualScroll]="itens" [virtualTrackBy]="trackById" [approxItemHeight]="'86px'">
+        <ion-item-sliding *virtualItem="let item">
             <button ion-item (tap)="openDetail(item)">
                 <h2>{{item.nome}}</h2>
                 <p>{{item.peso}}kg , {{item.valor | moneyconventer}} </p>
-                <p>Iniciativa : {{item.iniciativa}} , BA : {{item.baAdicional}} </p>
+                <p>Iniciativa : {{item.iniciativa}} , BA : {{item.BaAdicional}} </p>
                 <div item-right>{{item.dano.danoPuro}} + {{item.dano.qntdRolagem}} x
                     <ion-icon name="{{item.dano.danoRolagem | diceicon}}"></ion-icon>
                 </div>
             </button>
             <ion-item-options>
-                <button ion-button color="primary" (click)="editItem(item)">
+                <button ion-button color="primary" (tap)="editItem(item)">
                     <ion-icon name="open"></ion-icon>
                     Editar
                 </button>
-                <button ion-button color="danger" (click)="deleteItem(item)">
+                <button ion-button color="danger" (tap)="deleteItem(item)">
                     <ion-icon name="close"></ion-icon>
                     Excluir
                 </button>

@@ -22,7 +22,6 @@ export class TipoMagiasPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private magiaService: MagiaService, private alertCtrl: AlertController) { }
 
   selectTipo(tipo){
-    console.log(tipo);
     this.navCtrl.push(MagiasPage,{
       idTipos: [tipo.id],
       nome: tipo.nomeTipo,
@@ -65,13 +64,11 @@ export class TipoMagiasPage {
         {
           text: 'Não',
           handler: () => {
-            console.log('Disagree clicked');
           }
         },
         {
           text: 'Sim',
           handler: () => {
-            console.log('q q eu to enviando?',item);
             this.magiaService.deleteTipo(item.id).then((result) => {
               this.tipoMagias.splice(this.tipoMagias.indexOf(item), 1);
             });

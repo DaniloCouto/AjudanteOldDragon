@@ -6,7 +6,7 @@
     </ion-header>
     <ion-content class="menu">
         <ion-list>
-            <button ion-item *ngFor="let p of paginas" (click)="abrirPagina(p)">
+            <button ion-item *ngFor="let p of paginas" (tap)="abrirPagina(p)">
                 {{p.texto}}
             </button>
         </ion-list>
