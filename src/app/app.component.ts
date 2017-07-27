@@ -17,7 +17,7 @@ export class MyApp {
   paginas: Array<any> = [
     {texto: 'Atributos', componente: CalculadoraAtributosPage},
     {texto: 'Classes', componente: CalculadoraClassePage},
-    {texto: 'Ferreiro', componente: BlacksmithPage},
+    {texto: 'Loja', componente: BlacksmithPage},
     {texto: 'Biblioteca', componente: TipoMagiasPage}
   ]
 
