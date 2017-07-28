@@ -1,3 +1,4 @@
+import { RacaListPage } from '../pages/raca-list/raca-list';
 import { Page } from 'ionic-angular/navigation/nav-util';
 import { Component } from '@angular/core';
 import { Platform, MenuController } from 'ionic-angular';
@@ -8,6 +9,7 @@ import {BlacksmithPage} from '../pages/blacksmith/blacksmith';
 import {CalculadoraAtributosPage} from '../pages/calculadora-atributos/calculadora-atributos';
 import {CalculadoraClassePage} from '../pages/calculadora-classe/calculadora-classe';
 import {TipoMagiasPage} from '../pages/tipo-magias/tipo-magias';
+import { IdiomaListPage } from "../pages/idioma-list/idioma-list";
 
 
 @Component({
@@ -19,7 +21,9 @@ export class MyApp {
     {texto: 'Atributos', componente: CalculadoraAtributosPage},
     {texto: 'Classes', componente: CalculadoraClassePage},
     {texto: 'Loja', componente: BlacksmithPage},
-    {texto: 'Biblioteca', componente: TipoMagiasPage}
+    {texto: 'Biblioteca', componente: TipoMagiasPage},
+    {texto: 'Idiomas', componente: IdiomaListPage},
+    {texto: 'Raças', componente: RacaListPage}
   ]
 
   constructor(platform: Platform, private menu: MenuController, statusBar: StatusBar, splashScreen: SplashScreen) {

@@ -35,6 +35,10 @@ import { ItemComumProvider } from '../providers/item-comum/item-comum';
 import { ItemComumDetalhePage } from "../pages/item-comum-detalhe/item-comum-detalhe";
 import { ItemComumPage } from "../pages/item-comum/item-comum";
 import { AddItemComumPage } from "../pages/add-item-comum/add-item-comum";
+import { RacaListPage } from "../pages/raca-list/raca-list";
+import { RacaProvider } from '../providers/raca/raca';
+import { IdiomaProvider } from '../providers/idioma/idioma';
+import { IdiomaListPage } from "../pages/idioma-list/idioma-list";
 
 @NgModule({
   declarations: [
@@ -61,7 +65,9 @@ import { AddItemComumPage } from "../pages/add-item-comum/add-item-comum";
     ArmorDetalhePage,
     ItemComumDetalhePage,
     ItemComumPage,
-    AddItemComumPage
+    AddItemComumPage,
+    RacaListPage,
+    IdiomaListPage
   ],
   imports: [
     BrowserModule,
@@ -88,8 +94,10 @@ import { AddItemComumPage } from "../pages/add-item-comum/add-item-comum";
     ArmorDetalhePage,
     ItemComumDetalhePage,
     ItemComumPage,
-    AddItemComumPage
+    AddItemComumPage,
+    RacaListPage,
+    IdiomaListPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider, RacaProvider, IdiomaProvider]
 })
 export class AppModule {}
