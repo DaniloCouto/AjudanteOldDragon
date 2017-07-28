@@ -39,6 +39,8 @@ import { RacaListPage } from "../pages/raca-list/raca-list";
 import { RacaProvider } from '../providers/raca/raca';
 import { IdiomaProvider } from '../providers/idioma/idioma';
 import { IdiomaListPage } from "../pages/idioma-list/idioma-list";
+import { IdiomaAddPage } from "../pages/idioma-add/idioma-add";
+import { IdiomaDetalhePage } from "../pages/idioma-detalhe/idioma-detalhe";
 
 @NgModule({
   declarations: [
@@ -67,7 +69,9 @@ import { IdiomaListPage } from "../pages/idioma-list/idioma-list";
     ItemComumPage,
     AddItemComumPage,
     RacaListPage,
-    IdiomaListPage
+    IdiomaListPage,
+    IdiomaAddPage,
+    IdiomaDetalhePage
   ],
   imports: [
     BrowserModule,
@@ -96,7 +100,9 @@ import { IdiomaListPage } from "../pages/idioma-list/idioma-list";
     ItemComumPage,
     AddItemComumPage,
     RacaListPage,
-    IdiomaListPage
+    IdiomaListPage,
+    IdiomaAddPage,
+    IdiomaDetalhePage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider, RacaProvider, IdiomaProvider]
 })

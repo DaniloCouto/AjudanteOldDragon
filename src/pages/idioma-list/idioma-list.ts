@@ -7,6 +7,8 @@ import {
   AlertController,
   LoadingController
 } from "ionic-angular";
+import { IdiomaAddPage } from "../idioma-add/idioma-add";
+import { IdiomaDetalhePage } from "../idioma-detalhe/idioma-detalhe";
 
 /**
  * Generated class for the IdiomaListPage page.
@@ -46,15 +48,15 @@ export class IdiomaListPage {
   }
 
   addItem() {
-    //this.nav.push(AddWeaponPage);
+    this.navCtrl.push(IdiomaAddPage);
   }
 
   openDetail(item){
-    //this.nav.push(WeaponDetalhePage, { item: item });
+    this.navCtrl.push(IdiomaDetalhePage, { item: item });
   }
 
   editItem(item) {
-    //this.nav.push(AddWeaponPage, { item: item });
+    this.navCtrl.push(IdiomaAddPage, { item: item });
   }
 
   deleteItem(item) {

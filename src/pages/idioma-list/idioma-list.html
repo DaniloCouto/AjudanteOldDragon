@@ -27,9 +27,9 @@
     <ion-list [virtualScroll]="idiomaList" [virtualTrackBy]="trackById" [approxItemHeight]="'86px'">
         <ion-item-sliding *virtualItem="let item">
             <button ion-item (tap)="openDetail(item)">
-            <h2>{{item.nome}}</h2>
-            <p>{{item.descricao}}</p>
-        </button>
+                <h2>{{item.nome}}</h2>
+                <p>{{item.descricao}}</p>
+            </button>
             <ion-item-options>
                 <button ion-button color="primary" (tap)="editItem(item)">
                 <ion-icon name="open"></ion-icon>
