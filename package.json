@@ -26,6 +26,7 @@
         "@types/websql": "0.0.27",
         "cordova-android": "^6.2.3",
         "cordova-plugin-console": "^1.0.5",
+        "cordova-plugin-crosswalk-webview": "^2.3.0",
         "cordova-plugin-device": "^1.1.4",
         "cordova-plugin-splashscreen": "^4.0.3",
         "cordova-plugin-statusbar": "^2.2.1",
@@ -74,7 +75,14 @@
             "cordova-plugin-statusbar": {},
             "cordova-plugin-whitelist": {},
             "ionic-plugin-keyboard": {},
-            "cordova-sqlite-storage": {}
+            "cordova-sqlite-storage": {},
+            "cordova-plugin-crosswalk-webview": {
+                "XWALK_MODE": "lite",
+                "XWALK_VERSION": "23+",
+                "XWALK_LITEVERSION": "xwalk_core_library_canary:17+",
+                "XWALK_COMMANDLINE": "--disable-pull-to-refresh-effect",
+                "XWALK_MULTIPLEAPK": "true"
+            }
         },
         "platforms": [
             "android"

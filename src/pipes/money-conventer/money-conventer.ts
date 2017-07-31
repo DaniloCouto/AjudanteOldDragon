@@ -13,7 +13,7 @@ export class MoneyConventerPipe implements PipeTransform {
   /**
    * Takes a value and makes it lowercase.
    */
-  transform(total: any, ...args) {
+  transform(total: any, args) {
     total = Number(total);
     if (total >= 10) {
       if (total >= 100) {

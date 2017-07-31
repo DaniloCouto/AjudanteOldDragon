@@ -32,7 +32,8 @@ export class MyApp {
       setTimeout(function() {
         splashScreen.hide();
       }, 1000);
-      statusBar.styleDefault();
+      statusBar.overlaysWebView(false);
+      statusBar.backgroundColorByHexString('#000000');
     });
   }
 
