@@ -1,7 +1,7 @@
-import { RacaProvider } from '../../providers/raca/raca';
 import { Component } from '@angular/core';
 import { AlertController, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { Raca } from "../../classes/raca";
+import { RacaIdiomaProvider } from "../../providers/raca-idioma/raca-idioma";
 
 /**
  * Generated class for the RacaListPage page.
@@ -15,10 +15,9 @@ import { Raca } from "../../classes/raca";
   templateUrl: 'raca-list.html'
 })
 export class RacaListPage {
-  racaList: Array<Raca>;
+  racaList: Array<Raca> = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private racaProvider : RacaProvider, private alertCtrl: AlertController, public loadingCtrl : LoadingController ) {
-    this.racaList = [];
+  constructor(public navCtrl: NavController, public navParams: NavParams, private racaIdiomaProvider : RacaIdiomaProvider, private alertCtrl: AlertController, public loadingCtrl : LoadingController ) {
   }
 
   init(){
@@ -27,7 +26,8 @@ export class RacaListPage {
         content: 'Carregando raças',
     });
     loading.present().then(()=>{
-      this.racaProvider.getAll().then(function(racas){
+      this.racaIdiomaProvider.getAllRaca().then(function(racas){
+        console.log(racas);
         service.racaList = racas;
         loading.dismiss();
       })
@@ -63,7 +63,7 @@ export class RacaListPage {
         {
           text: 'Sim',
           handler: () => {
-            this.racaProvider.delete(item.$id).then((result) => {
+            this.racaIdiomaProvider.deleteRaca(item.$id).then((result) => {
               this.racaList.splice(this.racaList.indexOf(item), 1);
             });
           }

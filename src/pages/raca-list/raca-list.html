@@ -22,9 +22,9 @@
 
 </ion-header>
 
-
+<!-- [approxItemHeight]="'86px'" -->
 <ion-content>
-    <ion-list [virtualScroll]="racaList" [virtualTrackBy]="trackById" [approxItemHeight]="'86px'">
+    <ion-list [virtualScroll]="racaList" [virtualTrackBy]="trackById">
         <ion-item-sliding *virtualItem="let item">
             <button ion-item (tap)="openDetail(item)">
             <h2>{{item.nome}}</h2>

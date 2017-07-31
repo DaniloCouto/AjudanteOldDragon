@@ -1,5 +1,5 @@
 import { Idioma } from '../../classes/idioma';
-import { IdiomaProvider } from '../../providers/idioma/idioma';
+import { RacaIdiomaProvider } from '../../providers/raca-idioma/raca-idioma';
 import { Component } from '@angular/core';
 import { AlertController, NavController, NavParams } from 'ionic-angular';
 
@@ -19,7 +19,7 @@ export class IdiomaAddPage {
   idioma: Idioma;
   edit: Boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private idiomaService: IdiomaProvider, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private racaIdiomaProvider: RacaIdiomaProvider, private alertCtrl: AlertController) {
     let item = this.navParams.get("item");
     if (item != null) {
       this.edit = true;
@@ -42,7 +42,7 @@ export class IdiomaAddPage {
     let service = this;
     if (this.idioma.$nome != "" && this.idioma.$descricao != "") {
       if (this.edit) {
-        this.idiomaService.update(this.idioma).then(function () {
+        this.racaIdiomaProvider.updateIdioma(this.idioma).then(function () {
           let alert = service.alertCtrl.create({
             title: 'Idiomas',
             message: 'Atualização realizada com sucesso.',
@@ -60,7 +60,7 @@ export class IdiomaAddPage {
           service.navCtrl.pop();
         })
       } else {
-        this.idiomaService.add(this.idioma).then(function () {
+        this.racaIdiomaProvider.addIdioma(this.idioma).then(function () {
           let alert = service.alertCtrl.create({
             title: 'Idiomas',
             message: 'Idioma criado com sucesso.',

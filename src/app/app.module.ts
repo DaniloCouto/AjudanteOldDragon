@@ -36,8 +36,7 @@ import { ItemComumDetalhePage } from "../pages/item-comum-detalhe/item-comum-det
 import { ItemComumPage } from "../pages/item-comum/item-comum";
 import { AddItemComumPage } from "../pages/add-item-comum/add-item-comum";
 import { RacaListPage } from "../pages/raca-list/raca-list";
-import { RacaProvider } from '../providers/raca/raca';
-import { IdiomaProvider } from '../providers/idioma/idioma';
+import { RacaIdiomaProvider } from '../providers/raca-idioma/raca-idioma';
 import { IdiomaListPage } from "../pages/idioma-list/idioma-list";
 import { IdiomaAddPage } from "../pages/idioma-add/idioma-add";
 import { IdiomaDetalhePage } from "../pages/idioma-detalhe/idioma-detalhe";
@@ -104,6 +103,6 @@ import { IdiomaDetalhePage } from "../pages/idioma-detalhe/idioma-detalhe";
     IdiomaAddPage,
     IdiomaDetalhePage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider, RacaProvider, IdiomaProvider]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider, RacaIdiomaProvider,]
 })
 export class AppModule {}
