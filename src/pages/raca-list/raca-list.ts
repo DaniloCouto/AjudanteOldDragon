@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AlertController, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { Raca } from "../../classes/raca";
 import { RacaIdiomaProvider } from "../../providers/raca-idioma/raca-idioma";
+import { RacaAddPage } from "../raca-add/raca-add";
 
 /**
  * Generated class for the RacaListPage page.
@@ -39,15 +40,15 @@ export class RacaListPage {
   }
 
   addItem() {
-    //this.nav.push(AddWeaponPage);
+    this.navCtrl.push(RacaAddPage);
   }
 
   openDetail(item){
-    //this.nav.push(WeaponDetalhePage, { item: item });
+    //this.navCtrl.push(WeaponDetalhePage, { item: item });
   }
 
   editItem(item) {
-    //this.nav.push(AddWeaponPage, { item: item });
+    this.navCtrl.push(RacaAddPage, { item: item });
   }
 
   deleteItem(item) {

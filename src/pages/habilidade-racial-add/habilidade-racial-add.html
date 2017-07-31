@@ -1,0 +1,35 @@
+<!--
+  Generated template for the HabilidadeRacialAddPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <ion-buttons left>
+            <button ion-button icon-only (tap)="close()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>Habilidade Racial</ion-title>
+        <ion-buttons right>
+            <button ion-button icon-only (tap)="cadastrar()">
+                <ion-icon name="add"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-item>
+        <ion-label stacked>Nome</ion-label>
+        <ion-input type="text" [(ngModel)]="habilidade.nome" required></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label stacked>Descrição</ion-label>
+        <ion-textarea type="text" [(ngModel)]="habilidade.descricao" required></ion-textarea>
+    </ion-item>
+</ion-content>

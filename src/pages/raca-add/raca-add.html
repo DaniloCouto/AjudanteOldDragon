@@ -1,0 +1,99 @@
+<!--
+  Generated template for the RacaAddPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar color="danger">
+
+        <ion-title>Cadastro de Raça</ion-title>
+
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+    <ion-item>
+        <ion-label>Nome</ion-label>
+        <ion-input type="text" [(ngModel)]="raca.nome"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label stacked>Descrição</ion-label>
+        <ion-textarea type="text" [(ngModel)]="raca.descricao"></ion-textarea>
+    </ion-item>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-item>
+                    <ion-label stacked>Altura</ion-label>
+                    <ion-input type="number" [(ngModel)]="raca.peso"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col>
+                <ion-item>
+                    <ion-label stacked>Peso</ion-label>
+                    <ion-input type="number" [(ngModel)]="raca.valor"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-item>
+                    <ion-label stacked>Bonus em CA</ion-label>
+                    <ion-input type="number" [(ngModel)]="raca.classeDeArmadura"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col>
+                <ion-item>
+                    <ion-label stacked>Bonus de Ataque</ion-label>
+                    <ion-input type="number" [(ngModel)]="raca.bonusDeAtaque"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-item>
+                    <ion-label stacked>Movimentação Base</ion-label>
+                    <ion-input type="number" [(ngModel)]="raca.movimentacaoBase"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col>
+                <ion-item>
+                    <ion-label stacked>Idioma</ion-label>
+                    <ion-select [(ngModel)]="raca.idioma">
+                        <ion-option *ngFor="let item of idiomaList" [value]="item"> {{item.nome}}</ion-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-list>
+        <ion-list-header>
+            Habilidades
+            <button item-end ion-button color="dark" clear icon-only (tap)="adicionarHabilidade()">
+                  <ion-icon name="add"></ion-icon>
+            </button>
+        </ion-list-header>
+        <ion-item-sliding *ngFor="let habilidade of raca.habilidades">
+            <ion-item text-wrap>
+                <h2>{{habilidade.nome}}</h2>
+                <p>{{habilidade.descricao}}</p>
+            </ion-item>
+            <button ion-button color="primary" (tap)="editarHabilidade(item)">
+                <ion-icon name="open"></ion-icon>
+                Editar
+            </button>
+            <button ion-button color="danger" (tap)="deletarHabilidade(item)">
+                <ion-icon name="close"></ion-icon>
+                Excluir
+            </button>
+        </ion-item-sliding>
+    </ion-list>
+    <div padding>
+        <button color="danger" ion-button block (tap)="confirmar()">Cadastrar</button>
+    </div>
+</ion-content>

@@ -40,6 +40,8 @@ import { RacaIdiomaProvider } from '../providers/raca-idioma/raca-idioma';
 import { IdiomaListPage } from "../pages/idioma-list/idioma-list";
 import { IdiomaAddPage } from "../pages/idioma-add/idioma-add";
 import { IdiomaDetalhePage } from "../pages/idioma-detalhe/idioma-detalhe";
+import { RacaAddPage } from "../pages/raca-add/raca-add";
+import { HabilidadeRacialAddPage } from "../pages/habilidade-racial-add/habilidade-racial-add";
 
 @NgModule({
   declarations: [
@@ -70,7 +72,9 @@ import { IdiomaDetalhePage } from "../pages/idioma-detalhe/idioma-detalhe";
     RacaListPage,
     IdiomaListPage,
     IdiomaAddPage,
-    IdiomaDetalhePage
+    IdiomaDetalhePage,
+    RacaAddPage,
+    HabilidadeRacialAddPage
   ],
   imports: [
     BrowserModule,
@@ -101,7 +105,9 @@ import { IdiomaDetalhePage } from "../pages/idioma-detalhe/idioma-detalhe";
     RacaListPage,
     IdiomaListPage,
     IdiomaAddPage,
-    IdiomaDetalhePage
+    IdiomaDetalhePage,
+    RacaAddPage,
+    HabilidadeRacialAddPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider, RacaIdiomaProvider,]
 })
