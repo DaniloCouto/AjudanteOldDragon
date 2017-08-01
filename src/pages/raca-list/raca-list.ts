@@ -3,6 +3,7 @@ import { AlertController, LoadingController, NavController, NavParams } from 'io
 import { Raca } from "../../classes/raca";
 import { RacaIdiomaProvider } from "../../providers/raca-idioma/raca-idioma";
 import { RacaAddPage } from "../raca-add/raca-add";
+import { RacaDetalhePage } from "../raca-detalhe/raca-detalhe";
 
 /**
  * Generated class for the RacaListPage page.
@@ -44,7 +45,7 @@ export class RacaListPage {
   }
 
   openDetail(item){
-    //this.navCtrl.push(WeaponDetalhePage, { item: item });
+    this.navCtrl.push(RacaDetalhePage, { item: item });
   }
 
   editItem(item) {

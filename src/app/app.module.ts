@@ -42,6 +42,7 @@ import { IdiomaAddPage } from "../pages/idioma-add/idioma-add";
 import { IdiomaDetalhePage } from "../pages/idioma-detalhe/idioma-detalhe";
 import { RacaAddPage } from "../pages/raca-add/raca-add";
 import { HabilidadeRacialAddPage } from "../pages/habilidade-racial-add/habilidade-racial-add";
+import { RacaDetalhePageModule } from "../pages/raca-detalhe/raca-detalhe.module";
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { HabilidadeRacialAddPage } from "../pages/habilidade-racial-add/habilida
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),  
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    RacaDetalhePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -125,13 +125,17 @@ export class RacaIdiomaProvider {
               let query = 'INSERT INTO habilidadeRacial(_id_raca, nome, descricao) VALUES ( ?, ?, ? );';
               let params = [racaId, raca.$habilidades[i].$nome, raca.$habilidades[i].$descricao];
               tx.executeSql(query, params, function (tx, resultSet) {
-                if(i+1 === raca.$habilidades.length){
+                if(i == raca.$habilidades.length){
+                  console.log('resolve add raca')
                   resolve();
                 }
               }, function (tx, err) {
                 reject(err);
                 console.error(err);
               });
+            }
+            if(raca.$habilidades.length == 0){
+              resolve();
             }            
           }, function (tx, err) {
             console.error(err);
