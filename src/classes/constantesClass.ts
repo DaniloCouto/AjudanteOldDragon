@@ -1,14 +1,16 @@
 export class BonusDeClasse {
     public nivel: number;
     public xp: number;
-    public dadoDeVida: any;
-    public bonusDeAtaque: any;
+    public quantidade: number;
+    public isDadoDeVida: number;
+    public bonusDeAtaque: Array<Number>;
     public jogadaDeProtecao: number;
 
-    constructor(nivel: number, xp: number, dadoDeVida: any, baseDeAtaque: any, jogadaDeProtecao: number) {
+    constructor(nivel: number, xp: number, quantidade: number, isDadoDeVida: number, baseDeAtaque: Array<Number>, jogadaDeProtecao: number) {
         this.nivel = nivel;
         this.xp = xp;
-        this.dadoDeVida = dadoDeVida;
+        this.quantidade = quantidade;
+        this.isDadoDeVida = isDadoDeVida;
         this.bonusDeAtaque = baseDeAtaque;
         this.jogadaDeProtecao = jogadaDeProtecao;
     }
@@ -89,26 +91,26 @@ export class ConstantesClass {
 
     public static get CLERIGO_BONUS(): Array<BonusDeClasse> {
         let array = [];
-        array.push(new BonusDeClasse(1, 1500, 1, 0, 15));
-        array.push(new BonusDeClasse(2, 3000, 2, 1, 15));
-        array.push(new BonusDeClasse(3, 6000, 3, 2, 15));
-        array.push(new BonusDeClasse(4, 12000, 4, 2, 14));
-        array.push(new BonusDeClasse(5, 24000, 5, 3, 14));
-        array.push(new BonusDeClasse(6, 48000, 6, 3, 14));
-        array.push(new BonusDeClasse(7, 100000, 7, 3, 13));
-        array.push(new BonusDeClasse(8, 200000, 8, 4, 13));
-        array.push(new BonusDeClasse(9, 300000, 9, 4, 13));
-        array.push(new BonusDeClasse(10, 400000, "+1", 4, 12));
-        array.push(new BonusDeClasse(11, 500000, "+1", 5, 12));
-        array.push(new BonusDeClasse(12, 600000, "+2", 5, 12));
-        array.push(new BonusDeClasse(13, 700000, "+2", 5, 11));
-        array.push(new BonusDeClasse(14, 800000, "+3", 6, 11));
-        array.push(new BonusDeClasse(15, 900000, "+3", 6, 11));
-        array.push(new BonusDeClasse(16, 1000000, "+4", 6, 10));
-        array.push(new BonusDeClasse(17, 1100000, "+4", 7, 10));
-        array.push(new BonusDeClasse(18, 1200000, "+5", 7, 10));
-        array.push(new BonusDeClasse(19, 1300000, "+5", 7, 9));
-        array.push(new BonusDeClasse(20, 1400000, "+6", 8, 9));
+        array.push(new BonusDeClasse(1, 1500, 1,1, [0], 15));
+        array.push(new BonusDeClasse(2, 3000, 2,1, [1], 15));
+        array.push(new BonusDeClasse(3, 6000, 3,1, [2], 15));
+        array.push(new BonusDeClasse(4, 12000, 4,1, [2], 14));
+        array.push(new BonusDeClasse(5, 24000, 5,1, [3], 14));
+        array.push(new BonusDeClasse(6, 48000, 6,1, [3], 14));
+        array.push(new BonusDeClasse(7, 100000, 7,1, [3], 13));
+        array.push(new BonusDeClasse(8, 200000, 8,1, [4], 13));
+        array.push(new BonusDeClasse(9, 300000, 9,1, [4], 13));
+        array.push(new BonusDeClasse(10, 400000, 1,0, [4], 12));
+        array.push(new BonusDeClasse(11, 500000, 1,0, [5], 12));
+        array.push(new BonusDeClasse(12, 600000, 2,0, [5], 12));
+        array.push(new BonusDeClasse(13, 700000, 2,0, [5], 11));
+        array.push(new BonusDeClasse(14, 800000, 3,0, [6], 11));
+        array.push(new BonusDeClasse(15, 900000, 3,0, [6], 11));
+        array.push(new BonusDeClasse(16, 1000000, 4,0, [6], 10));
+        array.push(new BonusDeClasse(17, 1100000, 4,0, [7], 10));
+        array.push(new BonusDeClasse(18, 1200000, 5,0, [7], 10));
+        array.push(new BonusDeClasse(19, 1300000, 5,0, [7], 9));
+        array.push(new BonusDeClasse(20, 1400000, 6,0, [8], 9));
         return array;
     }
     public static get CLERIGO_MAGIA(): Array<AcessoMagia> {
@@ -186,51 +188,51 @@ export class ConstantesClass {
     }
     public static get MAN_AT_ARMS_BONUS(): Array<BonusDeClasse> {
         let array = [];
-        array.push(new BonusDeClasse(1, 2000, 1, 1, 16));
-        array.push(new BonusDeClasse(2, 4000, 2, 2, 16));
-        array.push(new BonusDeClasse(3, 8000, 3, 3, 16));
-        array.push(new BonusDeClasse(4, 16000, 4, 4, 15));
-        array.push(new BonusDeClasse(5, 32000, 5, 5, 15));
-        array.push(new BonusDeClasse(6, 64000, 6, 6, 15));
-        array.push(new BonusDeClasse(7, 128000, 7, [7,1], 14));
-        array.push(new BonusDeClasse(8, 256000, 8, [8,2], 14));
-        array.push(new BonusDeClasse(9, 304000, 9, [9,3], 14));
-        array.push(new BonusDeClasse(10, 408000, "+2", [10,4], 13));
-        array.push(new BonusDeClasse(11, 516000, "+2", [10,4], 13));
-        array.push(new BonusDeClasse(12, 632000, "+4", [11,5], 13));
-        array.push(new BonusDeClasse(13, 704000, "+4", [11,5], 12));
-        array.push(new BonusDeClasse(14, 808000, "+5", [12,6], 12));
-        array.push(new BonusDeClasse(15, 916000, "+5", [12,6], 12));
-        array.push(new BonusDeClasse(16, 1032000, "+6", [13,7], 11));
-        array.push(new BonusDeClasse(17, 1064000, "+6", [13,7], 11));
-        array.push(new BonusDeClasse(18, 1128000, "+7", [14,8], 11));
-        array.push(new BonusDeClasse(19, 1256000, "+7", [14,8], 10));
-        array.push(new BonusDeClasse(20, 1464000, "+8", [15,9], 10));
+        array.push(new BonusDeClasse(1, 2000, 1,1, [1], 16));
+        array.push(new BonusDeClasse(2, 4000, 2,1, [2], 16));
+        array.push(new BonusDeClasse(3, 8000, 3,1, [3], 16));
+        array.push(new BonusDeClasse(4, 16000, 4,1, [4], 15));
+        array.push(new BonusDeClasse(5, 32000, 5,1, [5], 15));
+        array.push(new BonusDeClasse(6, 64000, 6,1, [6], 15));
+        array.push(new BonusDeClasse(7, 128000, 7,1, [7,1], 14));
+        array.push(new BonusDeClasse(8, 256000, 8,1, [8,2], 14));
+        array.push(new BonusDeClasse(9, 304000, 9,1, [9,3], 14));
+        array.push(new BonusDeClasse(10, 408000, 2,0, [10,4], 13));
+        array.push(new BonusDeClasse(11, 516000, 2,0, [10,4], 13));
+        array.push(new BonusDeClasse(12, 632000, 4,0, [11,5], 13));
+        array.push(new BonusDeClasse(13, 704000, 4,0, [11,5], 12));
+        array.push(new BonusDeClasse(14, 808000, 5,0, [12,6], 12));
+        array.push(new BonusDeClasse(15, 916000, 5,0, [12,6], 12));
+        array.push(new BonusDeClasse(16, 1032000, 6,0, [13,7], 11));
+        array.push(new BonusDeClasse(17, 1064000, 6,0, [13,7], 11));
+        array.push(new BonusDeClasse(18, 1128000, 7,0, [14,8], 11));
+        array.push(new BonusDeClasse(19, 1256000, 7,0, [14,8], 10));
+        array.push(new BonusDeClasse(20, 1464000, 8,0, [15,9], 10));
 
         return array;
     }
     public static get MAGO_BONUS(): Array<BonusDeClasse> {
         let array = [];
-        array.push(new BonusDeClasse(1, 2500, 1, 0, 14));
-        array.push(new BonusDeClasse(2, 5000, 2, 0, 14));
-        array.push(new BonusDeClasse(3, 10000, 3, 1, 14));
-        array.push(new BonusDeClasse(4, 20000, 4, 1, 13));
-        array.push(new BonusDeClasse(5, 40000, 5, 2, 13));
-        array.push(new BonusDeClasse(6, 80000, 6, 2, 13));
-        array.push(new BonusDeClasse(7, 160000, 7, 3, 12));
-        array.push(new BonusDeClasse(8, 310000, 8, 3, 12));
-        array.push(new BonusDeClasse(9, 460000, 9, 3, 12));
-        array.push(new BonusDeClasse(10, 510000, '+1', 4, 11));
-        array.push(new BonusDeClasse(11, 660000, '+1', 4, 11));
-        array.push(new BonusDeClasse(12, 710000, '+1', 4, 11));
-        array.push(new BonusDeClasse(13, 860000, '+1', 5, 10));
-        array.push(new BonusDeClasse(14, 910000, '+1', 5, 10));
-        array.push(new BonusDeClasse(15, 1060000, '+2', 5, 10));
-        array.push(new BonusDeClasse(16, 1110000, '+2', 6, 9));
-        array.push(new BonusDeClasse(17, 1160000, '+2', 6, 9));
-        array.push(new BonusDeClasse(18, 1210000, '+2', 6, 9));
-        array.push(new BonusDeClasse(19, 1260000, '+2', 7, 8));
-        array.push(new BonusDeClasse(20, 1300000, '+3', 7, 8));
+        array.push(new BonusDeClasse(1, 2500, 1,1, [0], 14));
+        array.push(new BonusDeClasse(2, 5000, 2,1, [0], 14));
+        array.push(new BonusDeClasse(3, 10000, 3,1, [1], 14));
+        array.push(new BonusDeClasse(4, 20000, 4,1, [1], 13));
+        array.push(new BonusDeClasse(5, 40000, 5,1, [2], 13));
+        array.push(new BonusDeClasse(6, 80000, 6,1, [2], 13));
+        array.push(new BonusDeClasse(7, 160000, 7,1, [3], 12));
+        array.push(new BonusDeClasse(8, 310000, 8,1, [3], 12));
+        array.push(new BonusDeClasse(9, 460000, 9,1, [3], 12));
+        array.push(new BonusDeClasse(10, 510000, 1,0, [4], 11));
+        array.push(new BonusDeClasse(11, 660000, 1,0, [4], 11));
+        array.push(new BonusDeClasse(12, 710000, 1,0, [4], 11));
+        array.push(new BonusDeClasse(13, 860000, 1,0, [5], 10));
+        array.push(new BonusDeClasse(14, 910000, 1,0, [5], 10));
+        array.push(new BonusDeClasse(15, 1060000, 2,0, [5], 10));
+        array.push(new BonusDeClasse(16, 1110000, 2,0, [6], 9));
+        array.push(new BonusDeClasse(17, 1160000, 2,0, [6], 9));
+        array.push(new BonusDeClasse(18, 1210000, 2,0, [6], 9));
+        array.push(new BonusDeClasse(19, 1260000, 2,0, [7], 8));
+        array.push(new BonusDeClasse(20, 1300000, 3,0, [7], 8));
         
         return array;
     }
@@ -260,26 +262,26 @@ export class ConstantesClass {
     }
     public static get LADINO_BONUS(): Array<BonusDeClasse> {
         let array = [];
-        array.push(new BonusDeClasse(1, 1250, 1, 1, 15));
-        array.push(new BonusDeClasse(2, 2500, 2, 1, 15));
-        array.push(new BonusDeClasse(3, 5000, 3, 2, 15));
-        array.push(new BonusDeClasse(4, 10000, 4, 2, 14));
-        array.push(new BonusDeClasse(5, 20000, 5, 2, 14));
-        array.push(new BonusDeClasse(6, 40000, 6, 3, 14));
-        array.push(new BonusDeClasse(7, 80000, 7, 3, 13));
-        array.push(new BonusDeClasse(8, 160000, 8, 3, 13));
-        array.push(new BonusDeClasse(9, 240000, 9, 4, 13));
-        array.push(new BonusDeClasse(10, 400000, '+1', 4, 12));
-        array.push(new BonusDeClasse(11, 520000, '+1', 4, 12));
-        array.push(new BonusDeClasse(12, 640000, '+2', 5, 12));
-        array.push(new BonusDeClasse(13, 760000, '+2', 5, 11));
-        array.push(new BonusDeClasse(14, 880000, '+2', 5, 11));
-        array.push(new BonusDeClasse(15, 1000000, '+3', 6, 11));
-        array.push(new BonusDeClasse(16, 1120000, '+3', 6, 10));
-        array.push(new BonusDeClasse(17, 1240000, '+3', 6, 10));
-        array.push(new BonusDeClasse(18, 1360000, '+4', 7, 10));
-        array.push(new BonusDeClasse(19, 1480000, '+4', 7, 9));
-        array.push(new BonusDeClasse(20, 1520000, '+4', 7, 9));
+        array.push(new BonusDeClasse(1, 1250, 1,1, [1], 15));
+        array.push(new BonusDeClasse(2, 2500, 2,1, [1], 15));
+        array.push(new BonusDeClasse(3, 5000, 3,1, [2], 15));
+        array.push(new BonusDeClasse(4, 10000, 4,1, [2], 14));
+        array.push(new BonusDeClasse(5, 20000, 5,1, [2], 14));
+        array.push(new BonusDeClasse(6, 40000, 6,1, [3], 14));
+        array.push(new BonusDeClasse(7, 80000, 7,1, [3], 13));
+        array.push(new BonusDeClasse(8, 160000, 8,1, [3], 13));
+        array.push(new BonusDeClasse(9, 240000, 9,1, [4], 13));
+        array.push(new BonusDeClasse(10, 400000, 1,0, [4], 12));
+        array.push(new BonusDeClasse(11, 520000, 1,0, [4], 12));
+        array.push(new BonusDeClasse(12, 640000, 2,0, [5], 12));
+        array.push(new BonusDeClasse(13, 760000, 2,0, [5], 11));
+        array.push(new BonusDeClasse(14, 880000, 2,0, [5], 11));
+        array.push(new BonusDeClasse(15, 1000000, 3,0, [6], 11));
+        array.push(new BonusDeClasse(16, 1120000, 3,0, [6], 10));
+        array.push(new BonusDeClasse(17, 1240000, 3,0, [6], 10));
+        array.push(new BonusDeClasse(18, 1360000, 4,0, [7], 10));
+        array.push(new BonusDeClasse(19, 1480000, 4,0, [7], 9));
+        array.push(new BonusDeClasse(20, 1520000, 4,0, [7], 9));
 
         
         return array;

@@ -33,7 +33,6 @@
             <ion-input type="number" max="20" min="1" [(ngModel)]="nivel" (ngModelChange)="nivelChanged()"></ion-input>
         </ion-item>
     </ion-card>
-
     <div *ngIf="nivel > 0 && nivel < 21">
         <ion-card>
             <ion-card-header>
@@ -44,10 +43,15 @@
                 <h2>Experiencia para proximo nivel</h2>
                 <p>{{currentClass.$bonus.xp}}</p>
             </ion-item>
-            <ion-item>
-                <ion-icon name="{{getDiceClass()}}" item-left large></ion-icon>
+            <ion-item *ngIf="currentClass.$bonus.isDadoDeVida">
+                <ion-icon name="{{currentClass.dadoDeVida | diceicon}}" item-left large></ion-icon>
                 <h2>Dados de Vida</h2>
-                <p>{{currentClass.$bonus.dadoDeVida}}</p>
+                <p>{{currentClass.$bonus.quantidade}}</p>
+            </ion-item>
+            <ion-item *ngIf="!currentClass.$bonus.isDadoDeVida">
+                <ion-icon name="{{currentClass.dadoDeVida | diceicon}}" item-left large></ion-icon>
+                <h2>Vida Adicional</h2>
+                <p>+{{currentClass.$bonus.quantidade}}</p>
             </ion-item>
             <ion-item>
                 <ion-icon name="logo-sword" item-left large></ion-icon>
@@ -60,7 +64,6 @@
                 <p>{{currentClass.$bonus.jogadaDeProtecao}}</p>
             </ion-item>
         </ion-card>
-
         <ion-card *ngIf="selectedClass === 0 || selectedClass === 2">
             <ion-item>
                 <ion-icon name="book" item-left large></ion-icon>
@@ -70,7 +73,7 @@
             <ion-item>
                 <ion-grid>
                     <ion-row style="-webkit-flex-wrap: wrap;flex-wrap: wrap;justify-content: flex-start;">
-                        <ion-col width-10 *ngFor='let value of currentClass.$magia.acessoMagia; let i = index'>
+                        <ion-col col-10 *ngFor='let value of currentClass.$magia.acessoMagia; let i = index'>
                             {{i+1}}º
                             <p>
                                 {{value}}
@@ -80,7 +83,6 @@
                 </ion-grid>
             </ion-item>
         </ion-card>
-
         <ion-card *ngIf="selectedClass === 0">
             <ion-item>
                 <ion-icon name="logo-skull" item-left large></ion-icon>
@@ -137,7 +139,6 @@
                 <b item-right>{{currentClass.$afastarMortos.vampiro}}</b>
             </ion-item>
         </ion-card>
-
         <ion-card *ngIf="selectedClass === 3">
             <ion-item>
                 <ion-icon name="logo-crest" item-left large></ion-icon>
@@ -177,6 +178,4 @@
             </ion-item>
         </ion-card>
     </div>
-
-
 </ion-content>

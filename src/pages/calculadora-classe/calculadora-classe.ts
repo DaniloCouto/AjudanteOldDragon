@@ -57,8 +57,4 @@ export class CalculadoraClassePage {
     this.currentClass.$nivel = Number(this.nivel);
   }
 
-  getDiceClass(){
-    return this.diceService.identify(this.currentClass.$dadoDeVida);
-  }
-
 }
