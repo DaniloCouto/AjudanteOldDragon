@@ -24,23 +24,23 @@
 
 <!-- [approxItemHeight]="'86px'" -->
 <ion-content>
-    <ion-list [virtualScroll]="racaList" [virtualTrackBy]="trackById">
+    <ion-list [virtualScroll]="racaList" [virtualTrackBy]="trackById" [approxItemHeight]="'97px'">
         <ion-item-sliding *virtualItem="let item">
             <button ion-item (tap)="openDetail(item)">
-            <h2>{{item.nome}}</h2>
-            <p>{{item.peso}}kg , {{item.altura}} m </p>
-            <p>Movimentação : {{item.movimentacaoBase}}</p>
-            <p>{{item.descricao}}</p>
-        </button>
+                <h2>{{item.nome}}</h2>
+                <p>{{item.peso}}kg , {{item.altura}} m </p>
+                <p>Movimentação : {{item.movimentacaoBase}}</p>
+                <p>{{item.descricao}}</p>
+            </button>
             <ion-item-options>
                 <button ion-button color="primary" (tap)="editItem(item)">
-                <ion-icon name="open"></ion-icon>
-                Editar
-            </button>
+                    <ion-icon name="open"></ion-icon>
+                    Editar
+                </button>
                 <button ion-button color="danger" (tap)="deleteItem(item)">
-                <ion-icon name="close"></ion-icon>
-                Excluir
-            </button>
+                    <ion-icon name="close"></ion-icon>
+                    Excluir
+                </button>
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>

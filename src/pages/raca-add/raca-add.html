@@ -29,14 +29,14 @@
         <ion-row>
             <ion-col>
                 <ion-item>
-                    <ion-label stacked>Altura</ion-label>
-                    <ion-input type="number" [(ngModel)]="raca.peso"></ion-input>
+                    <ion-label stacked>Altura Média</ion-label>
+                    <ion-input type="number" [(ngModel)]="raca.altura"></ion-input>
                 </ion-item>
             </ion-col>
             <ion-col>
                 <ion-item>
-                    <ion-label stacked>Peso</ion-label>
-                    <ion-input type="number" [(ngModel)]="raca.valor"></ion-input>
+                    <ion-label stacked>Peso Médio</ion-label>
+                    <ion-input type="number" [(ngModel)]="raca.peso"></ion-input>
                 </ion-item>
             </ion-col>
         </ion-row>
@@ -64,7 +64,8 @@
             <ion-col>
                 <ion-item>
                     <ion-label stacked>Idioma</ion-label>
-                    <ion-select [(ngModel)]="raca.idioma">
+                    <ion-select [compareWith]="compareFn" [(ngModel)]="raca.idioma">
+                        <ion-option [value]="" disabled> Selecione um idioma</ion-option>
                         <ion-option *ngFor="let item of idiomaList" [value]="item"> {{item.nome}}</ion-option>
                     </ion-select>
                 </ion-item>
@@ -78,19 +79,21 @@
                   <ion-icon name="add"></ion-icon>
             </button>
         </ion-list-header>
-        <ion-item-sliding *ngFor="let habilidade of raca.habilidades">
-            <ion-item text-wrap>
+        <ion-item-sliding text-wrap *ngFor="let habilidade of raca.habilidades" side="left">
+            <ion-item>
                 <h2>{{habilidade.nome}}</h2>
                 <p>{{habilidade.descricao}}</p>
             </ion-item>
-            <button ion-button color="primary" (tap)="editarHabilidade(item)">
-                <ion-icon name="open"></ion-icon>
-                Editar
-            </button>
-            <button ion-button color="danger" (tap)="deletarHabilidade(item)">
-                <ion-icon name="close"></ion-icon>
-                Excluir
-            </button>
+            <ion-item-options>
+                <button ion-button color="primary" (tap)="editarHabilidade(habilidade)">
+                    <ion-icon name="open"></ion-icon>
+                    Editar
+                </button>
+                <button ion-button color="danger" (tap)="deletarHabilidade(habilidade)">
+                    <ion-icon name="close"></ion-icon>
+                    Excluir
+                </button>
+            </ion-item-options>
         </ion-item-sliding>
     </ion-list>
     <div padding>

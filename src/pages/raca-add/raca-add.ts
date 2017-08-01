@@ -30,11 +30,13 @@ export class RacaAddPage {
     });
     loading.present().then(()=>{
       this.racaIdiomaProvider.getAllIdioma().then(function(idiomas){
+        console.log('Idiomas',idiomas);
         service.idiomaList = idiomas;
         loading.dismiss();
       })
     })
     let item = this.navParams.get("item");
+    console.log('params:',item);
     if (item != null) {
       this.edit = true;
       if(item instanceof Raca){
@@ -53,8 +55,10 @@ export class RacaAddPage {
     let service = this;
     let chooseModal = this.modalCtrl.create(HabilidadeRacialAddPage);
     chooseModal.onDidDismiss(data => {
-      if(data instanceof HabilidadeRacial){
-        service.raca.$habilidades.push(data);
+      if(data){
+        if(data.item instanceof HabilidadeRacial){
+          service.raca.$habilidades.push(data.item);
+        }
       }
     });
     chooseModal.present();
@@ -63,10 +67,14 @@ export class RacaAddPage {
   editarHabilidade(item){
     let service = this;
     let chooseModal = this.modalCtrl.create(HabilidadeRacialAddPage,{item:item});
-    
     chooseModal.onDidDismiss(function(data){
-      if(data instanceof HabilidadeRacial){
-        service.raca.$habilidades.push(data);
+      if(data){
+        if(data.item instanceof HabilidadeRacial){
+          let indexOf = service.raca.$habilidades.indexOf(data.item)
+          if(indexOf){
+            service.raca.$habilidades[indexOf] = data.item;
+          }
+        }
       }
     });
     chooseModal.present();
@@ -124,6 +132,10 @@ export class RacaAddPage {
       });
       alert.present();
     }
+  }
+
+  compareFn(idioma1: Idioma, idioma2: Idioma): boolean {
+    return  idioma1 && idioma2 ? idioma1.$id === idioma2.$id : idioma1 === idioma2;
   }
 
   init(){

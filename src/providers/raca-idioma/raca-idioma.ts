@@ -79,7 +79,6 @@ export class RacaIdiomaProvider {
             tx.executeSql(query, null, function (tx, res) {
                 tx.executeSql('SELECT count(*) AS mycount FROM  raca;', [], function (tx, resultSet) {
                   if (resultSet.rows.item(0).mycount === 0) {
-                    let idsTipoMagias = [];
                     let transaction = tx;
                     BaseRaca.BASE_RACA.forEach(function (raca:  Raca) {
                       let params = service.racaToArray(raca);
@@ -143,6 +142,7 @@ export class RacaIdiomaProvider {
     });
   }
   updateRaca(raca: Raca): Promise<any> {
+    let service = this;
     return new Promise((resolve, reject) => {
       this.sqlCapsule.openDatabase().then((db) => {
         db.transaction(function (tx) {
@@ -152,9 +152,9 @@ export class RacaIdiomaProvider {
             promiseArray.push(tx.executeSql('INSERT INTO habilidadeRacial(_id_raca, nome, descricao) VALUES ( ?, ?, ? );', [raca.$id, raca.$habilidades[i].$nome, raca.$habilidades[i].$descricao]));
           }
           Promise.all(promiseArray).then(function(){
-            let arrayParams = this.racaToArray(raca);
+            let arrayParams = service.racaToArray(raca);
             arrayParams.push(raca.$id);
-            let query = 'UPDATE item SET nome = ? , descricao = ?, altura = ? , peso = ?, classeDeArmadura = ?, bonusDeAtaque = ?, movimentacaoBase = ?, _id_idioma = ?  WHERE _id = ?;';
+            let query = 'UPDATE raca SET nome = ? , descricao = ?, altura = ? , peso = ?, classeDeArmadura = ?, bonusDeAtaque = ?, movimentacaoBase = ?, _id_idioma = ?  WHERE _id = ?;';
             tx.executeSql(query, arrayParams, function (tx, res) {
               resolve(res);
             }, function (tx, err) {

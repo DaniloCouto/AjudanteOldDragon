@@ -19,20 +19,7 @@ export class HabilidadeRacialAddPage {
   edit: boolean;
 
   constructor(public navParams: NavParams,  public viewCtrl: ViewController) {
-    this.habilidade = this.navParams.get('item');
-    let item = this.navParams.get("item");
-    if (item != null) {
-      this.edit = true;
-      if(item instanceof HabilidadeRacial){
-        this.habilidade = item;
-      }else{
-        this.edit = false;
-        this.habilidade = new HabilidadeRacial(null,'','');
-      }
-    } else {
-      this.edit = false;
-      this.habilidade = new HabilidadeRacial(null,'','');
-    }
+    this.init();
   }
 
   close(){
@@ -44,7 +31,24 @@ export class HabilidadeRacialAddPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HabilidadeRacialAddPage');
+    this.init();
+  }
+
+  init(){
+    let item = this.navParams.get("item");
+    console.log('Modal Params:',item);
+    if (item) {
+      this.edit = true;
+      if(item instanceof HabilidadeRacial){
+        this.habilidade = item;
+      }else{
+        this.edit = false;
+        this.habilidade = new HabilidadeRacial(null,'','');
+      }
+    } else {
+      this.edit = false;
+      this.habilidade = new HabilidadeRacial(null,'','');
+    }
   }
 
 }
