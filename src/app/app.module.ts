@@ -111,6 +111,6 @@ import { RacaDetalhePageModule } from "../pages/raca-detalhe/raca-detalhe.module
     RacaAddPage,
     HabilidadeRacialAddPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider, RacaIdiomaProvider,]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider, RacaIdiomaProvider, ]
 })
 export class AppModule {}

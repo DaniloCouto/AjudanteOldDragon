@@ -5,7 +5,7 @@ import { ConstantesClass } from '../constantesClass';
 export class HomemDeArmas extends BaseClass{
 
     constructor(nivel: number){
-        super(1, nivel, 10)
+        super(1, nivel, 10, 0)
     }
 
     public get $bonus() : BonusDeClasse {

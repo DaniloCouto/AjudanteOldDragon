@@ -6,7 +6,7 @@ import { ConstantesClass } from '../constantesClass';
 export class Ladino extends BaseClass{
 
     constructor(nivel: number){
-        super(3, nivel, 6)
+        super(3, nivel, 6 , 0)
     }
 
     public get $bonus() : BonusDeClasse {

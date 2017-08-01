@@ -6,7 +6,7 @@ import { ConstantesClass } from '../constantesClass';
 export class Mago extends BaseClass{
 
     constructor(nivel: number){
-        super(2, nivel, 4)
+        super(2, nivel, 4, 0)
     }
 
     public get $bonus() : BonusDeClasse {

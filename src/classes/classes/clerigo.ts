@@ -8,7 +8,7 @@ import { ConstantesClass } from '../constantesClass';
 export class Clerigo extends BaseClass{
 
     constructor(nivel: number){
-        super(0, nivel, 8)
+        super(0, nivel, 8, 0)
     }
 
     public get $bonus() : BonusDeClasse {

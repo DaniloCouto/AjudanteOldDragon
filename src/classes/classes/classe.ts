@@ -5,11 +5,13 @@ export class BaseClass {
     private classe: classeENUM;
     private nivel: number;
     private dadoDeVida: diceENUM;
+    private xpAtual: number;
 
-    constructor($classe: classeENUM, $nivel: number, $dadoDeVida: diceENUM) {
+    constructor($classe: classeENUM, $nivel: number, $dadoDeVida: diceENUM, $xpAtual : number) {
         this.classe = $classe;
         this.nivel = $nivel;
         this.dadoDeVida = $dadoDeVida;
+        this.xpAtual = $xpAtual;
     }
 
     public get $nome(): string {
@@ -49,6 +51,12 @@ export class BaseClass {
         this.dadoDeVida = dadoDeVida;
     }
 
-    
+	public get $xpAtual(): number {
+		return this.xpAtual;
+	}
+
+	public set $xpAtual(value: number) {
+		this.xpAtual = value;
+	}
     
 }

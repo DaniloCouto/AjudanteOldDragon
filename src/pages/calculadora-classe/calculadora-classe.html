@@ -73,7 +73,7 @@
             <ion-item>
                 <ion-grid>
                     <ion-row style="-webkit-flex-wrap: wrap;flex-wrap: wrap;justify-content: flex-start;">
-                        <ion-col col-10 *ngFor='let value of currentClass.$magia.acessoMagia; let i = index'>
+                        <ion-col col-auto *ngFor='let value of currentClass.$magia.acessoMagia; let i = index'>
                             {{i+1}}º
                             <p>
                                 {{value}}
@@ -94,7 +94,7 @@
             <ion-item>
                 <ion-grid>
                     <ion-row style="-webkit-flex-wrap: wrap;flex-wrap: wrap;justify-content: flex-start;">
-                        <ion-col width-10 *ngFor='let value of currentClass.$afastarMortosDadoDeVida.mortosVivos; let i = index'>
+                        <ion-col col-auto *ngFor='let value of currentClass.$afastarMortosDadoDeVida.mortosVivos; let i = index'>
                             {{i+1}}
                             <p>
                                 {{value}}
