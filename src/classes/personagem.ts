@@ -10,7 +10,7 @@ import { classeENUM } from './classes/classesEnum';
 export class Personagem {
     private id: number;
     private nome: string;
-    private descricao: string;
+	private descricao: string;
     private raca : Raca;
     private classe : BaseClass;
     private idiomas: Array<Idioma>;

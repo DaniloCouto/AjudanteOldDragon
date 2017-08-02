@@ -43,6 +43,7 @@ import { IdiomaDetalhePage } from "../pages/idioma-detalhe/idioma-detalhe";
 import { RacaAddPage } from "../pages/raca-add/raca-add";
 import { HabilidadeRacialAddPage } from "../pages/habilidade-racial-add/habilidade-racial-add";
 import { RacaDetalhePageModule } from "../pages/raca-detalhe/raca-detalhe.module";
+import { PersonagemProvider } from '..\providers\personagem/personagem';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,6 @@ import { RacaDetalhePageModule } from "../pages/raca-detalhe/raca-detalhe.module
     RacaAddPage,
     HabilidadeRacialAddPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider, RacaIdiomaProvider, ]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider, RacaIdiomaProvider, PersonagemProvider, ]
 })
 export class AppModule {}
