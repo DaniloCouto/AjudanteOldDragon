@@ -457,7 +457,7 @@ export class RacaIdiomaProvider {
     return array;
   }
   
-  private racaToArray(raca : Raca): Array<any>{
+  public racaToArray(raca : Raca): Array<any>{
     let array = [];
     array.push(raca.$nome);
     array.push(raca.$descricao);

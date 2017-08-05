@@ -6,13 +6,15 @@ export class Armadura extends Item {
     private movimentacao: number;
     private tipo: TipoArmadura;
     private limiteAjusteDex: number;
+    private equipado: number;
 
-    constructor(id: number, nome: string, descricao: string, peso: number, preco: number, $bonusCa: number, $movimentacao: number, $tipo: TipoArmadura, $limiteDes: number) {
+    constructor(id: number, nome: string, descricao: string, peso: number, preco: number, $bonusCa: number, $movimentacao: number, $tipo: TipoArmadura, $limiteDes: number, $equipado: number) {
         super(id,nome,descricao, peso, preco);
         this.bonusCa = $bonusCa;
         this.movimentacao = $movimentacao;
         this.tipo = $tipo;
         this.limiteAjusteDex = $limiteDes;
+        this.equipado = $equipado;
     }
 
     public get $bonusCa(): number {
@@ -47,5 +49,12 @@ export class Armadura extends Item {
         this.limiteAjusteDex = value;
     }
 
+	public get $equipado(): number {
+		return this.equipado;
+	}
+
+	public set $equipado(value: number) {
+		this.equipado = value;
+	}
 
 }
