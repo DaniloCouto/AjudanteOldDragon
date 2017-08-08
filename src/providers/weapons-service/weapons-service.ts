@@ -166,6 +166,33 @@ export class WeaponsService {
     });
   }
 
+  getArma(id : number): Promise<Weapon> {
+    let output = this.sqliteOutputToArray;
+    return new Promise((resolve, reject) => {
+      this.sqlCapsule.openDatabase().then((db) => {
+        db.transaction(function (tx: SQLiteTransaction) {
+          tx.executeSql('SELECT * FROM  weapons WHERE _id = ?;', [id], function (tx, resultSet) {
+            let retorno = [];
+            let i = 0;
+            if(resultSet.rows.length){
+              resolve(new Weapon(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor,
+                resultSet.rows.item(i).iniciativa, resultSet.rows.item(i).baAdicional,
+                new Dano(resultSet.rows.item(i).danoPuro,resultSet.rows.item(i).danoRolagem,resultSet.rows.item(i).qntdRolagem),
+                [resultSet.rows.item(i).alcancePequeno,resultSet.rows.item(i).alcanceMedio,resultSet.rows.item(i).alcanceGrande],
+                resultSet.rows.item(i).tamanho, [resultSet.rows.item(i).tipo1,resultSet.rows.item(i).tipo2]
+              ));
+            } else {
+              resolve(null);
+            }
+          }, function (tx, err) {
+            console.error(err);
+            reject();
+          });
+        });
+      })
+    });
+  }
+
   getCount(): Promise<any> {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {

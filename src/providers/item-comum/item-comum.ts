@@ -145,6 +145,33 @@ export class ItemComumProvider {
     });
   }
 
+  get(id : number): Promise<Item> {
+    return new Promise((resolve, reject) => {
+      this.sqlCapsule.openDatabase().then((db) => {
+        db.transaction(function (tx: SQLiteTransaction) {
+          tx.executeSql('SELECT * FROM  item WHERE _id = ?;', [id], function (tx, resultSet) {
+            let retorno = [];
+            let i = 0;
+            if(resultSet.rows.length){
+              resolve(new Item(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor))
+            }else{
+              resolve(null);
+            }            
+          }, function (tx, err) {
+            console.error(err);
+            reject();
+          });
+        },function(err){
+          console.error(err);
+          reject();
+        });
+      },function(err){
+          console.error(err);
+          reject();
+        })
+    });
+  }
+
   getCount(): Promise<any> {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {

@@ -140,9 +140,39 @@ export class ArmorsService {
             tx.executeSql('SELECT * FROM  armors;', [], function (tx, resultSet) {
               let retorno = [];
               for(var i = 0; i < resultSet.rows.length; i++){
-                retorno.push(new Armadura(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor, resultSet.rows.item(i).bonusCa, resultSet.rows.item(i).movimentacao,resultSet.rows.item(i).tipo,resultSet.rows.item(i).limiteAjusteDes))
+                retorno.push(new Armadura(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor, resultSet.rows.item(i).bonusCa, resultSet.rows.item(i).movimentacao,resultSet.rows.item(i).tipo,resultSet.rows.item(i).limiteAjusteDes, resultSet.rows.item(i).equipado))
               }
               resolve(retorno);
+            }, function(tx, err){
+              console.error(err);
+              reject();
+            });
+          }, function(tx, err){
+              console.error(err);
+              reject();
+          });
+        },function(err){
+          console.error(err);
+          reject();
+        })
+      
+    });
+  }
+
+  get(id : number): Promise<Armadura> {
+    let output = this.sqliteOutputToArray;
+    
+    return new Promise((resolve, reject) => {
+        this.openDatabase().then((db) => {
+          db.transaction(function (tx) {
+            tx.executeSql('SELECT * FROM  armors WHERE _id = ?;', [id], function (tx, resultSet) {
+              let retorno = [];
+              let i = 0;
+              if(resultSet.rows.length){
+                resolve(new Armadura(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor, resultSet.rows.item(i).bonusCa, resultSet.rows.item(i).movimentacao,resultSet.rows.item(i).tipo,resultSet.rows.item(i).limiteAjusteDes, 0)
+              }else{
+                resolve(null);
+              }
             }, function(tx, err){
               console.error(err);
               reject();

@@ -437,6 +437,7 @@ export class RacaIdiomaProvider {
         db.transaction(function (tx: SQLiteTransaction) {
           tx.executeSql('SELECT * FROM  idiomas WHERE _id = ?;', [id], function (tx, resultSet) {
             if(resultSet.rows.length){
+              
               resolve(new Idioma(resultSet.rows.item(0)._id,resultSet.rows.item(0).nome,resultSet.rows.item(0).descricao));
             }else{
               resolve(null);

@@ -1,3 +1,7 @@
+import { BolsaMoedas } from '../../classes/bolsaMoedas';
+import { Atributos } from '../../classes/atributos';
+import { Ladino } from '../../classes/classes/ladino';
+import { Clerigo } from '../../classes/classes/clerigo';
 import { BaseClass } from '../../classes/classes/classe';
 import { Idioma } from '../../classes/idioma';
 import { Armadura } from '../../classes/armadura/armadura';
@@ -15,6 +19,9 @@ import { MagiaService } from "../magia-service/magia-service";
 import { Personagem } from '../../classes/personagem';
 import { Magia } from '../../classes/magia/magia';
 import { Item } from '../../classes/item';
+import { HomemDeArmas } from '../../classes/classes/homemdearmas';
+import { Mago } from '../../classes/classes/mago';
+import { Raca } from '../../classes/raca';
 
 /*
   Generated class for the PersonagemProvider provider.
@@ -25,7 +32,7 @@ import { Item } from '../../classes/item';
 @Injectable()
 export class PersonagemProvider {
 
-  constructor(private platform: Platform, private sqlCapsule: SqlCapsuleProvider, racaProvider : RacaIdiomaProvider, itemProvider: ItemComumProvider, armasProvider: WeaponsService, armaduraProvider : ArmorsService, magiaProvider: MagiaService) {
+  constructor(private platform: Platform, private sqlCapsule: SqlCapsuleProvider,private racaProvider : RacaIdiomaProvider,private itemProvider: ItemComumProvider,private armasProvider: WeaponsService,private armaduraProvider : ArmorsService,private magiaProvider: MagiaService) {
     this.platform.ready().then(() => {
       let service = this;
       this.sqlCapsule.openDatabase().then(function (db : SQLiteObject) {
@@ -165,6 +172,158 @@ export class PersonagemProvider {
     });
   }
 
+  getAll() : Promise<Array<Personagem>>{
+    let service = this;
+    return new Promise((resolve, reject) => {
+      let query = 'SELECT _id FROM personagem;'
+      this.sqlCapsule.openDatabase().then((db) => {
+        db.transaction(function (tx: SQLiteTransaction) {
+          tx.executeSql(query, [], function (tx, res) {
+            let promises : Array<Promise<Personagem>> = [];
+            let retorno : Array<Personagem> = []
+            if(res.rows.length){
+              for(let i = 0; i < res.rows.length; i++){
+                promises.push(service.get(tx, res.rows.item(i)._id));
+              }
+              Promise.all(promises).then(function(result : Array<Personagem>){
+                resolve(result);
+              },function(err){
+                reject();
+              })
+            }
+               
+          }, function (tx, err) {
+            console.error(err);
+            reject(err);
+          });
+        });
+      });
+    });
+  }
+
+  get(tx : SQLiteTransaction, id : number, ) : Promise<Personagem>{
+    let service = this;
+    return new Promise((resolve,reject)=> {
+      tx.executeSql("SELECT * FROM personagem WHERE _id = ?;", [id], function (tx, personagem) {
+        let promises = [];
+        if(personagem.rows.length){
+          service.getItemPersonagem(tx, id).then(function(inventario : Array<Item>){
+            service.getMagiaPersonagem(tx, id).then(function(magias : Array<Magia>){
+              service.getIdiomaPersonagem(tx, id).then(function(idiomas : Array<Idioma>){
+                service.getClassePersonagem(tx, id).then(function(classe : BaseClass){
+                  service.racaProvider.getRaca(id).then(function(raca : Raca){
+                    resolve(new Personagem(
+                      personagem.rows.item(0)._id,
+                      personagem.rows.item(0).nome,
+                      personagem.rows.item(0).descricao,
+                      raca,
+                      classe,
+                      idiomas,
+                      new Atributos(
+                        personagem.rows.item(0).forca,
+                        personagem.rows.item(0).destreza,
+                        personagem.rows.item(0).constituicao,
+                        personagem.rows.item(0).inteligencia,
+                        personagem.rows.item(0).sabedoria,
+                        personagem.rows.item(0).carisma
+                      ),
+                      magias,
+                      personagem.rows.item(0).xpAtual,
+                      inventario,
+                      new BolsaMoedas(
+                        personagem.rows.item(0).cobre,
+                        personagem.rows.item(0).prata,
+                        personagem.rows.item(0).ouro,
+                        personagem.rows.item(0).esmeralda,
+                        personagem.rows.item(0).platina
+                      )
+                    ));
+                  },function(err){
+                    reject(err);
+                  })
+                },function(err){
+                  reject(err);
+                });
+              },function(err){
+                reject(err);
+              })
+            },function(err){
+              reject(err);
+            })
+          },function(err){
+            reject(err);
+          }) 
+        }else{
+          resolve(null);
+        }
+      }, function (tx, err) {
+        console.error(err);
+        reject(err);
+      });
+       
+    })
+  }
+
+  private getItemPersonagem (tx : SQLiteTransaction, personagemId : number ) : Promise<Array<Item>>{
+    let service = this;
+    return new Promise((resolve, reject) => {
+      let inventario : Array<Item> = [];
+      let promisesItens : Array<Promise<Item>> = [];
+      let promisesArmaduras : Array<Promise<Armadura>> = [];
+      let promisesArmas : Array<Promise<Weapon>> = [];
+      
+      tx.executeSql( 'SELECT _id_arma FROM inventarioArma WHERE _id_personagem = ?;', [personagemId], function (tx, resultSet) {
+        if(resultSet.rows.length){
+          for(let i = 0; i < resultSet.rows.length; i++){
+            promisesArmas.push(service.armasProvider.getArma(resultSet.rows.item(i)))
+          }
+        }
+        tx.executeSql( 'SELECT _id_armadura, equipado FROM inventarioArmadura WHERE _id_personagem = ?;', [personagemId], function (tx, resultSet) {
+          if(resultSet.rows.length){
+            for(let i = 0; i < resultSet.rows.length; i++){
+              promisesArmaduras.push(service.armaduraProvider.get(resultSet.rows.item(i)));
+            }
+          }
+          tx.executeSql( 'SELECT _id_item FROM inventarioItem WHERE _id_personagem = ?;', [personagemId], function (tx, resultSet) {
+            if(resultSet.rows.length){
+              for(let i = 0; i < resultSet.rows.length; i++){
+                promisesItens.push(service.itemProvider.get(resultSet.rows.item(i)));
+              } 
+            }
+            Promise.all(promisesArmas).then(function(armas : Array<Weapon>){
+              if(armas instanceof Array)
+                inventario.concat(armas);
+              Promise.all(promisesArmaduras).then(function(armaduras : Array<Armadura>){
+                if(armaduras instanceof Array)
+                  inventario.concat(armaduras);
+                Promise.all(promisesItens).then(function(itens : Array<Item>){
+                  if(itens instanceof Array)
+                    inventario.concat(itens);
+                  resolve(inventario);
+                },function(){
+                  reject();
+                })
+              },function(){
+                reject();
+              })
+            },function(){
+              reject();
+            })
+          }, function (tx, err) {
+            reject(err);
+            console.error(err);
+          });
+        }, function (tx, err) {
+          reject(err);
+          console.error(err);
+        });
+      }, function (tx, err) {
+        reject(err);
+        console.error(err);
+      });
+    });
+  }
+
   private addItemPersonagem (tx : SQLiteTransaction, personagemId : number, itens: Array<Item> ){
     return new Promise((resolve, reject) => {
       for(var i = 0; i < itens.length; i++){
@@ -228,6 +387,26 @@ export class PersonagemProvider {
     });
   }
 
+  private getMagiaPersonagem (tx : SQLiteTransaction, personagemId : number) : Promise<Array<Magia>>{
+    let service = this;
+    return new Promise((resolve, reject) => {
+        tx.executeSql('SELECT _id_magia FROM personagem_magias WHERE _id_personagem = ? ;', [personagemId], function (tx, resultSet) {
+          let promise : Array<Promise<Magia>> = [];
+          for( let i = 0 ; i < resultSet.rows.length; i++){
+              promise.push(service.magiaProvider.getMagia(resultSet.rows.item(i)));
+          }
+          Promise.all(promise).then(function(magias : Array<Magia>){
+            resolve(magias);
+          },function(err){
+            reject(err);
+          })
+        }, function (tx, err) {
+          reject(err);
+          console.error(err);
+        });
+    });
+  }
+
   private addIdiomaPersonagem (tx : SQLiteTransaction, personagemId : number, idiomas: Array<Idioma>) : Promise<any>{
     return new Promise((resolve, reject) => {
       for(var i = 0; i < idiomas.length; i++){
@@ -248,12 +427,59 @@ export class PersonagemProvider {
     });
   }
 
+  private getIdiomaPersonagem (tx : SQLiteTransaction, personagemId : number) : Promise<Array<Idioma>>{
+    let service = this;
+    return new Promise((resolve, reject) => {
+      let promises : Array<Promise<Idioma>> = [];
+      let retorno : Array<Idioma> = [];
+      tx.executeSql('SELECT _id_idioma FROM personagem_idiomas WHERE _id_personagem = ?;', [personagemId], function (tx, resultSet) {
+        for(let i = 0; i < resultSet.rows.length; i++){
+          promises.push(service.racaProvider.getIdioma(resultSet.rows.item(i)._id_idioma))
+        }
+        Promise.all(promises).then(function(idiomas : Array<Idioma>){
+          resolve(idiomas);
+        },function(err){
+          reject(err);
+        })
+      }, function (tx, err) {
+        reject(err);
+        console.error(err);
+      });
+    });
+  }
+
   private addClassePersonagem (tx : SQLiteTransaction, personagemId : number, classe: BaseClass) : Promise<any>{
     return new Promise((resolve, reject) => {
         let queryItem = 'INSERT INTO personagem_classes(_id_personagem, classe, nivel) VALUES ( ?, ?, ? );';
         let paramsItem = [personagemId, classe.$classe, classe.$nivel];
         tx.executeSql(queryItem, paramsItem, function (tx, resultSet) {
             resolve();
+        }, function (tx, err) {
+          reject(err);
+          console.error(err);
+        });
+    });
+  }
+
+  private getClassePersonagem (tx : SQLiteTransaction, personagemId : number) : Promise<BaseClass>{
+    return new Promise((resolve, reject) => {
+        tx.executeSql('SELECT classe, nivel FROM personagem_classes WHERE _id_personagem = ?;', [personagemId], function (tx, resultSet) {
+          if(resultSet.rows.length){
+            let classe = resultSet.rows.item(0).classe;
+            let nivel = resultSet.rows.item(0).nivel;
+            switch (classe) {
+              case 0:
+                  resolve(new Clerigo(nivel))
+              case 1:
+                  resolve(new HomemDeArmas(nivel))
+              case 2:
+                  resolve(new Mago(nivel))
+              case 3:
+                  resolve(new Ladino(nivel))
+            }
+          }else{
+            resolve(null);
+          }
         }, function (tx, err) {
           reject(err);
           console.error(err);

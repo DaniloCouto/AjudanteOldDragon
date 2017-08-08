@@ -24,9 +24,9 @@ export class AddArmorPage {
       if(item instanceof Armadura){
         this.armor = item;
       }
-      this.armor = new Armadura(item.id, item.nome,item.descricao, item.peso, item.valor, item.bonusCa, item.movimentacao, item.tipo, item.limiteAjusteDes);
+      this.armor = new Armadura(item.id, item.nome,item.descricao, item.peso, item.valor, item.bonusCa, item.movimentacao, item.tipo, item.limiteAjusteDes, item.equipado);
     } else {
-      this.armor = new Armadura(null,'Nova Armadura','', 0, 0, 0, 0, 0, 0);
+      this.armor = new Armadura(null,'Nova Armadura','', 0, 0, 0, 0, 0, 0, 0);
     }
   }
 
