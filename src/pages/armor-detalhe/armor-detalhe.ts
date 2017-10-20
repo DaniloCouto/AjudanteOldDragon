@@ -21,7 +21,7 @@ export class ArmorDetalhePage {
       if(item instanceof Armadura){
         this.armor = item
       }else
-        this.armor = new Armadura(item.id, item.nome, item.descricao, item.peso, item.valor, item.bonusCa, item.movimentacao, item.tipo, item.limiteAjusteDes);
+        this.armor = new Armadura(item.id, item.nome, item.descricao, item.peso, item.valor, item.bonusCa, item.movimentacao, item.tipo, item.limiteAjusteDes,0);
     }
   }
 

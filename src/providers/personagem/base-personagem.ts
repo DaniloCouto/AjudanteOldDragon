@@ -10,7 +10,7 @@ export class BasePersonagem{
 
     }
 
-    public static get BASE_IDIOMA(): Array<Personagem>{
+    public static get BASE_PERSONAGEM(): Array<Personagem>{
         return [
             new Personagem(null, // id
                 'Kargathor', //Nome

@@ -19,7 +19,6 @@ export class RacaDetalhePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     let item = this.navParams.get("item");
-    console.log('params:',item);
     if (item != null) {
       if(item instanceof Raca){
         this.raca = item;

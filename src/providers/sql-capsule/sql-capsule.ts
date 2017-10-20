@@ -8,9 +8,10 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
   See https://angular.io/docs/ts/latest/guide/dependency-injection.html
   for more info on providers and Angular 2 DI.
 */
+const win: any = window;
+
 @Injectable()
 export class SqlCapsuleProvider {
-
   constructor(private platform: Platform, private sqlite: SQLite) {
   }
 
@@ -28,7 +29,7 @@ export class SqlCapsuleProvider {
             reject(err);
           });
         }else{
-          reject("Não ha database em cordova");
+          resolve(win.openDatabase('oldDragonRegister.db.1', '1.0', 'database', 5 * 1024 * 1024));
         }
       });
     })

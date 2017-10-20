@@ -17,12 +17,12 @@ import { BaseIdioma } from "./base-idioma";
 @Injectable()
 export class RacaIdiomaProvider {
   sqlCapsule: SqlCapsuleProvider;
-  
+
   constructor(private platform: Platform, private $sqlCapsule: SqlCapsuleProvider) {
     this.sqlCapsule = $sqlCapsule;
     this.platform.ready().then(() => {
       let service = this;
-      this.sqlCapsule.openDatabase().then(function (db : SQLiteObject) {
+      this.sqlCapsule.openDatabase().then(function (db: SQLiteObject) {
         db.transaction(function (tx: SQLiteTransaction) {
           var query = 'CREATE TABLE IF NOT EXISTS idiomas (' +
             '_id	INTEGER PRIMARY KEY AUTOINCREMENT,' +
@@ -34,7 +34,7 @@ export class RacaIdiomaProvider {
               if (resultSet.rows.item(0).mycount === 0) {
                 let transaction = tx;
                 BaseIdioma.BASE_IDIOMA.forEach(function (idioma) {
-                  let params = [idioma.$id,idioma.$nome,idioma.$descricao];
+                  let params = [idioma.$id, idioma.$nome, idioma.$descricao];
                   let query = 'INSERT INTO idiomas(_id, nome,descricao) VALUES ( ?,?,? );';
                   transaction.executeSql(query, params, function (tx, resultSet) {
                   }, function (tx, err) {
@@ -48,10 +48,10 @@ export class RacaIdiomaProvider {
           }, function (tx, err) {
             console.error(err);
           });
-        }).then(function(){},function ( err) {
+        }).then(function () { }, function (err) {
           console.error(err);
         });
-        db.transaction(function (tx : SQLiteTransaction) {
+        db.transaction(function (tx: SQLiteTransaction) {
           var query = 'CREATE TABLE IF NOT EXISTS raca (' +
             '_id	INTEGER,' +
             'nome	TEXT,' +
@@ -59,10 +59,10 @@ export class RacaIdiomaProvider {
             'altura	INTEGER,' +
             'peso	INTEGER,' +
             'classeDeArmadura	INTEGER,' +
-            'bonusDeAtaque	INTEGER,'+
-            'movimentacaoBase	INTEGER,'+
-            '_id_idioma	INTEGER,'+
-            'FOREIGN KEY(_id_idioma) REFERENCES idioma(_id),'+
+            'bonusDeAtaque	INTEGER,' +
+            'movimentacaoBase	INTEGER,' +
+            '_id_idioma	INTEGER,' +
+            'FOREIGN KEY(_id_idioma) REFERENCES idioma(_id),' +
             'PRIMARY KEY(_id)' +
             ');';
           console.log(query)
@@ -72,38 +72,38 @@ export class RacaIdiomaProvider {
               '_id_raca	INTEGER,' +
               'nome	TEXT,' +
               'descricao TEXT,' +
-              'FOREIGN KEY(_id_raca) REFERENCES raca(_id),'+
+              'FOREIGN KEY(_id_raca) REFERENCES raca(_id),' +
               'PRIMARY KEY(_id)' +
               ');';
             console.log(query)
             tx.executeSql(query, null, function (tx, res) {
-                tx.executeSql('SELECT count(*) AS mycount FROM  raca;', [], function (tx, resultSet) {
-                  if (resultSet.rows.item(0).mycount === 0) {
-                    let transaction = tx;
-                    BaseRaca.BASE_RACA.forEach(function (raca:  Raca) {
-                      let params = service.racaToArray(raca);
-                      let query = 'INSERT INTO raca(nome, descricao, altura, peso, classeDeArmadura, bonusDeAtaque, movimentacaoBase, _id_idioma ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? );';
-                      transaction.executeSql(query, params, function (tx, resultSet) {
-                        let racaId = resultSet.insertId;
-                        raca.$habilidades.forEach(function(habilidade){
-                          let query = 'INSERT INTO habilidadeRacial(_id_raca, nome, descricao) VALUES ( ?, ?, ? );';
-                          let params = [racaId, habilidade.$nome, habilidade.$descricao];
-                          transaction.executeSql(query, params, function (tx, resultSet) {
-                          }, function (tx, err) {
-                            console.error(err);
-                          });
-                        })
-                      }, function (tx, err) {
-                        console.error(err);
-                      });
+              tx.executeSql('SELECT count(*) AS mycount FROM  raca;', [], function (tx, resultSet) {
+                if (resultSet.rows.item(0).mycount === 0) {
+                  let transaction = tx;
+                  BaseRaca.BASE_RACA.forEach(function (raca: Raca) {
+                    let params = service.racaToArray(raca);
+                    let query = 'INSERT INTO raca(nome, descricao, altura, peso, classeDeArmadura, bonusDeAtaque, movimentacaoBase, _id_idioma ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? );';
+                    transaction.executeSql(query, params, function (tx, resultSet) {
+                      let racaId = resultSet.insertId;
+                      raca.$habilidades.forEach(function (habilidade) {
+                        let query = 'INSERT INTO habilidadeRacial(_id_raca, nome, descricao) VALUES ( ?, ?, ? );';
+                        let params = [racaId, habilidade.$nome, habilidade.$descricao];
+                        transaction.executeSql(query, params, function (tx, resultSet) {
+                        }, function (tx, err) {
+                          console.error(err);
+                        });
+                      })
+                    }, function (tx, err) {
+                      console.error(err);
                     });
-                  }
-                }, function (tx, err) {
-                  console.error(err);
-                });
+                  });
+                }
               }, function (tx, err) {
                 console.error(err);
               });
+            }, function (tx, err) {
+              console.error(err);
+            });
           }, function (tx, err) {
             console.error(err);
           });
@@ -121,11 +121,11 @@ export class RacaIdiomaProvider {
         db.transaction(function (tx) {
           tx.executeSql(query, params, function (tx, res) {
             let racaId = res.insertId;
-            for(var i = 0; i < raca.$habilidades.length; i++){
+            for (var i = 0; i < raca.$habilidades.length; i++) {
               let query = 'INSERT INTO habilidadeRacial(_id_raca, nome, descricao) VALUES ( ?, ?, ? );';
               let params = [racaId, raca.$habilidades[i].$nome, raca.$habilidades[i].$descricao];
               tx.executeSql(query, params, function (tx, resultSet) {
-                if(i == raca.$habilidades.length){
+                if (i == raca.$habilidades.length) {
                   console.log('resolve add raca')
                   resolve();
                 }
@@ -134,9 +134,9 @@ export class RacaIdiomaProvider {
                 console.error(err);
               });
             }
-            if(raca.$habilidades.length == 0){
+            if (raca.$habilidades.length == 0) {
               resolve();
-            }            
+            }
           }, function (tx, err) {
             console.error(err);
             reject(err);
@@ -152,10 +152,10 @@ export class RacaIdiomaProvider {
         db.transaction(function (tx) {
           let promiseArray = [];
           promiseArray.push(tx.executeSql('DELETE FROM habilidadeRacial WHERE _id_raca = ?;', [raca.$id]));
-          for(var i = 0; i < raca.$habilidades.length; i++){
+          for (var i = 0; i < raca.$habilidades.length; i++) {
             promiseArray.push(tx.executeSql('INSERT INTO habilidadeRacial(_id_raca, nome, descricao) VALUES ( ?, ?, ? );', [raca.$id, raca.$habilidades[i].$nome, raca.$habilidades[i].$descricao]));
           }
-          Promise.all(promiseArray).then(function(){
+          Promise.all(promiseArray).then(function () {
             let arrayParams = service.racaToArray(raca);
             arrayParams.push(raca.$id);
             let query = 'UPDATE raca SET nome = ? , descricao = ?, altura = ? , peso = ?, classeDeArmadura = ?, bonusDeAtaque = ?, movimentacaoBase = ?, _id_idioma = ?  WHERE _id = ?;';
@@ -165,7 +165,7 @@ export class RacaIdiomaProvider {
               console.error(err);
               reject(err);
             });
-          },function(error){
+          }, function (error) {
             console.error(error);
             reject(error);
           })
@@ -190,7 +190,7 @@ export class RacaIdiomaProvider {
           });
         }).then(function (sucesso) {
         }, function (erro) {
-          console.error('Transaction Success Callback',erro);
+          console.error('Transaction Success Callback', erro);
           reject(erro);
         });;
       })
@@ -203,11 +203,11 @@ export class RacaIdiomaProvider {
         db.transaction(function (tx: SQLiteTransaction) {
           tx.executeSql('SELECT * FROM  raca;', [], function (tx, racas) {
             let retorno = [];
-            for(let i = 0; i < racas.rows.length; i++){
+            for (let i = 0; i < racas.rows.length; i++) {
               let tempRaca = racas.rows.item(i);
               tx.executeSql('SELECT * FROM  habilidadeRacial WHERE _id_raca = ?;', [tempRaca._id], function (tx, habilidades) {
                 let arrayHabilidades = [];
-                for(let j = 0; j < habilidades.rows.length; j++){
+                for (let j = 0; j < habilidades.rows.length; j++) {
                   let tempHabilidade = habilidades.rows.item(j);
                   arrayHabilidades.push(
                     new HabilidadeRacial(
@@ -217,9 +217,9 @@ export class RacaIdiomaProvider {
                     )
                   )
                 }
-                console.log(tempRaca,i,racas.rows.length,racas.rows);
+                console.log(tempRaca, i, racas.rows.length, racas.rows);
                 tx.executeSql('SELECT * FROM  idiomas WHERE _id = ?;', [tempRaca._id_idioma], function (tx, idioma) {
-                  if(idioma.rows.length){
+                  if (idioma.rows.length) {
                     retorno.push(
                       new Raca(
                         tempRaca._id,
@@ -231,21 +231,21 @@ export class RacaIdiomaProvider {
                         tempRaca.bonusDeAtaque,
                         tempRaca.movimentacaoBase,
                         arrayHabilidades,
-                        new Idioma(idioma.rows.item(0)._id,idioma.rows.item(0).nome,idioma.rows.item(0).descricao)
+                        new Idioma(idioma.rows.item(0)._id, idioma.rows.item(0).nome, idioma.rows.item(0).descricao)
                       )
                     )
-                    if(i+1 === racas.rows.length){
+                    if (i + 1 === racas.rows.length) {
                       console.log(retorno);
                       resolve(retorno);
                     }
-                  }else{
+                  } else {
                     resolve(null);
                   }
                 }, function (tx, err) {
                   console.error(err);
                   reject();
                 });
-              },function(){
+              }, function () {
                 reject()
               })
             }
@@ -253,38 +253,38 @@ export class RacaIdiomaProvider {
             console.error(err);
             reject();
           });
-        },function(err){
+        }, function (err) {
           console.error(err);
           reject();
         });
-      },function(err){
-          console.error(err);
-          reject();
-        })
+      }, function (err) {
+        console.error(err);
+        reject();
+      })
     });
   }
-  getRaca(id : number): Promise<Raca> {
+  getRaca(id: number): Promise<Raca> {
     let service = this;
     return new Promise((resolve, reject) => {
       this.sqlCapsule.openDatabase().then((db) => {
         db.transaction(function (tx: SQLiteTransaction) {
           tx.executeSql('SELECT * FROM  raca WHERE _id = ?;', [id], function (tx, racas) {
             let retorno = [];
-            if(racas.rows.length){
+            if (racas.rows.length) {
               let tempRaca = racas.rows.item(0);
               tx.executeSql('SELECT * FROM  habilidadeRacial WHERE _id_raca = ?;', [id], function (tx, habilidades) {
                 let arrayHabilidades = [];
-                for(var i = 0; i < habilidades.rows.length; i++){
+                for (var i = 0; i < habilidades.rows.length; i++) {
                   arrayHabilidades.push(
                     new HabilidadeRacial(
-                      racas.rows.item(i)._id,
-                      racas.rows.item(i).nome,
-                      racas.rows.item(i).descricao
+                      habilidades.rows.item(i)._id,
+                      habilidades.rows.item(i).nome,
+                      habilidades.rows.item(i).descricao
                     )
                   )
                 }
                 tx.executeSql('SELECT * FROM  idiomas WHERE _id = ?;', [tempRaca._id], function (tx, idioma) {
-                  if(idioma.rows.length){
+                  if (idioma.rows.length) {
                     resolve(
                       new Raca(
                         tempRaca._id,
@@ -296,37 +296,37 @@ export class RacaIdiomaProvider {
                         tempRaca.bonusDeAtaque,
                         tempRaca.movimentacaoBase,
                         arrayHabilidades,
-                        new Idioma(idioma.rows.item(0)._id,idioma.rows.item(0).nome,idioma.rows.item(0).descricao)
+                        new Idioma(idioma.rows.item(0)._id, idioma.rows.item(0).nome, idioma.rows.item(0).descricao)
                       )
                     )
-                  }else{
+                  } else {
                     resolve(null);
                   }
                 }, function (tx, err) {
                   console.error(err);
                   reject();
                 });
-              },function(){
+              }, function () {
                 reject()
               })
-            }else{
+            } else {
               resolve(null);
             }
           }, function (tx, err) {
             console.error(err);
             reject();
           });
-        },function(err){
+        }, function (err) {
           console.error(err);
           reject();
         });
-      },function(err){
-          console.error(err);
-          reject();
-        })
+      }, function (err) {
+        console.error(err);
+        reject();
+      })
     });
   }
-  getCountRacasComIdiomas(id_idioma : number): Promise<number> {
+  getCountRacasComIdiomas(id_idioma: number): Promise<number> {
     let service = this;
     return new Promise((resolve, reject) => {
       this.sqlCapsule.openDatabase().then((db) => {
@@ -337,14 +337,14 @@ export class RacaIdiomaProvider {
             console.error(err);
             reject();
           });
-        },function(err){
+        }, function (err) {
           console.error(err);
           reject();
         });
-      },function(err){
-          console.error(err);
-          reject();
-        })
+      }, function (err) {
+        console.error(err);
+        reject();
+      })
     });
   }
   addIdioma(idioma: Idioma): Promise<any> {
@@ -378,7 +378,7 @@ export class RacaIdiomaProvider {
           });
         }).then(function (sucesso) {
         }, function (erro) {
-          console.error('Transaction Success Callback',erro);
+          console.error('Transaction Success Callback', erro);
           reject(erro);
         });
       })
@@ -390,9 +390,9 @@ export class RacaIdiomaProvider {
       this.sqlCapsule.openDatabase().then((db) => {
         db.transaction(function (tx) {
           tx.executeSql('SELECT count(*) AS count FROM  raca WHERE _id_idioma = ?;', [id], function (tx, resultSet) {
-            if(resultSet.rows.item(0).count > 0){
+            if (resultSet.rows.item(0).count > 0) {
               reject(403);
-            }else{
+            } else {
               let query = 'DELETE FROM idiomas WHERE _id = ?;';
               tx.executeSql(query, [id], function (tx, res) {
                 resolve(res);
@@ -407,7 +407,7 @@ export class RacaIdiomaProvider {
           });
         }).then(function (sucesso) {
         }, function (erro) {
-          console.error('Transaction Success Callback',erro);
+          console.error('Transaction Success Callback', erro);
           reject(erro);
         });;
       })
@@ -419,8 +419,8 @@ export class RacaIdiomaProvider {
         db.transaction(function (tx: SQLiteTransaction) {
           tx.executeSql('SELECT * FROM  idiomas;', [], function (tx, resultSet) {
             let retorno = [];
-            for(var i = 0; i < resultSet.rows.length; i++){
-              retorno.push(new Idioma(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao));
+            for (var i = 0; i < resultSet.rows.length; i++) {
+              retorno.push(new Idioma(resultSet.rows.item(i)._id, resultSet.rows.item(i).nome, resultSet.rows.item(i).descricao));
             }
             resolve(retorno);
           }, function (tx, err) {
@@ -436,10 +436,10 @@ export class RacaIdiomaProvider {
       this.sqlCapsule.openDatabase().then((db) => {
         db.transaction(function (tx: SQLiteTransaction) {
           tx.executeSql('SELECT * FROM  idiomas WHERE _id = ?;', [id], function (tx, resultSet) {
-            if(resultSet.rows.length){
-              
-              resolve(new Idioma(resultSet.rows.item(0)._id,resultSet.rows.item(0).nome,resultSet.rows.item(0).descricao));
-            }else{
+            if (resultSet.rows.length) {
+
+              resolve(new Idioma(resultSet.rows.item(0)._id, resultSet.rows.item(0).nome, resultSet.rows.item(0).descricao));
+            } else {
               resolve(null);
             }
           }, function (tx, err) {
@@ -451,14 +451,30 @@ export class RacaIdiomaProvider {
     });
   }
 
+  getWithDbIdioma(db, id: number): Promise<Idioma> {
+    return new Promise((resolve, reject) => {
+      db.executeSql('SELECT * FROM  idiomas WHERE _id = ?;', [id], function (tx, resultSet) {
+        if (resultSet.rows.length) {
+
+          resolve(new Idioma(resultSet.rows.item(0)._id, resultSet.rows.item(0).nome, resultSet.rows.item(0).descricao));
+        } else {
+          resolve(null);
+        }
+      }, function (tx, err) {
+        console.error(err);
+        reject();
+      });
+    });
+  }
+
   private idiomaToArray(idioma: Idioma): Array<any> {
     let array = [];
     array.push(idioma.$nome);
     array.push(idioma.$descricao);
     return array;
   }
-  
-  public racaToArray(raca : Raca): Array<any>{
+
+  public racaToArray(raca: Raca): Array<any> {
     let array = [];
     array.push(raca.$nome);
     array.push(raca.$descricao);
@@ -468,8 +484,8 @@ export class RacaIdiomaProvider {
     array.push(raca.$bonusDeAtaque);
     array.push(raca.$movimentacaoBase);
     array.push(raca.$idioma.$id);
-    
+
     return array;
-      
+
   }
 }

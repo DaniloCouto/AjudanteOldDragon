@@ -12,7 +12,7 @@ export class WeaponsService {
   private _db;
   private _weapons: any;
 
-  constructor(private platform: Platform, private $sqlCapsule : SqlCapsuleProvider) {
+  constructor(private platform: Platform, private $sqlCapsule: SqlCapsuleProvider) {
     this.sqlCapsule = $sqlCapsule;
     this.platform.ready().then(() => {
       let service = this;
@@ -39,11 +39,11 @@ export class WeaponsService {
           tx.executeSql(query, null, function (tx, res) {
             tx.executeSql("PRAGMA table_info(weapons);", null, function (tx, res) {
               let verifyFlag = false;
-              for(let i = 0; i < res.rows.length; i++){
-                if(res.rows.item(i).name == 'descricao'){
+              for (let i = 0; i < res.rows.length; i++) {
+                if (res.rows.item(i).name == 'descricao') {
                   service.populateWeaponDb(tx);
                   break;
-                }else if(i+1 === res.rows.length){
+                } else if (i + 1 === res.rows.length) {
                   tx.executeSql("ALTER TABLE weapons ADD COLUMN descricao TEXT;", null, function (tx, res) {
                     service.populateWeaponDb(tx);
                   }, function (tx, err) {
@@ -51,13 +51,13 @@ export class WeaponsService {
                   });
                 }
               }
-            }, function (tx, err) {});
-            
+            }, function (tx, err) { });
+
           }, function (tx, err) {
             console.error(err);
 
           });
-        }).then(function(){},function ( err) {
+        }).then(function () { }, function (err) {
           console.error(err);
         });
       }, function (err) {
@@ -66,7 +66,7 @@ export class WeaponsService {
     });
   }
 
-  private populateWeaponDb(tx){
+  private populateWeaponDb(tx) {
     let service = this;
     tx.executeSql('SELECT count(*) AS mycount FROM  weapons;', [], function (tx, resultSet) {
       if (resultSet.rows.item(0).mycount === 0) {
@@ -81,7 +81,7 @@ export class WeaponsService {
         });
       }
     }, function (tx, err) {
-       console.error(err);
+      console.error(err);
     });
   }
 
@@ -116,7 +116,7 @@ export class WeaponsService {
           });
         }).then(function (sucesso) {
         }, function (erro) {
-          console.error('Transaction Success Callback',erro);
+          console.error('Transaction Success Callback', erro);
           reject(erro);
         });
       })
@@ -135,7 +135,7 @@ export class WeaponsService {
           });
         }).then(function (sucesso) {
         }, function (erro) {
-          console.error('Transaction Success Callback',erro);
+          console.error('Transaction Success Callback', erro);
           reject(erro);
         });;
       })
@@ -148,12 +148,12 @@ export class WeaponsService {
         db.transaction(function (tx: SQLiteTransaction) {
           tx.executeSql('SELECT * FROM  weapons;', [], function (tx, resultSet) {
             let retorno = [];
-            for(var i = 0; i < resultSet.rows.length; i++){
-              retorno.push(new Weapon(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor,
+            for (var i = 0; i < resultSet.rows.length; i++) {
+              retorno.push(new Weapon(resultSet.rows.item(i)._id, resultSet.rows.item(i).nome, resultSet.rows.item(i).descricao, resultSet.rows.item(i).peso, resultSet.rows.item(i).valor,
                 resultSet.rows.item(i).iniciativa, resultSet.rows.item(i).baAdicional,
-                new Dano(resultSet.rows.item(i).danoPuro,resultSet.rows.item(i).danoRolagem,resultSet.rows.item(i).qntdRolagem),
-                [resultSet.rows.item(i).alcancePequeno,resultSet.rows.item(i).alcanceMedio,resultSet.rows.item(i).alcanceGrande],
-                resultSet.rows.item(i).tamanho, [resultSet.rows.item(i).tipo1,resultSet.rows.item(i).tipo2]
+                new Dano(resultSet.rows.item(i).danoPuro, resultSet.rows.item(i).danoRolagem, resultSet.rows.item(i).qntdRolagem),
+                [resultSet.rows.item(i).alcancePequeno, resultSet.rows.item(i).alcanceMedio, resultSet.rows.item(i).alcanceGrande],
+                resultSet.rows.item(i).tamanho, [resultSet.rows.item(i).tipo1, resultSet.rows.item(i).tipo2]
               ))
             }
             resolve(retorno);
@@ -166,7 +166,7 @@ export class WeaponsService {
     });
   }
 
-  getArma(id : number): Promise<Weapon> {
+  getArma(id: number): Promise<Weapon> {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
       this.sqlCapsule.openDatabase().then((db) => {
@@ -174,12 +174,12 @@ export class WeaponsService {
           tx.executeSql('SELECT * FROM  weapons WHERE _id = ?;', [id], function (tx, resultSet) {
             let retorno = [];
             let i = 0;
-            if(resultSet.rows.length){
-              resolve(new Weapon(resultSet.rows.item(i)._id,resultSet.rows.item(i).nome,resultSet.rows.item(i).descricao,resultSet.rows.item(i).peso, resultSet.rows.item(i).valor,
+            if (resultSet.rows.length) {
+              resolve(new Weapon(resultSet.rows.item(i)._id, resultSet.rows.item(i).nome, resultSet.rows.item(i).descricao, resultSet.rows.item(i).peso, resultSet.rows.item(i).valor,
                 resultSet.rows.item(i).iniciativa, resultSet.rows.item(i).baAdicional,
-                new Dano(resultSet.rows.item(i).danoPuro,resultSet.rows.item(i).danoRolagem,resultSet.rows.item(i).qntdRolagem),
-                [resultSet.rows.item(i).alcancePequeno,resultSet.rows.item(i).alcanceMedio,resultSet.rows.item(i).alcanceGrande],
-                resultSet.rows.item(i).tamanho, [resultSet.rows.item(i).tipo1,resultSet.rows.item(i).tipo2]
+                new Dano(resultSet.rows.item(i).danoPuro, resultSet.rows.item(i).danoRolagem, resultSet.rows.item(i).qntdRolagem),
+                [resultSet.rows.item(i).alcancePequeno, resultSet.rows.item(i).alcanceMedio, resultSet.rows.item(i).alcanceGrande],
+                resultSet.rows.item(i).tamanho, [resultSet.rows.item(i).tipo1, resultSet.rows.item(i).tipo2]
               ));
             } else {
               resolve(null);
@@ -189,6 +189,26 @@ export class WeaponsService {
             reject();
           });
         });
+      })
+    });
+  }
+
+  getWithDb(db, id: number): Promise<Weapon> {
+    let output = this.sqliteOutputToArray;
+    return new Promise((resolve, reject) => {
+      db.executeSql('SELECT * FROM  weapons WHERE _id = ?;', [id], function (tx, resultSet) {
+        let retorno = [];
+        let i = 0;
+        if (resultSet.rows.length) {
+          resolve(new Weapon(resultSet.rows.item(i)._id, resultSet.rows.item(i).nome, resultSet.rows.item(i).descricao, resultSet.rows.item(i).peso, resultSet.rows.item(i).valor,
+            resultSet.rows.item(i).iniciativa, resultSet.rows.item(i).baAdicional,
+            new Dano(resultSet.rows.item(i).danoPuro, resultSet.rows.item(i).danoRolagem, resultSet.rows.item(i).qntdRolagem),
+            [resultSet.rows.item(i).alcancePequeno, resultSet.rows.item(i).alcanceMedio, resultSet.rows.item(i).alcanceGrande],
+            resultSet.rows.item(i).tamanho, [resultSet.rows.item(i).tipo1, resultSet.rows.item(i).tipo2]
+          ));
+        } else {
+          resolve(null);
+        }
       })
     });
   }

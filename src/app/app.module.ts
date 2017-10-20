@@ -43,7 +43,11 @@ import { IdiomaDetalhePage } from "../pages/idioma-detalhe/idioma-detalhe";
 import { RacaAddPage } from "../pages/raca-add/raca-add";
 import { HabilidadeRacialAddPage } from "../pages/habilidade-racial-add/habilidade-racial-add";
 import { RacaDetalhePageModule } from "../pages/raca-detalhe/raca-detalhe.module";
-import { PersonagemProvider } from '..\providers\personagem/personagem';
+import { PersonagemProvider } from '../providers/personagem/personagem';
+import { WeaponsService } from '../providers/weapons-service/weapons-service';
+import { ArmorsService } from '../providers/armors-service/armors-service';
+import { MagiaService } from '../providers/magia-service/magia-service';
+import { PersonagemListPageModule } from "../pages/personagem-list/personagem-list.module";
 
 @NgModule({
   declarations: [
@@ -83,7 +87,8 @@ import { PersonagemProvider } from '..\providers\personagem/personagem';
     HttpModule,
     IonicModule.forRoot(MyApp),  
     IonicStorageModule.forRoot(),
-    RacaDetalhePageModule
+    RacaDetalhePageModule,
+    PersonagemListPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -112,6 +117,6 @@ import { PersonagemProvider } from '..\providers\personagem/personagem';
     RacaAddPage,
     HabilidadeRacialAddPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider, RacaIdiomaProvider, PersonagemProvider, ]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider, RacaIdiomaProvider, PersonagemProvider, WeaponsService, ArmorsService, MagiaService]
 })
 export class AppModule {}

@@ -10,6 +10,7 @@ import {CalculadoraAtributosPage} from '../pages/calculadora-atributos/calculado
 import {CalculadoraClassePage} from '../pages/calculadora-classe/calculadora-classe';
 import {TipoMagiasPage} from '../pages/tipo-magias/tipo-magias';
 import { IdiomaListPage } from "../pages/idioma-list/idioma-list";
+import { PersonagemListPage } from "../pages/personagem-list/personagem-list";
 
 
 @Component({
@@ -23,7 +24,8 @@ export class MyApp {
     {texto: 'Loja', componente: BlacksmithPage},
     {texto: 'Biblioteca', componente: TipoMagiasPage},
     {texto: 'Idiomas', componente: IdiomaListPage},
-    {texto: 'Raças', componente: RacaListPage}
+    {texto: 'Raças', componente: RacaListPage},
+    {texto: 'Personagens', componente: PersonagemListPage}
   ]
 
   constructor(platform: Platform, private menu: MenuController, statusBar: StatusBar, splashScreen: SplashScreen) {

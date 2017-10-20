@@ -30,13 +30,11 @@ export class RacaAddPage {
     });
     loading.present().then(()=>{
       this.racaIdiomaProvider.getAllIdioma().then(function(idiomas){
-        console.log('Idiomas',idiomas);
         service.idiomaList = idiomas;
         loading.dismiss();
       })
     })
     let item = this.navParams.get("item");
-    console.log('params:',item);
     if (item != null) {
       this.edit = true;
       if(item instanceof Raca){

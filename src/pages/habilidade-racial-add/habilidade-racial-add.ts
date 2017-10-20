@@ -36,7 +36,6 @@ export class HabilidadeRacialAddPage {
 
   init(){
     let item = this.navParams.get("item");
-    console.log('Modal Params:',item);
     if (item) {
       this.edit = true;
       if(item instanceof HabilidadeRacial){
