@@ -1,3 +1,7 @@
+import { PersonagemInventarioPage } from '../pages/personagem-inventario/personagem-inventario';
+import { PersonagemGrimorioPage } from '../pages/personagem-grimorio/personagem-grimorio';
+import { PersonagemPage } from '../pages/personagem/personagem';
+import { PersonagemDetalhePage } from '../pages/personagem-detalhe/personagem-detalhe';
 import { AddMagiaPage } from '../pages/add-magia/add-magia';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
@@ -80,7 +84,11 @@ import { PersonagemListPageModule } from "../pages/personagem-list/personagem-li
     IdiomaAddPage,
     IdiomaDetalhePage,
     RacaAddPage,
-    HabilidadeRacialAddPage
+    HabilidadeRacialAddPage,
+    PersonagemPage,
+    PersonagemDetalhePage,
+    PersonagemGrimorioPage,
+    PersonagemInventarioPage
   ],
   imports: [
     BrowserModule,
@@ -115,7 +123,11 @@ import { PersonagemListPageModule } from "../pages/personagem-list/personagem-li
     IdiomaAddPage,
     IdiomaDetalhePage,
     RacaAddPage,
-    HabilidadeRacialAddPage
+    HabilidadeRacialAddPage,
+    PersonagemPage,
+    PersonagemDetalhePage,
+    PersonagemGrimorioPage,
+    PersonagemInventarioPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider, RacaIdiomaProvider, PersonagemProvider, WeaponsService, ArmorsService, MagiaService]
 })

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { Clerigo } from '../../classes/classes/clerigo';
 import { HomemDeArmas } from '../../classes/classes/homemdearmas';
 import { Mago } from '../../classes/classes/mago';
@@ -29,9 +29,23 @@ export class CalculadoraClassePage {
   currentClass: BaseClass;
   nivel: number;
 
-  constructor(private nav: NavController, private diceService: DiceClass) {
-    this.selectedClass = 0;
-    this.nivel = 1;
+  constructor(private nav: NavController, private diceService: DiceClass, public navParams: NavParams) {
+    let item = this.navParams.get("item");
+    if(item instanceof BaseClass){
+      this.nivel = item.$nivel;
+      if(item instanceof HomemDeArmas){
+        this.selectedClass = 1;
+      }else if(item instanceof Mago){
+        this.selectedClass = 2;
+      }else if(item instanceof Ladino){
+        this.selectedClass = 3;
+      }else{
+        this.selectedClass = 0;
+      }
+    }else{
+      this.selectedClass = 0;
+      this.nivel = 1;
+    }
     this.classChanged();
   }
 

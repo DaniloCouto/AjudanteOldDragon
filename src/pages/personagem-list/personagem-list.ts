@@ -1,3 +1,5 @@
+import { PersonagemDetalhePage } from '../personagem-detalhe/personagem-detalhe';
+import { PersonagemPage } from '../personagem/personagem';
 import { Personagem } from '../../classes/personagem';
 import { Component } from '@angular/core';
 import { AlertController, NavController, NavParams } from 'ionic-angular';
@@ -42,6 +44,8 @@ export class PersonagemListPage {
   }
 
   openDetalhe(personagem: Personagem){
+    console.log("personagem a ir para a tela", personagem)
+    this.navCtrl.push(PersonagemPage, { item: personagem });
   }
 
   addPersonagem(){

@@ -1,0 +1,69 @@
+<!--
+  Generated template for the PersonagemDetalhePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header >
+
+  <ion-navbar  color="danger">
+    <ion-title>{{personagem.nome}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list *ngIf="personagem">
+    <ion-item>
+      Nome : 
+      <br> {{personagem.nome}}
+    </ion-item>
+    <ion-item>
+      Descrição :
+      <br> {{personagem.descricao}}
+    </ion-item>
+    <button ion-item (tap)="openRaca(personagem.raca)">
+      Raça :
+      <br> {{personagem.raca.nome}}
+    </button>
+    <button ion-item (tap)="openClasse(personagem.classe)">
+      Classe :
+      <br> {{personagem.classe.nome}}
+    </button>
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            For : {{personagem.atributos.forca}}
+          </ion-col>
+          <ion-col>
+            Des : {{personagem.atributos.destreza}}
+          </ion-col>
+          <ion-col>
+            Con : {{personagem.atributos.constituicao}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            Int : {{personagem.atributos.inteligencia}}
+          </ion-col>
+          <ion-col>
+            Sab : {{personagem.atributos.sabedoria}}
+          </ion-col>
+          <ion-col>
+            Car : {{personagem.atributos.carisma}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item>
+        Idiomas
+      </ion-item>
+      <ion-list>
+        <button ion-item *ngFor="let idioma of personagem.idiomas" (tap)="openIdioma(idioma)">
+          {{idioma.nome}}
+        </button>
+      </ion-list>
+  </ion-list>
+</ion-content>
