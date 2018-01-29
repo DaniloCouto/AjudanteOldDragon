@@ -111,14 +111,19 @@ export class PersonagemProvider {
                         ');';
                       console.log(query);
                       db.executeSql(query, null, function (res) {
-                        service.get
-                        BasePersonagem.BASE_PERSONAGEM.forEach(function (personagem) {
-                          service.add(personagem).then(function(resp){
-                            resolve(resp);
-                          },function(err){
-                            reject(err);
-                          });
-                        })
+                        service.getCount().then(function(quantidade){
+                          if(quantidade == 0){
+                            BasePersonagem.BASE_PERSONAGEM.forEach(function (personagem) {
+                              service.add(personagem).then(function(resp){
+                                resolve(resp);
+                              },function(err){
+                                reject(err);
+                              });
+                            })
+                          } else {
+                            resolve();
+                          }
+                        })  
                       }, function (tx, err) {
                         console.error(err);
                         reject(err);
@@ -187,6 +192,23 @@ export class PersonagemProvider {
           console.error(err);
           reject(err);
         })
+      });
+    });
+  }
+
+  getCount(): Promise<Number> {
+    let service = this;
+    return new Promise((resolve, reject) => {
+      console.log('Get all persongagens')
+      let query = 'SELECT count(*) as quantidade FROM personagem;'
+      this.sqlCapsule.openDatabase().then((db) => {
+        db.executeSql(query, [], function (res) {
+          console.log(res, res.rows, res.rows.item(0), res.rows.item(0).quantidade);
+          resolve(res.rows.item(0).quantidade);
+        }, function (tx, err) {
+          console.error(err);
+          reject(err);
+        });
       });
     });
   }
@@ -563,6 +585,7 @@ export class PersonagemProvider {
     returnArray.push(personagem.$nome);
     returnArray.push(personagem.$descricao);
     returnArray.push(personagem.$raca.$id);
+    returnArray.push(personagem.$classe.$classe);
     returnArray.push(personagem.$atributos.$forca);
     returnArray.push(personagem.$atributos.$destreza);
     returnArray.push(personagem.$atributos.$constituicao);

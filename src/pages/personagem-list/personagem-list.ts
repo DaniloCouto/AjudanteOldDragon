@@ -44,7 +44,7 @@ export class PersonagemListPage {
   }
 
   openDetalhe(personagem: Personagem){
-    console.log("personagem a ir para a tela", personagem)
+    console.log("personagem a ir para a tela", personagem);
     this.navCtrl.push(PersonagemPage, { item: personagem });
   }
 

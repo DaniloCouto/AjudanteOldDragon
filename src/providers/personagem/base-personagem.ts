@@ -19,7 +19,7 @@ export class BasePersonagem{
                     new HabilidadeRacial(null,'Adaptabilidade','Adicione +2 em um atributo, porem retire -2 de outro atributo.')
                 ], new Idioma(1,'Comum','Idioma difundido pelos humanos.')), //Raça
                 new HomemDeArmas(Number(1)),//Classe
-                [],//Idiomas
+                [new Idioma(1,'Comum','Idioma difundido pelos humanos.')],//Idiomas
                 new Atributos(18,10,16,8,8,12),//Atributos
                 [],//Magias
                 0,//xpatual

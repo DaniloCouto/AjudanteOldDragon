@@ -1,6 +1,6 @@
 import { Personagem } from '../../classes/personagem';
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Navbar, NavController, NavParams } from 'ionic-angular';
 
 /**
  * Generated class for the PersonagemGrimorioPage page.
@@ -26,7 +26,6 @@ export class PersonagemGrimorioPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PersonagemGrimorioPage');
   }
 
 }

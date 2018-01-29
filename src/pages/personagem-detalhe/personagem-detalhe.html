@@ -7,6 +7,11 @@
 <ion-header >
 
   <ion-navbar  color="danger">
+      <ion-buttons start>
+        <button ion-button icon-only (tap)="backButton()">
+          <ion-icon name="arrow-round-back"></ion-icon>
+        </button>
+    </ion-buttons>
     <ion-title>{{personagem.nome}}</ion-title>
   </ion-navbar>
 
@@ -29,32 +34,93 @@
     </button>
     <button ion-item (tap)="openClasse(personagem.classe)">
       Classe :
-      <br> {{personagem.classe.nome}}
+      <br> {{personagem.classe.$nome}}
     </button>
     <ion-item>
       <ion-grid>
         <ion-row>
-          <ion-col>
-            For : {{personagem.atributos.forca}}
-          </ion-col>
-          <ion-col>
-            Des : {{personagem.atributos.destreza}}
-          </ion-col>
-          <ion-col>
-            Con : {{personagem.atributos.constituicao}}
-          </ion-col>
+          Atributos
         </ion-row>
         <ion-row>
-          <ion-col>
-            Int : {{personagem.atributos.inteligencia}}
-          </ion-col>
-          <ion-col>
-            Sab : {{personagem.atributos.sabedoria}}
-          </ion-col>
-          <ion-col>
-            Car : {{personagem.atributos.carisma}}
-          </ion-col>
+            <ion-col>Força : {{personagem.atributos.$forca}}</ion-col>
+            <ion-col>Destreza : {{personagem.atributos.$destreza}}</ion-col>
+            <ion-col>Constituição : {{personagem.atributos.$constituicao}}</ion-col>
         </ion-row>
+        <ion-row>
+            <ion-col>Inteligencia : {{personagem.atributos.$inteligencia}}</ion-col>
+            <ion-col>Sabedoria : {{personagem.atributos.$sabedoria}}</ion-col>
+            <ion-col>Carisma : {{personagem.atributos.$carisma}}</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item>
+        <ion-grid>
+          <ion-row>
+            Ajustes
+          </ion-row>
+          <ion-row>
+              <ion-col>
+                Força : {{personagem.atributos.$ajusteForca}}
+              </ion-col>
+              <ion-col>
+                Destreza : {{personagem.atributos.$ajusteDestreza}}
+              </ion-col>
+              <ion-col>
+                Constituição : {{personagem.atributos.$ajusteConstituicao}}
+              </ion-col>
+          </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item>
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <h2 style="text-align: center;">Carga</h2>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <h3>Sem</h3>
+                        <p style="text-align: center;">{{personagem.atributos.$linearSemCarga}} kg</p>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <h3>Leve</h3>
+                        <p style="text-align: center;">{{personagem.atributos.$linearCargaLeve}} kg</p>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <h3>Pesada</h3>
+                        <p style="text-align: center;">{{personagem.atributos.$linearCargaPesada}} kg</p>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item>
+        <ion-grid>
+            <ion-row>
+                Carga
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                        <h3>Sem</h3>
+                        <p style="text-align: center;">{{personagem.atributos.$linearSemCarga}} kg</p>
+                </ion-col>
+                <ion-col>
+                        <h3>Leve</h3>
+                        <p style="text-align: center;">{{personagem.atributos.$linearCargaLeve}} kg</p>
+                </ion-col>
+                <ion-col>
+                        <h3>Pesada</h3>
+                        <p style="text-align: center;">{{personagem.atributos.$linearCargaPesada}} kg</p>
+                </ion-col>
+            </ion-row>
       </ion-grid>
     </ion-item>
     <ion-item>
