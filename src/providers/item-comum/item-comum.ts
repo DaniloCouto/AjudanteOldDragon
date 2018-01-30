@@ -37,8 +37,8 @@ export class ItemComumProvider {
               if (resultSet.rows.item(0).mycount === 0) {
                 let transaction = tx;
                 BaseItens.BASE_ITENS.forEach(function (item) {
-                  let params = service.itemToArray(item);
-                  let query = 'INSERT INTO item(nome,descricao, peso,valor) VALUES ( ?,?,?,? );'
+                  let params = service.itemWithIdToArray(item);
+                  let query = 'INSERT INTO item(_id, nome,descricao, peso,valor) VALUES ( ?,?,?,?,? );'
                   transaction.executeSql(query, params, function (tx, resultSet) {
                   }, function (tx, err) {
                     console.error(err);
@@ -207,6 +207,16 @@ export class ItemComumProvider {
 
   private itemToArray(item: Item): Array<any> {
     let array = [];
+    array.push(item.$nome);
+    array.push(item.$descricao);
+    array.push(item.$peso);
+    array.push(item.$valor);
+
+    return array;
+  }
+  private itemWithIdToArray(item: Item): Array<any> {
+    let array = [];
+    array.push(item.$id);
     array.push(item.$nome);
     array.push(item.$descricao);
     array.push(item.$peso);

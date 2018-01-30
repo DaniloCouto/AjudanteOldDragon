@@ -61,8 +61,8 @@ export class ArmorsService {
       if (resultSet.rows.item(0).mycount === 0) {
         let transaction = tx;
         BaseArmaduras.BASE_ARMADURA.forEach(function (weapon) {
-          let params = service.armorToArray(weapon);
-          let query = 'INSERT INTO armors(nome,descricao,peso,valor,bonusCa,movimentacao,tipo,limiteAjusteDes) VALUES ( ?,?,?,?,?,?,?,?);';
+          let params = service.armorWithIdToArray(weapon);
+          let query = 'INSERT INTO armors(_id,nome,descricao,peso,valor,bonusCa,movimentacao,tipo,limiteAjusteDes) VALUES ( ?,?,?,?,?,?,?,?,?);';
           transaction.executeSql(query, params, function (tx, resultSet) {
           }, function (tx, err) {
             console.error(err);
@@ -164,7 +164,7 @@ export class ArmorsService {
 
     return new Promise((resolve, reject) => {
       this.openDatabase().then((db) => {
-        db.executeSql('SELECT * FROM  armors WHERE _id = ?;', [id], function (tx, resultSet) {
+        db.executeSql('SELECT * FROM armors WHERE _id = ?;', [id], function (tx, resultSet) {
           let retorno = [];
           let i = 0;
           if (resultSet.rows.length) {
@@ -188,9 +188,12 @@ export class ArmorsService {
     let output = this.sqliteOutputToArray;
 
     return new Promise((resolve, reject) => {
-      db.executeSql('SELECT * FROM  armors WHERE _id = ?;', [id], function (tx, resultSet) {
+      console.log("Vamo pegar esse id na tabela de armadura",id);
+      //WHERE _id = ?; id
+      db.executeSql("SELECT * FROM armors;", [], function (tx, resultSet) {
         let retorno = [];
         let i = 0;
+        console.log("Resultado do SELECT ",resultSet);
         if (resultSet.rows.length) {
           resolve(new Armadura(resultSet.rows.item(i)._id, resultSet.rows.item(i).nome, resultSet.rows.item(i).descricao, resultSet.rows.item(i).peso, resultSet.rows.item(i).valor, resultSet.rows.item(i).bonusCa, resultSet.rows.item(i).movimentacao, resultSet.rows.item(i).tipo, resultSet.rows.item(i).limiteAjusteDes, 0));
         } else {
@@ -224,6 +227,19 @@ export class ArmorsService {
 
   private armorToArray(armor: Armadura): Array<any> {
     let array = [];
+    array.push(armor.$nome);
+    array.push(armor.$descricao);
+    array.push(armor.$peso);
+    array.push(armor.$valor);
+    array.push(armor.$bonusCa);
+    array.push(armor.$movimentacao);
+    array.push(armor.$tipo);
+    array.push(armor.$limiteAjusteDex);
+    return array;
+  }
+  private armorWithIdToArray(armor: Armadura): Array<any> {
+    let array = [];
+    array.push(armor.$id);
     array.push(armor.$nome);
     array.push(armor.$descricao);
     array.push(armor.$peso);

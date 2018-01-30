@@ -253,9 +253,10 @@ export class PersonagemProvider {
       this.sqlCapsule.openDatabase().then((db) => {
         console.log('DB OPENNED', id);
         db.executeSql("SELECT * FROM personagem WHERE _id = ?;", [id], function (personagem) {
-          console.log('personagem gotten', personagem);
+          
           let promises = [];
           if (personagem.rows.length) {
+            console.log('personagem gotten', personagem.rows.item(0));
             service.getItemPersonagem(db, id).then(function (inventario: Array<Item>) {
               console.log('Itens', inventario );
               service.getMagiaPersonagem(db, id).then(function (magias: Array<Magia>) {
@@ -331,31 +332,38 @@ export class PersonagemProvider {
       let promisesArmaduras: Array<Promise<Armadura>> = [];
       let promisesArmas: Array<Promise<Weapon>> = [];
       db.transaction(function (transaction: SQLiteTransaction) {
+        //
         transaction.executeSql('SELECT _id_arma FROM inventarioArma WHERE _id_personagem = ?;', [personagemId], function (tx, resultSet) {
+          console.log("resultset de armas",resultSet);
           if (resultSet.rows.length) {
             for (let i = 0; i < resultSet.rows.length; i++) {
-              promisesArmas.push(service.armasProvider.getWithDb(transaction, resultSet.rows.item(i)))
+              console.log("Arma geted", resultSet.rows.item(i));
+              promisesArmas.push(service.armasProvider.getWithDb(tx, resultSet.rows.item(i)._id_arma))
             }
           }
           tx.executeSql('SELECT _id_armadura, equipado FROM inventarioArmadura WHERE _id_personagem = ?;', [personagemId], function (tx, resultSet) {
             if (resultSet.rows.length) {
               for (let i = 0; i < resultSet.rows.length; i++) {
-                promisesArmaduras.push(service.armaduraProvider.getWithDb(transaction, resultSet.rows.item(i)));
+                console.log( resultSet.rows.item(i))
+                promisesArmaduras.push(service.armaduraProvider.getWithDb(tx, resultSet.rows.item(i)._id_armadura));
               }
             }
             tx.executeSql('SELECT _id_item FROM inventarioItem WHERE _id_personagem = ?;', [personagemId], function (tx, resultSet) {
               if (resultSet.rows.length) {
                 for (let i = 0; i < resultSet.rows.length; i++) {
-                  promisesItens.push(service.itemProvider.getWithDb(transaction, resultSet.rows.item(i)));
+                  promisesItens.push(service.itemProvider.getWithDb(tx, resultSet.rows.item(i)._id_item));
                 }
               }
               Promise.all(promisesArmas).then(function (armas: Array<Weapon>) {
+                console.log("Promessa feita",armas);
                 if (armas instanceof Array)
                   inventario.concat(armas);
                 Promise.all(promisesArmaduras).then(function (armaduras: Array<Armadura>) {
+                  console.log("Promessa feita",armaduras);
                   if (armaduras instanceof Array)
                     inventario.concat(armaduras);
                   Promise.all(promisesItens).then(function (itens: Array<Item>) {
+                    console.log("Promessa feita",itens);
                     if (itens instanceof Array)
                       inventario.concat(itens);
                     transaction.finish();
@@ -391,6 +399,7 @@ export class PersonagemProvider {
   private transactioQ(tx: SQLiteTransaction, query: string, params: Array<any>): Promise<any> {
     return new Promise((resolve, reject) => {
       tx.executeSql(query, params, function (tx, resultSet) {
+        console.log("Resolved",resultSet);
         resolve(resultSet);
       }, function (tx, err) {
         reject(err);
@@ -405,6 +414,7 @@ export class PersonagemProvider {
         for (var i = 0; i < itens.length; i++) {
           let queryItem: string;
           let paramsItem = [personagemId, itens[i].$id];
+
           if (itens[i] instanceof Weapon) {
             queryItem = 'INSERT INTO inventarioArma(_id_personagem, _id_arma) VALUES ( ?, ? );';
           } else if (itens[i] instanceof Armadura) {
@@ -412,6 +422,7 @@ export class PersonagemProvider {
           } else {
             queryItem = 'INSERT INTO inventarioItem(_id_personagem, _id_item) VALUES ( ?, ? );';
           }
+          console.log(queryItem,paramsItem);
           promises.push(service.transactioQ(tx, queryItem, paramsItem));
         };
         Promise.all(promises).then(function (resultSets) {

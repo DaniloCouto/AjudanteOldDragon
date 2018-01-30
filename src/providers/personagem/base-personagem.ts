@@ -4,6 +4,9 @@ import { HabilidadeRacial, Raca } from '../../classes/raca';
 import { HomemDeArmas } from '../../classes/classes/homemdearmas';
 import { Idioma } from '../../classes/idioma';
 import { Atributos } from '../../classes/atributos';
+import { Weapon } from '../../classes/weapon/weapon';
+import { Dano } from '../../classes/dano/dano';
+import { Armadura } from '../../classes/armadura/armadura';
 export class BasePersonagem{
 
     constructor() {
@@ -23,7 +26,10 @@ export class BasePersonagem{
                 new Atributos(18,10,16,8,8,12),//Atributos
                 [],//Magias
                 0,//xpatual
-                [],// inventario
+                [new Weapon(10,'Espada Longa','', 2, 1000, 5, 0, new Dano(0, 6, 1), [0, 0, 0], 1, [2, 1]),
+                new Armadura(3,'Armadura Completa','',20,200000,8,-3,3,1,0),
+                new Armadura(6,'Escudo de Aço','',7,1500,2,0,0,0,0)
+                ],// inventario
                 new BolsaMoedas(0,0,0,0,0)
             )
         ]

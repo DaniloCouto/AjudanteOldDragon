@@ -18,6 +18,7 @@ export class PersonagemGrimorioPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     let item = this.navParams.data;
+    console.log("Teste Grimório:",(item instanceof Personagem), item);
     if(item instanceof Personagem){
       this.personagem = item;
     }else{

@@ -72,8 +72,8 @@ export class WeaponsService {
       if (resultSet.rows.item(0).mycount === 0) {
         let transaction = tx;
         BaseWeapons.BASE_WEAPONS.forEach(function (weapon) {
-          let params = service.weaponToArray(weapon);
-          let query = 'INSERT INTO weapons(nome,descricao, peso,valor,iniciativa,baAdicional,danoPuro,danoRolagem,qntdRolagem,alcancePequeno,alcanceMedio,alcanceGrande,tipo1,tipo2,tamanho) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
+          let params = service.weaponWithIdToArray(weapon);
+          let query = 'INSERT INTO weapons(_id,nome,descricao, peso,valor,iniciativa,baAdicional,danoPuro,danoRolagem,qntdRolagem,alcancePequeno,alcanceMedio,alcanceGrande,tipo1,tipo2,tamanho) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
           transaction.executeSql(query, params, function (tx, resultSet) {
           }, function (tx, err) {
             console.error(err);
@@ -231,6 +231,26 @@ export class WeaponsService {
 
   private weaponToArray(weapon: Weapon): Array<any> {
     let array = [];
+    array.push(weapon.$nome);
+    array.push(weapon.$descricao);
+    array.push(weapon.$peso);
+    array.push(weapon.$valor);
+    array.push(weapon.$iniciativa);
+    array.push(weapon.$BaAdicional);
+    array.push(weapon.$dano.$danoPuro);
+    array.push(weapon.$dano.$danoRolagem);
+    array.push(weapon.$dano.$qntdRolagem);
+    array.push(weapon.$alcance[0]);
+    array.push(weapon.$alcance[1]);
+    array.push(weapon.$alcance[2]);
+    array.push(weapon.$tipo[0]);
+    array.push(weapon.$tipo[1]);
+    array.push(weapon.$tamanho);
+    return array;
+  }
+  private weaponWithIdToArray(weapon: Weapon): Array<any> {
+    let array = [];
+    array.push(weapon.$id);
     array.push(weapon.$nome);
     array.push(weapon.$descricao);
     array.push(weapon.$peso);
