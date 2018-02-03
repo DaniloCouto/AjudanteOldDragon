@@ -6,13 +6,8 @@
 -->
 <ion-header >
 
-  <ion-navbar  color="danger">
-      <ion-buttons>
-        <button ion-button icon-only (tap)="backButton()">
-          <ion-icon name="arrow-round-back"></ion-icon>
-        </button>
-    </ion-buttons>
-    <ion-title>{{personagem.nome}}</ion-title>
+  <ion-navbar  color="danger" class="force-back-button">
+      <ion-title>{{personagem.nome}}</ion-title>
   </ion-navbar>
 
 </ion-header>

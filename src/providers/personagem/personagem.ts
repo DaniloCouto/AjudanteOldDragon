@@ -257,7 +257,7 @@ export class PersonagemProvider {
           let promises = [];
           if (personagem.rows.length) {
             console.log('personagem gotten', personagem.rows.item(0));
-            service.getItemPersonagem(db, id).then(function (inventario: Array<Item>) {
+            service.getItemPersonagem(id).then(function (inventario: Array<Item>) {
               console.log('Itens', inventario );
               service.getMagiaPersonagem(db, id).then(function (magias: Array<Magia>) {
                 console.log('magias', magias );
@@ -323,7 +323,7 @@ export class PersonagemProvider {
     })
   }
 
-  private getItemPersonagem(db, personagemId: number): Promise<Array<Item>> {
+  private getItemPersonagem( personagemId: number): Promise<Array<Item>> {
     let service = this;
     return new Promise((resolve, reject) => {
       console.log('ITEM_PERSONAGEM');
@@ -331,42 +331,40 @@ export class PersonagemProvider {
       let promisesItens: Array<Promise<Item>> = [];
       let promisesArmaduras: Array<Promise<Armadura>> = [];
       let promisesArmas: Array<Promise<Weapon>> = [];
-      db.transaction(function (transaction: SQLiteTransaction) {
-        //
-        transaction.executeSql('SELECT _id_arma FROM inventarioArma WHERE _id_personagem = ?;', [personagemId], function (tx, resultSet) {
-          console.log("resultset de armas",resultSet);
+      this.sqlCapsule.openDatabase().then(db => {
+        db.executeSql('SELECT _id_armadura, equipado FROM inventarioArmadura WHERE _id_personagem = ?;', [personagemId], function (resultSet) {
           if (resultSet.rows.length) {
             for (let i = 0; i < resultSet.rows.length; i++) {
-              console.log("Arma geted", resultSet.rows.item(i));
-              promisesArmas.push(service.armasProvider.getWithDb(tx, resultSet.rows.item(i)._id_arma))
+              console.log( resultSet.rows.item(i))
+              promisesArmaduras.push(service.armaduraProvider.getWithDb(db, resultSet.rows.item(i)._id_armadura));
             }
           }
-          tx.executeSql('SELECT _id_armadura, equipado FROM inventarioArmadura WHERE _id_personagem = ?;', [personagemId], function (tx, resultSet) {
+          db.executeSql('SELECT _id_arma FROM inventarioArma WHERE _id_personagem = ?;', [personagemId], function (resultSet) {
+            console.log("resultset de armas",resultSet);
             if (resultSet.rows.length) {
               for (let i = 0; i < resultSet.rows.length; i++) {
-                console.log( resultSet.rows.item(i))
-                promisesArmaduras.push(service.armaduraProvider.getWithDb(tx, resultSet.rows.item(i)._id_armadura));
+                console.log("Arma geted", resultSet.rows.item(i));
+                promisesArmas.push(service.armasProvider.getWithDb(db, resultSet.rows.item(i)._id_arma))
               }
             }
-            tx.executeSql('SELECT _id_item FROM inventarioItem WHERE _id_personagem = ?;', [personagemId], function (tx, resultSet) {
+            db.executeSql('SELECT _id_item FROM inventarioItem WHERE _id_personagem = ?;', [personagemId], function (resultSet) {
               if (resultSet.rows.length) {
                 for (let i = 0; i < resultSet.rows.length; i++) {
-                  promisesItens.push(service.itemProvider.getWithDb(tx, resultSet.rows.item(i)._id_item));
+                  promisesItens.push(service.itemProvider.getWithDb(db, resultSet.rows.item(i)._id_item));
                 }
               }
               Promise.all(promisesArmas).then(function (armas: Array<Weapon>) {
                 console.log("Promessa feita",armas);
                 if (armas instanceof Array)
-                  inventario.concat(armas);
+                  inventario = inventario.concat(armas);
                 Promise.all(promisesArmaduras).then(function (armaduras: Array<Armadura>) {
                   console.log("Promessa feita",armaduras);
                   if (armaduras instanceof Array)
-                    inventario.concat(armaduras);
+                    inventario = inventario.concat(armaduras);
                   Promise.all(promisesItens).then(function (itens: Array<Item>) {
                     console.log("Promessa feita",itens);
                     if (itens instanceof Array)
-                      inventario.concat(itens);
-                    transaction.finish();
+                      inventario = inventario.concat(itens);
                     resolve(inventario);
                   }, function () {
                     reject();
@@ -389,9 +387,6 @@ export class PersonagemProvider {
           reject(err);
           console.error(err);
         });
-      }, function (tx, err) {
-        reject(err);
-        console.error(err);
       });
     });
   }
@@ -437,6 +432,32 @@ export class PersonagemProvider {
       if (itens.length == 0) {
         resolve();
       }
+    });
+  }
+
+  public removeItemPersonagem(personagemId: number, item: Item): Promise<any> {
+    let service = this;
+    return new Promise((resolve, reject) => {
+      let promises: Array<Promise<any>> = [];
+      this.sqlCapsule.openDatabase().then((db) => {
+        let queryItem: string;
+          let paramsItem = [personagemId, item.$id];
+
+          if (item instanceof Weapon) {
+            queryItem = 'DELETE FROM inventarioArma WHERE _id_personagem = ? AND _id_arma = ?;';
+          } else if (item instanceof Armadura) {
+            queryItem = 'DELETE FROM inventarioArmadura WHERE _id_personagem = ? AND _id_armadura = ?;';
+          } else {
+            queryItem = 'DELETE FROM inventarioItem WHERE _id_personagem = ? AND _id_item = ?;';
+          }
+          console.log(queryItem,paramsItem);
+          db.executeSql(queryItem, paramsItem, function (resultSet) {
+            resolve(resultSet);
+          }, function (tx, err) {
+            reject(err);
+            console.error(err);
+          });
+      });
     });
   }
 

@@ -3,15 +3,18 @@ import { Injectable } from '@angular/core';
 import { Armadura } from '../../classes/armadura/armadura';
 import { BaseArmaduras } from './base-armors';
 import { SQLite, SQLiteObject, SQLiteTransaction } from '@ionic-native/sqlite';
+import { SqlCapsuleProvider } from '../sql-capsule/sql-capsule';
 
 @Injectable()
 export class ArmorsService {
   private _db;
+  private sqlCapsule: SqlCapsuleProvider;
 
-  constructor(private platform: Platform, private sqlite: SQLite) {
+  constructor(private platform: Platform, private sqlite: SQLite, private $sqlCapsule: SqlCapsuleProvider) {
+    this.sqlCapsule = $sqlCapsule;
     this.platform.ready().then(() => {
       let service = this;
-      this.openDatabase().then(function (db: SQLiteObject) {
+      this.sqlCapsule.openDatabase().then(function (db: SQLiteObject) {
         db.transaction(function (tx: SQLiteTransaction) {
           var query = 'CREATE TABLE IF NOT EXISTS armors (' +
             '_id	INTEGER PRIMARY KEY AUTOINCREMENT,' +
@@ -189,40 +192,26 @@ export class ArmorsService {
 
     return new Promise((resolve, reject) => {
       console.log("Vamo pegar esse id na tabela de armadura",id);
-      //WHERE _id = ?; id
-      db.executeSql("SELECT * FROM armors;", [], function (tx, resultSet) {
-        let retorno = [];
-        let i = 0;
-        console.log("Resultado do SELECT ",resultSet);
-        if (resultSet.rows.length) {
-          resolve(new Armadura(resultSet.rows.item(i)._id, resultSet.rows.item(i).nome, resultSet.rows.item(i).descricao, resultSet.rows.item(i).peso, resultSet.rows.item(i).valor, resultSet.rows.item(i).bonusCa, resultSet.rows.item(i).movimentacao, resultSet.rows.item(i).tipo, resultSet.rows.item(i).limiteAjusteDes, 0));
-        } else {
-          resolve(null);
-        }
-      }, function (tx, err) {
-        console.error(err);
-        reject();
-      });
+      // id
+        db.executeSql('SELECT * FROM  armors WHERE _id = ?;', [id], function (resultSet) {
+            let retorno = [];
+            let i = 0;
+            console.log("Resultado do SELECT ",resultSet);
+            if (resultSet.rows.length) {
+              console.log(resultSet.rows.item(i));
+              resolve(new Armadura(resultSet.rows.item(i)._id, resultSet.rows.item(i).nome, resultSet.rows.item(i).descricao, resultSet.rows.item(i).peso, resultSet.rows.item(i).valor, resultSet.rows.item(i).bonusCa, resultSet.rows.item(i).movimentacao, resultSet.rows.item(i).tipo, resultSet.rows.item(i).limiteAjusteDes, 0));
+            } else {
+              resolve(null);
+            }
+          }, function (tx, err) {
+            console.error(err);
+            reject();
+          });
     });
   }
 
   private openDatabase(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.platform.ready().then(() => {
-        this.sqlite.create({
-          name: 'oldDragonRegister.db',
-          location: 'default',
-          createFromLocation: 1
-        }).then((db: SQLiteObject) => {
-          this._db = db;
-          resolve(db);
-        }, (err) => {
-          console.error(err);
-          resolve(this._db);
-        });
-      });
-
-    })
+    return this.sqlCapsule.openDatabase();
   }
 
   private armorToArray(armor: Armadura): Array<any> {

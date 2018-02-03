@@ -196,7 +196,7 @@ export class WeaponsService {
   getWithDb(db, id: number): Promise<Weapon> {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
-      db.executeSql('SELECT * FROM  weapons WHERE _id = ?;', [id], function (tx, resultSet) {
+      db.executeSql('SELECT * FROM  weapons WHERE _id = ?;', [id], function (resultSet) {
         let retorno = [];
         let i = 0;
         if (resultSet.rows.length) {

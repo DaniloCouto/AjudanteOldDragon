@@ -6,8 +6,13 @@
 -->
 <ion-header>
 
-  <ion-navbar  color="danger">
-    <ion-title>{{personagem.nome}}</ion-title>
+  <ion-navbar  color="danger"  class="force-back-button">
+      <ion-title>{{personagem.nome}}</ion-title>
+    <ion-buttons end>
+        <button ion-button icon-only (tap)="addMagiaGrimorio()">
+          <ion-icon name="add"></ion-icon>
+        </button>
+      </ion-buttons>
   </ion-navbar>
 
 </ion-header>

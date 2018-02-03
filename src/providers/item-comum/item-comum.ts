@@ -174,7 +174,7 @@ export class ItemComumProvider {
 
   getWithDb(db, id: number): Promise<Item> {
     return new Promise((resolve, reject) => {
-      db.executeSql('SELECT * FROM  item WHERE _id = ?;', [id], function (tx, resultSet) {
+      db.executeSql('SELECT * FROM  item WHERE _id = ?;', [id], function (resultSet) {
         let retorno = [];
         let i = 0;
         if (resultSet.rows.length) {

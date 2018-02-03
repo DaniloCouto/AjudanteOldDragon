@@ -19,6 +19,7 @@ import { Navbar, NavController, NavParams } from 'ionic-angular';
 })
 export class PersonagemDetalhePage {
   personagem : Personagem;
+  @ViewChild(Navbar) navBar:Navbar;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     let item = this.navParams.data;
@@ -46,6 +47,9 @@ export class PersonagemDetalhePage {
   }
 
   ionViewDidLoad() {
+    this.navBar.backButtonClick = (e:UIEvent) => {
+        this.navCtrl.parent.viewCtrl.dismiss();
+    };
   }
 
 }
