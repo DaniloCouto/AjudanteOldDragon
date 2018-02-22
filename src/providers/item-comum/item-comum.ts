@@ -4,7 +4,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { SqlCapsuleProvider } from "../sql-capsule/sql-capsule";
 import { Platform } from 'ionic-angular';
-import { SQLiteTransaction, SQLiteObject } from '@ionic-native/sqlite';
+import { SQLiteObject } from '@ionic-native/sqlite';
 import { BaseItens } from "./base-item-comum";
 
 /*
@@ -24,7 +24,6 @@ export class ItemComumProvider {
     this.platform.ready().then(() => {
       let service = this;
       this.sqlCapsule.openDatabase().then(function (db: SQLiteObject) {
-        db.transaction(function (tx: SQLiteTransaction) {
           var query = 'CREATE TABLE IF NOT EXISTS item (' +
             '_id	INTEGER PRIMARY KEY AUTOINCREMENT,' +
             'nome	TEXT,' +
@@ -32,29 +31,25 @@ export class ItemComumProvider {
             'peso	REAL,' +
             'valor	INTEGER' +
             ');'
-          tx.executeSql(query, null, function (tx, res) {
-            tx.executeSql('SELECT count(*) AS mycount FROM  item;', [], function (tx, resultSet) {
+          db.executeSql(query, null).then(function (res) {
+            db.executeSql('SELECT count(*) AS mycount FROM  item;', []).then(function (resultSet) {
               if (resultSet.rows.item(0).mycount === 0) {
-                let transaction = tx;
+                let capsDb = db;
                 BaseItens.BASE_ITENS.forEach(function (item) {
                   let params = service.itemWithIdToArray(item);
                   let query = 'INSERT INTO item(_id, nome,descricao, peso,valor) VALUES ( ?,?,?,?,? );'
-                  transaction.executeSql(query, params, function (tx, resultSet) {
-                  }, function (tx, err) {
+                  capsDb.executeSql(query, params).then(function ( resultSet) {
+                  }, function (err) {
                     console.error(err);
                   });
                 });
               }
-            }, function (tx, err) {
+            }, function (err) {
               console.error(err);
             });
-          }, function (tx, err) {
+          }, function (err) {
             console.error(err);
-
           });
-        }).then(function () { }, function (err) {
-          console.error(err);
-        });
       }, function (err) {
         console.error(err);
       })
@@ -66,14 +61,12 @@ export class ItemComumProvider {
     return new Promise((resolve, reject) => {
       let query = 'INSERT INTO item(nome,descricao, peso,valor) VALUES ( ?,?,?,? );'
       this.sqlCapsule.openDatabase().then((db) => {
-        db.transaction(function (tx) {
-          tx.executeSql(query, params, function (tx, res) {
+          db.executeSql(query, params).then(function (res) {
             resolve(res);
-          }, function (tx, err) {
+          }, function (err) {
             console.error(err);
             reject(err);
           });
-        });
       });
     });
   }
@@ -83,18 +76,12 @@ export class ItemComumProvider {
     return new Promise((resolve, reject) => {
       let query = 'UPDATE item SET nome = ? , descricao = ?, peso = ? , valor = ?  WHERE _id = ?;';
       this.sqlCapsule.openDatabase().then((db) => {
-        db.transaction(function (tx) {
-          tx.executeSql(query, arrayParams, function (tx, res) {
+          db.executeSql(query, arrayParams).then(function (res) {
             resolve(res);
-          }, function (tx, err) {
+          }, function (err) {
             console.error(err);
             reject(err);
           });
-        }).then(function (sucesso) {
-        }, function (erro) {
-          console.error('Transaction Success Callback', erro);
-          reject(erro);
-        });
       })
     });
   }
@@ -103,18 +90,12 @@ export class ItemComumProvider {
     return new Promise((resolve, reject) => {
       let query = 'DELETE FROM item WHERE _id = ?;';
       this.sqlCapsule.openDatabase().then((db) => {
-        db.transaction(function (tx) {
-          tx.executeSql(query, [id], function (tx, res) {
+          db.executeSql(query, [id]).then(function (res) {
             resolve(res);
-          }, function (tx, err) {
+          }, function (err) {
             console.error(err);
             reject(err);
           });
-        }).then(function (sucesso) {
-        }, function (erro) {
-          console.error('Transaction Success Callback', erro);
-          reject(erro);
-        });;
       })
     });
   }
@@ -123,21 +104,16 @@ export class ItemComumProvider {
 
     return new Promise((resolve, reject) => {
       this.sqlCapsule.openDatabase().then((db) => {
-        db.transaction(function (tx: SQLiteTransaction) {
-          tx.executeSql('SELECT * FROM  item;', [], function (tx, resultSet) {
+          db.executeSql('SELECT * FROM  item;', []).then( function (resultSet) {
             let retorno = [];
             for (var i = 0; i < resultSet.rows.length; i++) {
               retorno.push(new Item(resultSet.rows.item(i)._id, resultSet.rows.item(i).nome, resultSet.rows.item(i).descricao, resultSet.rows.item(i).peso, resultSet.rows.item(i).valor))
             }
             resolve(retorno);
-          }, function (tx, err) {
+          }, function (err) {
             console.error(err);
             reject();
           });
-        }, function (err) {
-          console.error(err);
-          reject();
-        });
       }, function (err) {
         console.error(err);
         reject();
@@ -148,8 +124,7 @@ export class ItemComumProvider {
   get(id: number): Promise<Item> {
     return new Promise((resolve, reject) => {
       this.sqlCapsule.openDatabase().then((db) => {
-        db.transaction(function (tx: SQLiteTransaction) {
-          tx.executeSql('SELECT * FROM  item WHERE _id = ?;', [id], function (tx, resultSet) {
+          db.executeSql('SELECT * FROM  item WHERE _id = ?;', [id]).then(function (resultSet) {
             let retorno = [];
             let i = 0;
             if (resultSet.rows.length) {
@@ -157,14 +132,10 @@ export class ItemComumProvider {
             } else {
               resolve(null);
             }
-          }, function (tx, err) {
+          }, function (err) {
             console.error(err);
             reject();
           });
-        }, function (err) {
-          console.error(err);
-          reject();
-        });
       }, function (err) {
         console.error(err);
         reject();
@@ -172,9 +143,9 @@ export class ItemComumProvider {
     });
   }
 
-  getWithDb(db, id: number): Promise<Item> {
+  getWithDb(db : SQLiteObject, id: number): Promise<Item> {
     return new Promise((resolve, reject) => {
-      db.executeSql('SELECT * FROM  item WHERE _id = ?;', [id], function (resultSet) {
+      db.executeSql('SELECT * FROM  item WHERE _id = ?;', [id]).then(function (resultSet) {
         let retorno = [];
         let i = 0;
         if (resultSet.rows.length) {
@@ -182,7 +153,7 @@ export class ItemComumProvider {
         } else {
           resolve(null);
         }
-      }, function (tx, err) {
+      }, function (err) {
         console.error(err);
         reject();
       });
@@ -193,14 +164,13 @@ export class ItemComumProvider {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
       this.sqlCapsule.openDatabase().then((db) => {
-        db.transaction(function (tx: SQLiteTransaction) {
-          tx.executeSql('SELECT count(*) FROM  item;', [], function (tx, resultSet) {
+          db.executeSql('SELECT count(*) FROM  item;', []).then(function (resultSet) {
             resolve(output(resultSet.rows));
-          }, function (tx, err) {
+          }, function (err) {
             console.error(err);
             reject();
           });
-        });
+        
       })
     });
   }

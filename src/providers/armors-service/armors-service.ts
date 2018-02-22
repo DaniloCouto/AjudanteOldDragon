@@ -2,7 +2,7 @@ import { Platform } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { Armadura } from '../../classes/armadura/armadura';
 import { BaseArmaduras } from './base-armors';
-import { SQLite, SQLiteObject, SQLiteTransaction } from '@ionic-native/sqlite';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { SqlCapsuleProvider } from '../sql-capsule/sql-capsule';
 
 @Injectable()
@@ -15,7 +15,6 @@ export class ArmorsService {
     this.platform.ready().then(() => {
       let service = this;
       this.sqlCapsule.openDatabase().then(function (db: SQLiteObject) {
-        db.transaction(function (tx: SQLiteTransaction) {
           var query = 'CREATE TABLE IF NOT EXISTS armors (' +
             '_id	INTEGER PRIMARY KEY AUTOINCREMENT,' +
             'nome	TEXT,' +
@@ -27,52 +26,49 @@ export class ArmorsService {
             'tipo	INTEGER,' +
             'limiteAjusteDes	INTEGER' +
             ');';
-          tx.executeSql(query, null, function (tx, res) {
-            tx.executeSql("PRAGMA table_info(armors);", null, function (tx, res) {
+          db.executeSql(query, null).then(function (res) {
+            db.executeSql("PRAGMA table_info(armors);", null).then(function (res) {
               let verifyFlag = false;
               for (let i = 0; i < res.rows.length; i++) {
                 if (res.rows.item(i).name == 'descricao') {
-                  service.populateArmorDb(tx);
+                  service.populateArmorDb(db);
                   break;
                 } else if (i + 1 === res.rows.length) {
-                  tx.executeSql("ALTER TABLE armors ADD COLUMN descricao TEXT;", null, function (tx, res) {
-                    service.populateArmorDb(tx);
-                  }, function (tx, err) {
+                  db.executeSql("ALTER TABLE armors ADD COLUMN descricao TEXT;", null).then(function (res) {
+                    service.populateArmorDb(db);
+                  }, function (err) {
                     console.error(err);
                   });
                 }
               }
-            }, function (tx, err) { });
+            }, function ( err) { });
             // 
 
-          }, function (tx, err) {
+          }, function ( err) {
             console.error(err);
 
           });
-        }).then(function () { }, function (err) {
-          console.error(err);
-        });
       }, function (err) {
         console.error(err);
       })
     });
   }
 
-  private populateArmorDb(tx) {
+  private populateArmorDb(db : SQLiteObject) {
     let service = this;
-    tx.executeSql('SELECT count(*) AS mycount FROM  armors;', [], function (tx, resultSet) {
+    db.executeSql('SELECT count(*) AS mycount FROM  armors;', []).then(function (resultSet) {
       if (resultSet.rows.item(0).mycount === 0) {
-        let transaction = tx;
+        let capsDB = db;
         BaseArmaduras.BASE_ARMADURA.forEach(function (weapon) {
           let params = service.armorWithIdToArray(weapon);
           let query = 'INSERT INTO armors(_id,nome,descricao,peso,valor,bonusCa,movimentacao,tipo,limiteAjusteDes) VALUES ( ?,?,?,?,?,?,?,?,?);';
-          transaction.executeSql(query, params, function (tx, resultSet) {
-          }, function (tx, err) {
+          capsDB.executeSql(query, params).then(function (resultSet) {
+          }, function (err) {
             console.error(err);
           });
         });
       }
-    }, function (tx, err) {
+    }, function (err) {
       console.error(err);
     });
   }
@@ -82,17 +78,12 @@ export class ArmorsService {
     return new Promise((resolve, reject) => {
       let query = 'INSERT INTO armors(nome,descricao,peso,valor,bonusCa,movimentacao,tipo,limiteAjusteDes) VALUES ( ?,?,?,?,?,?,?,?);';
       this.openDatabase().then((db) => {
-        db.transaction(function (tx) {
-          tx.executeSql(query, params, function (tx, res) {
+          db.executeSql(query, params).then(function (res) {
             resolve(res);
-          }, function (tx, err) {
+          }, function (err) {
             console.error(err);
             reject(err);
           });
-        }, function (tx, err) {
-          console.error(err);
-          reject(err);
-        });
       });
     });
   }
@@ -102,19 +93,12 @@ export class ArmorsService {
     return new Promise((resolve, reject) => {
       let query = 'UPDATE armors SET nome = ?, descricao = ? , peso = ? , valor = ? , bonusCa = ? , movimentacao = ? , tipo = ? , limiteAjusteDes = ? WHERE _id = ?;';
       this.openDatabase().then((db) => {
-        db.transaction(function (tx) {
-          tx.executeSql(query, arrayParams, function (tx, res) {
+          db.executeSql(query, arrayParams).then(function (res) {
             resolve(res);
-          }, function (tx, err) {
+          }, function ( err) {
             console.error(err);
             reject(err);
           });
-        }, function (tx, err) {
-          console.error('Transaction Callback Error', err);
-          reject(err);
-        }, function (tx, succ) {
-          reject(tx);
-        });
       })
     });
   }
@@ -122,15 +106,11 @@ export class ArmorsService {
     return new Promise((resolve, reject) => {
       let query = 'DELETE FROM armors WHERE _id = ?;';
       this.openDatabase().then((db) => {
-        db.transaction(function (tx) {
-          tx.executeSql(query, [id], function (tx, res) {
+          db.executeSql(query, [id]).then(function (res) {
             resolve(res);
-          }, function (tx, err) {
+          }, function ( err) {
             reject(err);
           });
-        }, function (tx, err) {
-          reject(err);
-        });
       })
     });
   }
@@ -139,21 +119,16 @@ export class ArmorsService {
 
     return new Promise((resolve, reject) => {
       this.openDatabase().then((db) => {
-        db.transaction(function (tx) {
-          tx.executeSql('SELECT * FROM  armors;', [], function (tx, resultSet) {
+          db.executeSql('SELECT * FROM  armors;', []).then(function (resultSet) {
             let retorno = [];
             for (var i = 0; i < resultSet.rows.length; i++) {
               retorno.push(new Armadura(resultSet.rows.item(i)._id, resultSet.rows.item(i).nome, resultSet.rows.item(i).descricao, resultSet.rows.item(i).peso, resultSet.rows.item(i).valor, resultSet.rows.item(i).bonusCa, resultSet.rows.item(i).movimentacao, resultSet.rows.item(i).tipo, resultSet.rows.item(i).limiteAjusteDes, resultSet.rows.item(i).equipado))
             }
             resolve(retorno);
-          }, function (tx, err) {
+          }, function (err) {
             console.error(err);
             reject();
           });
-        }, function (tx, err) {
-          console.error(err);
-          reject();
-        });
       }, function (err) {
         console.error(err);
         reject();
@@ -167,7 +142,7 @@ export class ArmorsService {
 
     return new Promise((resolve, reject) => {
       this.openDatabase().then((db) => {
-        db.executeSql('SELECT * FROM armors WHERE _id = ?;', [id], function (tx, resultSet) {
+        db.executeSql('SELECT * FROM armors WHERE _id = ?;', [id]).then(function (resultSet) {
           let retorno = [];
           let i = 0;
           if (resultSet.rows.length) {
@@ -175,7 +150,7 @@ export class ArmorsService {
           } else {
             resolve(null);
           }
-        }, function (tx, err) {
+        }, function (err) {
           console.error(err);
           reject();
         });
@@ -187,13 +162,13 @@ export class ArmorsService {
     });
   }
 
-  getWithDb(db, id: number): Promise<Armadura> {
+  getWithDb(db : SQLiteObject, id: number): Promise<Armadura> {
     let output = this.sqliteOutputToArray;
 
     return new Promise((resolve, reject) => {
       console.log("Vamo pegar esse id na tabela de armadura",id);
       // id
-        db.executeSql('SELECT * FROM  armors WHERE _id = ?;', [id], function (resultSet) {
+        db.executeSql('SELECT * FROM  armors WHERE _id = ?;', [id]).then(function (resultSet) {
             let retorno = [];
             let i = 0;
             console.log("Resultado do SELECT ",resultSet);
@@ -203,14 +178,14 @@ export class ArmorsService {
             } else {
               resolve(null);
             }
-          }, function (tx, err) {
+          }, function (err) {
             console.error(err);
             reject();
           });
     });
   }
 
-  private openDatabase(): Promise<any> {
+  private openDatabase(): Promise<SQLiteObject> {
     return this.sqlCapsule.openDatabase();
   }
 

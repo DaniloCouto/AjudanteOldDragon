@@ -10,7 +10,7 @@ import { StatusBar  } from '@ionic-native/status-bar';
 import { SQLite} from '@ionic-native/sqlite';
 import { IonicStorageModule } from '@ionic/storage';
 import { NgModule, ErrorHandler } from '@angular/core';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import {BlacksmithPage} from '../pages/blacksmith/blacksmith';
@@ -52,6 +52,8 @@ import { WeaponsService } from '../providers/weapons-service/weapons-service';
 import { ArmorsService } from '../providers/armors-service/armors-service';
 import { MagiaService } from '../providers/magia-service/magia-service';
 import { PersonagemListPageModule } from "../pages/personagem-list/personagem-list.module";
+import { SQLiteMock } from '@ionic-native-mocks/sqlite';
+
 
 @NgModule({
   declarations: [
@@ -129,6 +131,12 @@ import { PersonagemListPageModule } from "../pages/personagem-list/personagem-li
     PersonagemGrimorioPage,
     PersonagemInventarioPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},SplashScreen, StatusBar, SQLite, SqlCapsuleProvider, ItemComumProvider, RacaIdiomaProvider, PersonagemProvider, WeaponsService, ArmorsService, MagiaService]
+  providers: [
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    SQLite,
+    SplashScreen,
+    StatusBar, 
+    SqlCapsuleProvider, 
+    ItemComumProvider, RacaIdiomaProvider, PersonagemProvider, WeaponsService, ArmorsService, MagiaService]
 })
 export class AppModule {}

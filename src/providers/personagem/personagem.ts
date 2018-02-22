@@ -9,7 +9,7 @@ import { Weapon } from '../../classes/weapon/weapon';
 import { WeaponsService } from '../weapons-service/weapons-service';
 import { ItemComumProvider } from '../item-comum/item-comum';
 import { RacaIdiomaProvider } from '../raca-idioma/raca-idioma';
-import { SQLiteObject, SQLiteTransaction } from '@ionic-native/sqlite';
+import { SQLiteObject } from '@ionic-native/sqlite';
 import { Platform } from 'ionic-angular';
 import { SqlCapsuleProvider } from '../sql-capsule/sql-capsule';
 import { Injectable } from '@angular/core';
@@ -61,7 +61,7 @@ export class PersonagemProvider {
             'PRIMARY KEY(_id)' +
             ');';
           console.log(query);
-          db.executeSql(query, null, function (res) {
+          db.executeSql(query, null).then(function (res) {
             var query = 'CREATE TABLE IF NOT EXISTS inventarioItem (' +
               '_id_personagem	INTEGER,' +
               '_id_item	INTEGER,' +
@@ -69,7 +69,7 @@ export class PersonagemProvider {
               'FOREIGN KEY(_id_item) REFERENCES item(_id)' +
               ');';
             console.log(query);
-            db.executeSql(query, null, function (res) {
+            db.executeSql(query, null).then(function (res) {
               var query = 'CREATE TABLE IF NOT EXISTS inventarioArma (' +
                 '_id_personagem	INTEGER,' +
                 '_id_arma	INTEGER,' +
@@ -77,7 +77,7 @@ export class PersonagemProvider {
                 'FOREIGN KEY(_id_arma) REFERENCES weapons(_id)' +
                 ');';
               console.log(query);
-              db.executeSql(query, null, function (res) {
+              db.executeSql(query, null).then(function (res) {
                 var query = 'CREATE TABLE IF NOT EXISTS inventarioArmadura (' +
                   '_id_personagem	INTEGER,' +
                   '_id_armadura	INTEGER,' +
@@ -86,7 +86,7 @@ export class PersonagemProvider {
                   'FOREIGN KEY(_id_armadura) REFERENCES armors(_id)' +
                   ');';
                 console.log(query);
-                db.executeSql(query, null, function (res) {
+                db.executeSql(query, null).then(function (res) {
                   var query = 'CREATE TABLE IF NOT EXISTS personagem_magias (' +
                     '_id_personagem	INTEGER,' +
                     '_id_magia INTEGER,' +
@@ -94,7 +94,7 @@ export class PersonagemProvider {
                     'FOREIGN KEY(_id_magia) REFERENCES magia(_id)' +
                     ');';
                   console.log(query);
-                  db.executeSql(query, null, function (res) {
+                  db.executeSql(query, null).then(function (res) {
                     var query = 'CREATE TABLE IF NOT EXISTS personagem_idiomas (' +
                       '_id_personagem	INTEGER,' +
                       '_id_idioma INTEGER,' +
@@ -102,7 +102,7 @@ export class PersonagemProvider {
                       'FOREIGN KEY(_id_idioma) REFERENCES idioma(_id)' +
                       ');';
                     console.log(query);
-                    db.executeSql(query, null, function (res) {
+                    db.executeSql(query, null).then(function (res) {
                       var query = 'CREATE TABLE IF NOT EXISTS personagem_classes (' +
                         '_id_personagem	INTEGER,' +
                         'classe INTEGER,' +
@@ -110,7 +110,7 @@ export class PersonagemProvider {
                         'FOREIGN KEY(_id_personagem) REFERENCES personagem(_id)' +
                         ');';
                       console.log(query);
-                      db.executeSql(query, null, function (res) {
+                      db.executeSql(query, null).then(function (res) {
                         service.getCount().then(function(quantidade){
                           if(quantidade == 0){
                             BasePersonagem.BASE_PERSONAGEM.forEach(function (personagem) {
@@ -124,31 +124,31 @@ export class PersonagemProvider {
                             resolve();
                           }
                         })  
-                      }, function (tx, err) {
+                      }, function ( err) {
                         console.error(err);
                         reject(err);
                       });
-                    }, function (tx, err) {
+                    }, function ( err) {
                       console.error(err);
                       reject(err);
                     });
-                  }, function (tx, err) {
+                  }, function ( err) {
                     console.error(err);
                     reject(err);
                   });
-                }, function (tx, err) {
+                }, function ( err) {
                   console.error(err);
                   reject(err);
                 });
-              }, function (tx, err) {
+              }, function ( err) {
                 console.error(err);
                 reject(err);
               });
-            }, function (tx, err) {
+            }, function ( err) {
               console.error(err);
               reject(err);
             });
-          }, function (tx, err) {
+          }, function ( err) {
             console.error(err);
             reject(err);
           });
@@ -170,7 +170,7 @@ export class PersonagemProvider {
     return new Promise((resolve, reject) => {
       let query = 'INSERT INTO personagem(nome, descricao, _id_Raca, _id_Classe, forca, destreza, constituicao, inteligencia, sabedoria, carisma, xpAtual, cobre, prata, ouro, esmeralda, platina) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?  );'
       this.sqlCapsule.openDatabase().then((db) => {
-        db.executeSql(query, params, function (res) {
+        db.executeSql(query, params).then( function (res) {
           service.addItemPersonagem(db, res.insertId, personagem.$inventario).then(function (tx) {
             service.addMagiaPersonagem(db, res.insertId, personagem.$magias).then(function (tx) {
               service.addIdiomaPersonagem(db, res.insertId, personagem.$idiomas).then(function (tx) {
@@ -188,7 +188,7 @@ export class PersonagemProvider {
           }, function (err) {
             reject(err);
           })
-        }, function (tx, err) {
+        }, function ( err) {
           console.error(err);
           reject(err);
         })
@@ -202,10 +202,10 @@ export class PersonagemProvider {
       console.log('Get all persongagens')
       let query = 'SELECT count(*) as quantidade FROM personagem;'
       this.sqlCapsule.openDatabase().then((db) => {
-        db.executeSql(query, [], function (res) {
+        db.executeSql(query, []).then(function (res) {
           console.log(res, res.rows, res.rows.item(0), res.rows.item(0).quantidade);
           resolve(res.rows.item(0).quantidade);
-        }, function (tx, err) {
+        }, function ( err) {
           console.error(err);
           reject(err);
         });
@@ -219,7 +219,7 @@ export class PersonagemProvider {
       console.log('Get all persongagens')
       let query = 'SELECT _id FROM personagem;'
       this.sqlCapsule.openDatabase().then((db) => {
-        db.executeSql(query, [], function (res) {
+        db.executeSql(query, []).then(function (res) {
           let promises: Array<Promise<Personagem>> = [];
           let retorno: Array<Personagem> = []
           if (res.rows.length) {
@@ -237,7 +237,7 @@ export class PersonagemProvider {
           } else {
             resolve([]);
           }
-        }, function (tx, err) {
+        }, function ( err) {
           console.error(err);
           reject(err);
         });
@@ -252,7 +252,7 @@ export class PersonagemProvider {
       console.log('PROMISE RUNING', id);
       this.sqlCapsule.openDatabase().then((db) => {
         console.log('DB OPENNED', id);
-        db.executeSql("SELECT * FROM personagem WHERE _id = ?;", [id], function (personagem) {
+        db.executeSql("SELECT * FROM personagem WHERE _id = ?;", [id]).then(function (personagem) {
           
           let promises = [];
           if (personagem.rows.length) {
@@ -312,7 +312,7 @@ export class PersonagemProvider {
           } else {
             resolve(null);
           }
-        }, function (tx, err) {
+        }, function ( err) {
           console.error(err);
           reject(err);
         });
@@ -332,14 +332,14 @@ export class PersonagemProvider {
       let promisesArmaduras: Array<Promise<Armadura>> = [];
       let promisesArmas: Array<Promise<Weapon>> = [];
       this.sqlCapsule.openDatabase().then(db => {
-        db.executeSql('SELECT _id_armadura, equipado FROM inventarioArmadura WHERE _id_personagem = ?;', [personagemId], function (resultSet) {
+        db.executeSql('SELECT _id_armadura, equipado FROM inventarioArmadura WHERE _id_personagem = ?;', [personagemId]).then(function (resultSet) {
           if (resultSet.rows.length) {
             for (let i = 0; i < resultSet.rows.length; i++) {
               console.log( resultSet.rows.item(i))
               promisesArmaduras.push(service.armaduraProvider.getWithDb(db, resultSet.rows.item(i)._id_armadura));
             }
           }
-          db.executeSql('SELECT _id_arma FROM inventarioArma WHERE _id_personagem = ?;', [personagemId], function (resultSet) {
+          db.executeSql('SELECT _id_arma FROM inventarioArma WHERE _id_personagem = ?;', [personagemId]).then(function (resultSet) {
             console.log("resultset de armas",resultSet);
             if (resultSet.rows.length) {
               for (let i = 0; i < resultSet.rows.length; i++) {
@@ -347,7 +347,7 @@ export class PersonagemProvider {
                 promisesArmas.push(service.armasProvider.getWithDb(db, resultSet.rows.item(i)._id_arma))
               }
             }
-            db.executeSql('SELECT _id_item FROM inventarioItem WHERE _id_personagem = ?;', [personagemId], function (resultSet) {
+            db.executeSql('SELECT _id_item FROM inventarioItem WHERE _id_personagem = ?;', [personagemId]).then(function (resultSet) {
               if (resultSet.rows.length) {
                 for (let i = 0; i < resultSet.rows.length; i++) {
                   promisesItens.push(service.itemProvider.getWithDb(db, resultSet.rows.item(i)._id_item));
@@ -375,15 +375,15 @@ export class PersonagemProvider {
               }, function () {
                 reject();
               })
-            }, function (tx, err) {
+            }, function ( err) {
               reject(err);
               console.error(err);
             });
-          }, function (tx, err) {
+          }, function ( err) {
             reject(err);
             console.error(err);
           });
-        }, function (tx, err) {
+        }, function ( err) {
           reject(err);
           console.error(err);
         });
@@ -391,21 +391,20 @@ export class PersonagemProvider {
     });
   }
 
-  private transactioQ(tx: SQLiteTransaction, query: string, params: Array<any>): Promise<any> {
+  private transactioQ(db : SQLiteObject, query: string, params: Array<any>): Promise<any> {
     return new Promise((resolve, reject) => {
-      tx.executeSql(query, params, function (tx, resultSet) {
+      db.executeSql(query, params).then(function ( resultSet) {
         console.log("Resolved",resultSet);
         resolve(resultSet);
-      }, function (tx, err) {
+      }, function ( err) {
         reject(err);
       })
     });
   }
-  private addItemPersonagem(db, personagemId: number, itens: Array<Item>): Promise<any> {
+  private addItemPersonagem(db : SQLiteObject, personagemId: number, itens: Array<Item>): Promise<any> {
     let service = this;
     return new Promise((resolve, reject) => {
       let promises: Array<Promise<any>> = [];
-      db.transaction(function (tx: SQLiteTransaction) {
         for (var i = 0; i < itens.length; i++) {
           let queryItem: string;
           let paramsItem = [personagemId, itens[i].$id];
@@ -418,17 +417,13 @@ export class PersonagemProvider {
             queryItem = 'INSERT INTO inventarioItem(_id_personagem, _id_item) VALUES ( ?, ? );';
           }
           console.log(queryItem,paramsItem);
-          promises.push(service.transactioQ(tx, queryItem, paramsItem));
+          promises.push(service.transactioQ(db, queryItem, paramsItem));
         };
         Promise.all(promises).then(function (resultSets) {
-          tx.finish();
           resolve(resultSets);
         }, function (err) {
           reject(err);
         })
-      }, function (error) {
-        console.log('Transaction ERROR: ' + error.message);
-      })
       if (itens.length == 0) {
         resolve();
       }
@@ -451,9 +446,9 @@ export class PersonagemProvider {
             queryItem = 'DELETE FROM inventarioItem WHERE _id_personagem = ? AND _id_item = ?;';
           }
           console.log(queryItem,paramsItem);
-          db.executeSql(queryItem, paramsItem, function (resultSet) {
+          db.executeSql(queryItem, paramsItem).then(function (resultSet) {
             resolve(resultSet);
-          }, function (tx, err) {
+          }, function ( err) {
             reject(err);
             console.error(err);
           });
@@ -461,124 +456,104 @@ export class PersonagemProvider {
     });
   }
 
-  private addMagiaPersonagem(db, personagemId: number, magias: Array<Magia>): Promise<any> {
+  private addMagiaPersonagem(db :SQLiteObject, personagemId: number, magias: Array<Magia>): Promise<any> {
     let service = this;
     return new Promise((resolve, reject) => {
-      db.transaction(function (tx: SQLiteTransaction) {
         let promises: Array<Promise<any>> = [];;
         for (var i = 0; i < magias.length; i++) {
           let queryItem = 'INSERT INTO personagem_magias(_id_personagem, _id_magia) VALUES ( ?, ? );';
           let paramsItem = [personagemId, magias[i].$id]
-          console.log('Add Magias', queryItem, tx)
-          promises.push(service.transactioQ(tx, queryItem, paramsItem));
+          promises.push(service.transactioQ(db, queryItem, paramsItem));
         }
         Promise.all(promises).then(function (resultSets) {
-          tx.finish();
           resolve(resultSets);
         }, function (err) {
           reject(err);
         })
         if (magias.length == 0) {
-          resolve(tx);
+          resolve(db);
         }
-      })
     })
   }
 
-  private getMagiaPersonagem(db, personagemId: number): Promise<Array<Magia>> {
+  private getMagiaPersonagem(db : SQLiteObject, personagemId: number): Promise<Array<Magia>> {
     let service = this;
     return new Promise((resolve, reject) => {
-      db.transaction(function (transaction: SQLiteTransaction) {
-        transaction.executeSql('SELECT _id_magia FROM personagem_magias WHERE _id_personagem = ? ;', [personagemId], function (tx, resultSet) {
+        db.executeSql('SELECT _id_magia FROM personagem_magias WHERE _id_personagem = ? ;', [personagemId]).then(function ( resultSet) {
           let promise: Array<Promise<Magia>> = [];
           for (let i = 0; i < resultSet.rows.length; i++) {
-            promise.push(service.magiaProvider.getWithDb(transaction,resultSet.rows.item(i)));
+            promise.push(service.magiaProvider.getWithDb(db,resultSet.rows.item(i)));
           }
           Promise.all(promise).then(function (magias: Array<Magia>) {
-            transaction.finish();
             resolve(magias);
           }, function (err) {
             reject(err);
           })
-        }, function (tx, err) {
+        }, function ( err) {
           reject(err);
           console.error(err);
         });
-      }, function (tx, err) {
-        reject(err);
-        console.error(err);
-      });
     });
   }
 
-  private addIdiomaPersonagem(db, personagemId: number, idiomas: Array<Idioma>): Promise<any> {
+  private addIdiomaPersonagem(db : SQLiteObject, personagemId: number, idiomas: Array<Idioma>): Promise<any> {
     let service = this;
     return new Promise((resolve, reject) => {
-      db.transaction(function (tx: SQLiteTransaction) {
         let promises: Array<Promise<any>> = [];
         for (var i = 0; i < idiomas.length; i++) {
           let queryItem = 'INSERT INTO personagem_idiomas(_id_personagem, _id_idioma) VALUES ( ?, ? );';
           let paramsItem = [personagemId, idiomas[i].$id];
-          console.log('Add Magias', queryItem, tx);
-          promises.push(service.transactioQ(tx, queryItem, paramsItem));
+          promises.push(service.transactioQ(db, queryItem, paramsItem));
         }
         Promise.all(promises).then(function (resultSets) {
-          tx.finish();
           resolve(resultSets);
         }, function (err) {
           reject(err);
         })
         if (idiomas.length == 0) {
-          resolve(tx);
+          resolve(db);
         }
-      });
     })
   }
 
-  private getIdiomaPersonagem(db, personagemId: number): Promise<Array<Idioma>> {
+  private getIdiomaPersonagem(db : SQLiteObject, personagemId: number): Promise<Array<Idioma>> {
     let service = this;
     return new Promise((resolve, reject) => {
       let promises: Array<Promise<Idioma>> = [];
       let retorno: Array<Idioma> = [];
-      db.transaction(function (transaction: SQLiteTransaction) {
-        transaction.executeSql('SELECT _id_idioma FROM personagem_idiomas WHERE _id_personagem = ?;', [personagemId], function (tx, resultSet) {
+        db.executeSql('SELECT _id_idioma FROM personagem_idiomas WHERE _id_personagem = ?;', [personagemId]).then(function ( resultSet) {
           for (let i = 0; i < resultSet.rows.length; i++) {
             promises.push(service.racaProvider.getIdioma(resultSet.rows.item(i)._id_idioma))
           }
           Promise.all(promises).then(function (idiomas: Array<Idioma>) {
-            transaction.finish();
             resolve(idiomas);
           }, function (err) {
             reject(err);
           })
-        }, function (tx, err) {
+        }, function ( err) {
           reject(err);
           console.error(err);
         });
-      }, function (tx, err) {
-        reject(err);
-        console.error(err);
-      });
     });
   }
 
-  private addClassePersonagem(db, personagemId: number, classe: BaseClass): Promise<any> {
+  private addClassePersonagem(db: SQLiteObject, personagemId: number, classe: BaseClass): Promise<any> {
     return new Promise((resolve, reject) => {
       let queryItem = 'INSERT INTO personagem_classes(_id_personagem, classe, nivel) VALUES ( ?, ?, ? );';
       let paramsItem = [personagemId, classe.$classe, classe.$nivel];
-      db.executeSql(queryItem, paramsItem, function (tx, resultSet) {
-        resolve(tx);
-      }, function (tx, err) {
+      db.executeSql(queryItem, paramsItem).then(function ( resultSet) {
+        resolve(db);
+      }, function ( err) {
         reject(err);
         console.error(err);
       });
     });
   }
 
-  private getClassePersonagem(db, personagemId: number): Promise<BaseClass> {
+  private getClassePersonagem(db : SQLiteObject, personagemId: number): Promise<BaseClass> {
     return new Promise((resolve, reject) => {
       console.log('Banco',db);
-      db.executeSql('SELECT classe, nivel FROM personagem_classes WHERE _id_personagem = ?;', [personagemId], function (resultSet) {
+      db.executeSql('SELECT classe, nivel FROM personagem_classes WHERE _id_personagem = ?;', [personagemId]).then(function (resultSet) {
         console.log('Quey',resultSet);
         if (resultSet.rows.length) {
           console.log('Quey',resultSet);
@@ -604,7 +579,7 @@ export class PersonagemProvider {
         } else {
           resolve(null);
         }
-      }, function (tx, err) {
+      }, function ( err) {
         reject(err);
         console.error(err);
       });

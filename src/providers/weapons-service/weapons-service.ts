@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Weapon } from '../../classes/weapon/weapon';
-import { SQLiteObject, SQLiteTransaction } from '@ionic-native/sqlite';
+import { SQLiteObject } from '@ionic-native/sqlite';
 import { BaseWeapons } from './base-weapons';
 import { SqlCapsuleProvider } from '../sql-capsule/sql-capsule';
 import { Dano } from "../../classes/dano/dano";
@@ -17,7 +17,6 @@ export class WeaponsService {
     this.platform.ready().then(() => {
       let service = this;
       this.sqlCapsule.openDatabase().then(function (db: SQLiteObject) {
-        db.transaction(function (tx: SQLiteTransaction) {
           var query = 'CREATE TABLE IF NOT EXISTS weapons (' +
             '_id	INTEGER PRIMARY KEY AUTOINCREMENT,' +
             'nome	TEXT,' +
@@ -36,51 +35,46 @@ export class WeaponsService {
             '	tipo2	INTEGER,' +
             '	tamanho	INTEGER' +
             ');'
-          tx.executeSql(query, null, function (tx, res) {
-            tx.executeSql("PRAGMA table_info(weapons);", null, function (tx, res) {
+          db.executeSql(query, null).then(function (res) {
+            db.executeSql("PRAGMA table_info(weapons);", null).then(function (res) {
               let verifyFlag = false;
               for (let i = 0; i < res.rows.length; i++) {
                 if (res.rows.item(i).name == 'descricao') {
-                  service.populateWeaponDb(tx);
+                  service.populateWeaponDb(db);
                   break;
                 } else if (i + 1 === res.rows.length) {
-                  tx.executeSql("ALTER TABLE weapons ADD COLUMN descricao TEXT;", null, function (tx, res) {
-                    service.populateWeaponDb(tx);
-                  }, function (tx, err) {
+                  db.executeSql("ALTER TABLE weapons ADD COLUMN descricao TEXT;", null).then(function ( res) {
+                    service.populateWeaponDb(db);
+                  }, function (err) {
                     console.error(err);
                   });
                 }
               }
-            }, function (tx, err) { });
-
-          }, function (tx, err) {
+            }, function (err) { });
+          }, function (err) {
             console.error(err);
-
           });
-        }).then(function () { }, function (err) {
-          console.error(err);
-        });
       }, function (err) {
         console.error(err);
       })
     });
   }
 
-  private populateWeaponDb(tx) {
+  private populateWeaponDb(db : SQLiteObject) {
     let service = this;
-    tx.executeSql('SELECT count(*) AS mycount FROM  weapons;', [], function (tx, resultSet) {
+    db.executeSql('SELECT count(*) AS mycount FROM  weapons;', []).then(function (resultSet) {
       if (resultSet.rows.item(0).mycount === 0) {
-        let transaction = tx;
+        let capsDb = db;
         BaseWeapons.BASE_WEAPONS.forEach(function (weapon) {
           let params = service.weaponWithIdToArray(weapon);
           let query = 'INSERT INTO weapons(_id,nome,descricao, peso,valor,iniciativa,baAdicional,danoPuro,danoRolagem,qntdRolagem,alcancePequeno,alcanceMedio,alcanceGrande,tipo1,tipo2,tamanho) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
-          transaction.executeSql(query, params, function (tx, resultSet) {
-          }, function (tx, err) {
+          capsDb.executeSql(query, params).then(function (resultSet) {
+          }, function (err) {
             console.error(err);
           });
         });
       }
-    }, function (tx, err) {
+    }, function ( err) {
       console.error(err);
     });
   }
@@ -90,14 +84,12 @@ export class WeaponsService {
     return new Promise((resolve, reject) => {
       let query = 'INSERT INTO weapons(nome,descricao,peso,valor,iniciativa,baAdicional,danoPuro,danoRolagem,qntdRolagem,alcancePequeno,alcanceMedio,alcanceGrande,tipo1,tipo2,tamanho) VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?);'
       this.sqlCapsule.openDatabase().then((db) => {
-        db.transaction(function (tx) {
-          tx.executeSql(query, params, function (tx, res) {
+          db.executeSql(query, params).then(function ( res) {
             resolve(res);
-          }, function (tx, err) {
+          }, function ( err) {
             console.error(err);
             reject(err);
           });
-        });
       });
     });
   }
@@ -107,18 +99,12 @@ export class WeaponsService {
     return new Promise((resolve, reject) => {
       let query = 'UPDATE weapons SET nome = ? , descricao = ?, peso = ? , valor = ? , iniciativa = ? , baAdicional = ? , danoPuro = ? , danoRolagem = ? , qntdRolagem = ? , alcancePequeno = ? , alcanceMedio = ? , alcanceGrande = ? , tipo1 = ? , tipo2 = ? , tamanho = ? WHERE _id = ?;';
       this.sqlCapsule.openDatabase().then((db) => {
-        db.transaction(function (tx) {
-          tx.executeSql(query, arrayParams, function (tx, res) {
+          db.executeSql(query, arrayParams).then(function (res) {
             resolve(res);
-          }, function (tx, err) {
+          }, function ( err) {
             console.error(err);
             reject(err);
           });
-        }).then(function (sucesso) {
-        }, function (erro) {
-          console.error('Transaction Success Callback', erro);
-          reject(erro);
-        });
       })
     });
   }
@@ -126,18 +112,12 @@ export class WeaponsService {
     return new Promise((resolve, reject) => {
       let query = 'DELETE FROM weapons WHERE _id = ?;';
       this.sqlCapsule.openDatabase().then((db) => {
-        db.transaction(function (tx) {
-          tx.executeSql(query, [id], function (tx, res) {
+          db.executeSql(query, [id]).then(function ( res) {
             resolve(res);
-          }, function (tx, err) {
+          }, function ( err) {
             console.error(err);
             reject(err);
           });
-        }).then(function (sucesso) {
-        }, function (erro) {
-          console.error('Transaction Success Callback', erro);
-          reject(erro);
-        });;
       })
     });
   }
@@ -145,8 +125,7 @@ export class WeaponsService {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
       this.sqlCapsule.openDatabase().then((db) => {
-        db.transaction(function (tx: SQLiteTransaction) {
-          tx.executeSql('SELECT * FROM  weapons;', [], function (tx, resultSet) {
+          db.executeSql('SELECT * FROM  weapons;', []).then(function ( resultSet) {
             let retorno = [];
             for (var i = 0; i < resultSet.rows.length; i++) {
               retorno.push(new Weapon(resultSet.rows.item(i)._id, resultSet.rows.item(i).nome, resultSet.rows.item(i).descricao, resultSet.rows.item(i).peso, resultSet.rows.item(i).valor,
@@ -157,11 +136,10 @@ export class WeaponsService {
               ))
             }
             resolve(retorno);
-          }, function (tx, err) {
+          }, function ( err) {
             console.error(err);
             reject();
           });
-        });
       })
     });
   }
@@ -170,8 +148,7 @@ export class WeaponsService {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
       this.sqlCapsule.openDatabase().then((db) => {
-        db.transaction(function (tx: SQLiteTransaction) {
-          tx.executeSql('SELECT * FROM  weapons WHERE _id = ?;', [id], function (tx, resultSet) {
+          db.executeSql('SELECT * FROM  weapons WHERE _id = ?;', [id]).then(function ( resultSet) {
             let retorno = [];
             let i = 0;
             if (resultSet.rows.length) {
@@ -184,11 +161,10 @@ export class WeaponsService {
             } else {
               resolve(null);
             }
-          }, function (tx, err) {
+          }, function ( err) {
             console.error(err);
             reject();
           });
-        });
       })
     });
   }
@@ -196,7 +172,7 @@ export class WeaponsService {
   getWithDb(db, id: number): Promise<Weapon> {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
-      db.executeSql('SELECT * FROM  weapons WHERE _id = ?;', [id], function (resultSet) {
+      db.executeSql('SELECT * FROM  weapons WHERE _id = ?;', [id]).then(function (resultSet) {
         let retorno = [];
         let i = 0;
         if (resultSet.rows.length) {
@@ -217,14 +193,12 @@ export class WeaponsService {
     let output = this.sqliteOutputToArray;
     return new Promise((resolve, reject) => {
       this.sqlCapsule.openDatabase().then((db) => {
-        db.transaction(function (tx: SQLiteTransaction) {
-          tx.executeSql('SELECT count(*) FROM  weapons;', [], function (tx, resultSet) {
+          db.executeSql('SELECT count(*) FROM  weapons;', []).then(function ( resultSet) {
             resolve(output(resultSet.rows));
-          }, function (tx, err) {
+          }, function ( err) {
             console.error(err);
             reject();
           });
-        });
       })
     });
   }
