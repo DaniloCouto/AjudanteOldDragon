@@ -5,6 +5,13 @@ import { RacaDetalhePage } from '../raca-detalhe/raca-detalhe';
 import { Personagem } from '../../classes/personagem';
 import { Component, ViewChild } from '@angular/core';
 import { Navbar, NavController, NavParams } from 'ionic-angular';
+import { Raca } from '../../classes/raca';
+import { RacaIdiomaProvider } from '../../providers/raca-idioma/raca-idioma';
+import { BaseClass } from '../../classes/classes/classe';
+import { Clerigo } from '../../classes/classes/clerigo';
+import { HomemDeArmas } from '../../classes/classes/homemdearmas';
+import { Mago } from '../../classes/classes/mago';
+import { Ladino } from '../../classes/classes/ladino';
 
 /**
  * Generated class for the PersonagemDetalhePage page.
@@ -20,11 +27,24 @@ import { Navbar, NavController, NavParams } from 'ionic-angular';
 export class PersonagemDetalhePage {
   personagem : Personagem;
   @ViewChild(Navbar) navBar:Navbar;
+  racas : Array<Raca>;
+  classes : Array<BaseClass>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public racaProvider : RacaIdiomaProvider) {
     let item = this.navParams.data;
+    let service = this;
+    this.classes = [
+      new Clerigo(1),
+      new HomemDeArmas(1),
+      new Mago(1),
+      new Ladino(1)
+    ];
+    this.racaProvider.getAllRaca().then(function(result){
+      service.racas = result;
+    });
       if(item instanceof Personagem){
         this.personagem = item;
+        
       }else{
         this.personagem = null;
       }

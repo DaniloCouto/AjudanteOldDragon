@@ -16,17 +16,24 @@
 <ion-content>
   <ion-list *ngIf="personagem">
     <ion-item>
-      Nome : 
-      <br> {{personagem.nome}}
+      <ion-label color="primary">Inline Label</ion-label>
+      <ion-input placeholder="Text Input" [(ngModel)]="personagem.nome"></ion-input>
     </ion-item>
     <ion-item>
-      Descrição :
-      <br> {{personagem.descricao}}
+        <ion-textarea placeholder="Insira a descrição" [(ngModel)]="personagem.descricao"></ion-textarea>
     </ion-item>
-    <button ion-item (tap)="openRaca(personagem.raca)">
-      Raça :
-      <br> {{personagem.raca.nome}}
-    </button>
+    <ion-item>
+        <ion-label>Raça</ion-label>
+        <ion-select [(ngModel)]="personagem.raca">
+          <ion-option *ngFor="let raca of racas" >{{raca.nome}}</ion-option>
+        </ion-select>
+    </ion-item>
+    <ion-item>
+        <ion-label>Classe</ion-label>
+        <ion-select [(ngModel)]="personagem.classe">
+          <ion-option *ngFor="let classe of classes">{{classe.$nome}}</ion-option>
+        </ion-select>
+    </ion-item>
     <button ion-item (tap)="openClasse(personagem.classe)">
       Classe :
       <br> {{personagem.classe.$nome}}
