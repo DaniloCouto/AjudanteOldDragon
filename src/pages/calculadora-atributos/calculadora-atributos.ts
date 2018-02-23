@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Atributos } from '../../classes/atributos';
-import {Splashscreen} from 'ionic-native';
+import { Splashscreen } from 'ionic-native';
+import { Storage } from '@ionic/storage';
 
 /*
   Generated class for the CalculadoraAtributosPage page.
@@ -9,6 +10,8 @@ import {Splashscreen} from 'ionic-native';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+
+const ATRIBUTOS_ANTERIORES_CALCULADORA: string = "atribAntCalc";
 @Component({
   templateUrl: 'calculadora-atributos.html',
 })
@@ -52,9 +55,9 @@ export class CalculadoraAtributosPage {
 
   };
 
-  constructor(private nav: NavController) {
+  constructor(private nav: NavController, private storage: Storage) {
     this.atributos = new Atributos(1, 1, 1, 1, 1, 1);
-    this.init();
+
   }
 
   forcaChanged() {
@@ -95,6 +98,33 @@ export class CalculadoraAtributosPage {
     this.atributosSecundarios.carisma.ajusteReacao = this.atributos.$ajusteReacao;
     this.atributosSecundarios.carisma.mortosVivosAfastados = this.atributos.$mortosVivosAfastados;
     this.atributosSecundarios.carisma.seguidores = this.atributos.$seguidores;
+  }
+
+  ionViewWillEnter() {
+    this.storage.get(ATRIBUTOS_ANTERIORES_CALCULADORA).then((value) => {
+      if(value instanceof Array){
+        try{
+
+          this.atributos = new Atributos(value[0], value[1], value[2], value[3], value[4], value[5]);
+        }catch(err){
+          console.error(err)
+        }
+      }
+      this.init();
+    });
+  }
+
+  ionViewWillLeave() {
+    this.storage.set(ATRIBUTOS_ANTERIORES_CALCULADORA,
+      [
+        this.atributos.$forca,
+        this.atributos.$destreza,
+        this.atributos.$constituicao,
+        this.atributos.$inteligencia,
+        this.atributos.$sabedoria,
+        this.atributos.$carisma 
+      ]
+    )
   }
 
   init() {
