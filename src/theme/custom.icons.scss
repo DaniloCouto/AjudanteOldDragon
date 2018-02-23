@@ -65,6 +65,11 @@
     content: 't'
 }
 
+.ion-logo-fist:before {
+    font-family: "dings";
+    content: 'p'
+}
+
 @font-face {
     font-family: "dicefontd6";
     src: url($font-path+"/DPoly-Six-Sider.otf") format("woff2"), url($font-path+"/DPoly-Six-Sider.otf") format("woff"), url($font-path+"/DPoly-Six-Sider.otf") format("truetype");

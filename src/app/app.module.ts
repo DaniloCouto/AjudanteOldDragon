@@ -54,6 +54,7 @@ import { MagiaService } from '../providers/magia-service/magia-service';
 import { PersonagemListPageModule } from "../pages/personagem-list/personagem-list.module";
 import { SQLiteMock } from '@ionic-native-mocks/sqlite';
 import { AdMobFree } from '@ionic-native/admob-free';
+import { RapidDiceRollsPage } from '../pages/rapid-dice-rolls/rapid-dice-rolls';
 
 
 @NgModule({
@@ -91,7 +92,8 @@ import { AdMobFree } from '@ionic-native/admob-free';
     PersonagemPage,
     PersonagemDetalhePage,
     PersonagemGrimorioPage,
-    PersonagemInventarioPage
+    PersonagemInventarioPage,
+    RapidDiceRollsPage
   ],
   imports: [
     BrowserModule,
@@ -130,7 +132,8 @@ import { AdMobFree } from '@ionic-native/admob-free';
     PersonagemPage,
     PersonagemDetalhePage,
     PersonagemGrimorioPage,
-    PersonagemInventarioPage
+    PersonagemInventarioPage,
+    RapidDiceRollsPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
