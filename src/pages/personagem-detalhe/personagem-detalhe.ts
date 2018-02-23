@@ -4,7 +4,7 @@ import { CalculadoraClassePage } from '../calculadora-classe/calculadora-classe'
 import { RacaDetalhePage } from '../raca-detalhe/raca-detalhe';
 import { Personagem } from '../../classes/personagem';
 import { Component, ViewChild } from '@angular/core';
-import { Navbar, NavController, NavParams } from 'ionic-angular';
+import { Navbar, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Raca } from '../../classes/raca';
 import { RacaIdiomaProvider } from '../../providers/raca-idioma/raca-idioma';
 import { BaseClass } from '../../classes/classes/classe';
@@ -12,6 +12,7 @@ import { Clerigo } from '../../classes/classes/clerigo';
 import { HomemDeArmas } from '../../classes/classes/homemdearmas';
 import { Mago } from '../../classes/classes/mago';
 import { Ladino } from '../../classes/classes/ladino';
+import { RapidDiceRollsPage } from '../rapid-dice-rolls/rapid-dice-rolls';
 
 /**
  * Generated class for the PersonagemDetalhePage page.
@@ -30,7 +31,7 @@ export class PersonagemDetalhePage {
   racas : Array<Raca>;
   classes : Array<BaseClass>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public racaProvider : RacaIdiomaProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public racaProvider : RacaIdiomaProvider, public modalCtrl: ModalController) {
     let item = this.navParams.data;
     let service = this;
     this.classes = [
@@ -48,6 +49,11 @@ export class PersonagemDetalhePage {
       }else{
         this.personagem = null;
       }
+  }
+  
+  openRapidDiceRoller(){
+    let profileModal = this.modalCtrl.create(RapidDiceRollsPage, { personagem: this.personagem });
+    profileModal.present();
   }
 
   openRaca(item){
