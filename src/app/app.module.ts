@@ -53,6 +53,7 @@ import { ArmorsService } from '../providers/armors-service/armors-service';
 import { MagiaService } from '../providers/magia-service/magia-service';
 import { PersonagemListPageModule } from "../pages/personagem-list/personagem-list.module";
 import { SQLiteMock } from '@ionic-native-mocks/sqlite';
+import { AdMobFree } from '@ionic-native/admob-free';
 
 
 @NgModule({
@@ -134,6 +135,7 @@ import { SQLiteMock } from '@ionic-native-mocks/sqlite';
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SQLite,
+    AdMobFree,
     SplashScreen,
     StatusBar, 
     SqlCapsuleProvider, 
