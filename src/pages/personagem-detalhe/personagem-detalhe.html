@@ -19,103 +19,196 @@
 
 
 <ion-content>
-  <ion-list *ngIf="personagem">
-    <ion-item>
-      <ion-label color="primary">Inline Label</ion-label>
-      <ion-input placeholder="Text Input" [(ngModel)]="personagem.nome"></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-textarea placeholder="Insira a descrição" [(ngModel)]="personagem.descricao"></ion-textarea>
-    </ion-item>
-    <ion-item>
-        <ion-label>Raça</ion-label>
-        <ion-select [(ngModel)]="personagem.raca">
-          <ion-option *ngFor="let raca of racas" >{{raca.nome}}</ion-option>
-        </ion-select>
-    </ion-item>
-    <ion-item>
-        <ion-label>Classe</ion-label>
-        <ion-select [(ngModel)]="personagem.classe">
-          <ion-option *ngFor="let classe of classes">{{classe.$nome}}</ion-option>
-        </ion-select>
-    </ion-item>
-    <button ion-item (tap)="openClasse(personagem.classe)">
-      Classe :
-      <br> {{personagem.classe.$nome}}
-    </button>
-    <ion-item>
-      <ion-grid>
-        <ion-row>
-          Atributos
-        </ion-row>
-        <ion-row>
-            <ion-col>Força : {{personagem.atributos.$forca}}</ion-col>
-            <ion-col>Destreza : {{personagem.atributos.$destreza}}</ion-col>
-            <ion-col>Constituição : {{personagem.atributos.$constituicao}}</ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col>Inteligencia : {{personagem.atributos.$inteligencia}}</ion-col>
-            <ion-col>Sabedoria : {{personagem.atributos.$sabedoria}}</ion-col>
-            <ion-col>Carisma : {{personagem.atributos.$carisma}}</ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-    <ion-item>
-        <ion-grid>
-          <ion-row>
+    <ion-list *ngIf="personagem">
+        <ion-item>
+            <ion-label color="primary">Inline Label</ion-label>
+            <ion-input placeholder="Text Input" [(ngModel)]="personagem.nome"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-textarea placeholder="Insira a descrição" [(ngModel)]="personagem.descricao"></ion-textarea>
+        </ion-item>
+        <ion-item>
+            <ion-label>Raça</ion-label>
+            <ion-select [(ngModel)]="personagem.raca">
+                <ion-option *ngFor="let raca of racas">{{raca.nome}}</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-list-header>
+            Classes
+        </ion-list-header>
+        <ion-item-group *ngFor="let classe of personagem.classes; let i = index">
+            <ion-item>
+                <ion-label>Classe</ion-label>
+                <ion-select [(ngModel)]="classe.$classe" (ngModelChange)="classChanged(i)">
+                    <ion-option value="0">Clérigo</ion-option>
+                    <ion-option value="1">Homem de Armas</ion-option>
+                    <ion-option value="2">Mago</ion-option>
+                    <ion-option value="3">Ladrão</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-row>
+                <ion-col col-3>
+                    <ion-item>
+                        <ion-label floating>Nivel</ion-label>
+                        <ion-input type="number" [(ngModel)]="classe.$nivel"> </ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col col-9>
+                    <ion-item class="padding-left-2px">
+                        <ion-label floating>XP Atual</ion-label>
+                        <ion-input type="number" [(ngModel)]="classe.$xpAtual"> </ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-item-group>
+        <ion-list-header>
+            Atributos
+        </ion-list-header>
+        <ion-item-group>
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                        <ion-item class="padding-left-2px">
+                            <ion-label floating>Força</ion-label>
+                            <ion-input type="number" [(ngModel)]="personagem.atributos.$forca"> </ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col>
+                        <ion-item class="padding-left-2px">
+                            <ion-label floating>Destreza</ion-label>
+                            <ion-input type="number" [(ngModel)]="personagem.atributos.$destreza"> </ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-item class="padding-left-2px">
+                            <ion-label floating>Constituição</ion-label>
+                            <ion-input type="number" [(ngModel)]="personagem.atributos.$constituicao"> </ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col>
+                        <ion-item class="padding-left-2px">
+                            <ion-label floating>Inteligencia</ion-label>
+                            <ion-input type="number" [(ngModel)]="personagem.atributos.$inteligencia"> </ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-item class="padding-left-2px">
+                            <ion-label floating>Sabedoria</ion-label>
+                            <ion-input type="number" [(ngModel)]="personagem.atributos.$sabedoria"> </ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col>
+                        <ion-item class="padding-left-2px">
+                            <ion-label floating>Carisma</ion-label>
+                            <ion-input type="number" [(ngModel)]="personagem.atributos.$carisma"> </ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-item-group>
+        <ion-list-header>
             Ajustes
-          </ion-row>
-          <ion-row>
-              <ion-col>
-                Força : {{personagem.atributos.$ajusteForca}}
-              </ion-col>
-              <ion-col>
-                Destreza : {{personagem.atributos.$ajusteDestreza}}
-              </ion-col>
-              <ion-col>
-                Constituição : {{personagem.atributos.$ajusteConstituicao}}
-              </ion-col>
-          </ion-row>
-      </ion-grid>
-    </ion-item>
-    <ion-item>
-        <ion-grid>
-            <ion-row>
-                <ion-col>
-                    <ion-item>
-                        <h2 style="text-align: center;">Carga</h2>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col>
-                    <ion-item>
-                        <h3>Sem</h3>
-                        <p style="text-align: center;">{{personagem.atributos.$linearSemCarga}} kg</p>
-                    </ion-item>
-                </ion-col>
-                <ion-col>
-                    <ion-item>
-                        <h3>Leve</h3>
-                        <p style="text-align: center;">{{personagem.atributos.$linearCargaLeve}} kg</p>
-                    </ion-item>
-                </ion-col>
-                <ion-col>
-                    <ion-item>
-                        <h3>Pesada</h3>
-                        <p style="text-align: center;">{{personagem.atributos.$linearCargaPesada}} kg</p>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
-      </ion-grid>
-    </ion-item>
-    <ion-item>
-        <ion-grid>
-            <ion-row>
-                Carga
-            </ion-row>
-            <ion-row>
-                <ion-col>
+        </ion-list-header>
+        <ion-item-group>
+            <ion-item>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            For : {{personagem.atributos.$ajusteForca}}
+                        </ion-col>
+                        <ion-col>
+                            Des : {{personagem.atributos.$ajusteDestreza}}
+                        </ion-col>
+                        <ion-col>
+                            Con : {{personagem.atributos.$ajusteConstituicao}}
+                        </ion-col>
+                        <ion-col>
+                            Sab : {{personagem.atributos.$ajusteSabedoria}}
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            Aprender magia : {{personagem.atributos.$chanceAprenderMagia}}
+                        </ion-col>
+                        <ion-col>
+                            Chance de Ressureição : {{personagem.atributos.$chance_res}}
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            Ajuste de Reação : {{personagem.atributos.$ajusteReacao}}
+                        </ion-col>
+                        <ion-col>
+                            Numero de seguidores : {{personagem.atributos.$seguidores}}
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            Idiomas Adicionais : {{personagem.atributos.$idiomasAdicionais}}
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+        </ion-item-group>
+        <ion-list-header>
+            Idiomas
+            <button ion-button clear icon-only item-end (tap)="addIdiomaPersonagem()">
+                <ion-icon name="add"></ion-icon>
+            </button>
+        </ion-list-header>
+        <ion-item-sliding *ngFor="let item of items">
+            <ion-item>
+                {{item.nome}}
+            </ion-item>
+            <ion-item-options>
+                <button ion-button color="danger" (tap)="deleteIdiomaPersonagem(item)">
+                    <ion-icon name="close"></ion-icon>
+                    Excluir
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+        <ion-item>
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                        <ion-item>
+                            <h2 style="text-align: center;">Carga</h2>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-item>
+                            <h3>Sem</h3>
+                            <p style="text-align: center;">{{personagem.atributos.$linearSemCarga}} kg</p>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col>
+                        <ion-item>
+                            <h3>Leve</h3>
+                            <p style="text-align: center;">{{personagem.atributos.$linearCargaLeve}} kg</p>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col>
+                        <ion-item>
+                            <h3>Pesada</h3>
+                            <p style="text-align: center;">{{personagem.atributos.$linearCargaPesada}} kg</p>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-item>
+        <ion-item>
+            <ion-grid>
+                <ion-row>
+                    Carga
+                </ion-row>
+                <ion-row>
+                    <ion-col>
                         <h3>Sem</h3>
                         <p style="text-align: center;">{{personagem.atributos.$linearSemCarga}} kg</p>
                     </ion-col>

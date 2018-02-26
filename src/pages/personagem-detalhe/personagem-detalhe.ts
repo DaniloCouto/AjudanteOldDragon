@@ -4,15 +4,17 @@ import { CalculadoraClassePage } from '../calculadora-classe/calculadora-classe'
 import { RacaDetalhePage } from '../raca-detalhe/raca-detalhe';
 import { Personagem } from '../../classes/personagem';
 import { Component, ViewChild } from '@angular/core';
-import { Navbar, NavController, NavParams, ModalController } from 'ionic-angular';
+import { Navbar, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { Raca } from '../../classes/raca';
 import { RacaIdiomaProvider } from '../../providers/raca-idioma/raca-idioma';
-import { BaseClass } from '../../classes/classes/classe';
 import { Clerigo } from '../../classes/classes/clerigo';
 import { HomemDeArmas } from '../../classes/classes/homemdearmas';
 import { Mago } from '../../classes/classes/mago';
 import { Ladino } from '../../classes/classes/ladino';
 import { RapidDiceRollsPage } from '../rapid-dice-rolls/rapid-dice-rolls';
+import { ConversoresClasses } from '../../classes/classes/conversoresClasses';
+import { IdiomaSelectListPage } from '../idioma-select-list/idioma-select-list';
+import { Idioma } from '../../classes/idioma';
 
 /**
  * Generated class for the PersonagemDetalhePage page.
@@ -26,56 +28,118 @@ import { RapidDiceRollsPage } from '../rapid-dice-rolls/rapid-dice-rolls';
   templateUrl: 'personagem-detalhe.html',
 })
 export class PersonagemDetalhePage {
-  personagem : Personagem;
-  @ViewChild(Navbar) navBar:Navbar;
-  racas : Array<Raca>;
-  classes : Array<BaseClass>;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public racaProvider : RacaIdiomaProvider, public modalCtrl: ModalController) {
+  personagem: Personagem;
+  @ViewChild(Navbar) navBar: Navbar;
+  racas: Array<Raca>;
+  conversor: ConversoresClasses;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public racaProvider: RacaIdiomaProvider, public modalCtrl: ModalController, public alertCtrl: AlertController) {
     let item = this.navParams.data;
     let service = this;
-    this.classes = [
-      new Clerigo(1),
-      new HomemDeArmas(1),
-      new Mago(1),
-      new Ladino(1)
-    ];
-    this.racaProvider.getAllRaca().then(function(result){
+    this.conversor = new ConversoresClasses();
+    this.racaProvider.getAllRaca().then(function (result) {
       service.racas = result;
     });
-      if(item instanceof Personagem){
-        this.personagem = item;
-        
-      }else{
-        this.personagem = null;
-      }
+    if (item instanceof Personagem) {
+      this.personagem = item;
+
+    } else {
+      this.personagem = null;
+    }
   }
-  
-  openRapidDiceRoller(){
+
+  openRapidDiceRoller() {
     let profileModal = this.modalCtrl.create(RapidDiceRollsPage, { personagem: this.personagem });
     profileModal.present();
   }
 
-  openRaca(item){
+  openRaca(item) {
     this.navCtrl.push(RacaDetalhePage, { item: item });
   }
 
-  openClasse(item){
+  openClasse(item) {
     this.navCtrl.push(CalculadoraClassePage, { item: item });
   }
 
-  openIdioma(item){
+  openIdioma(item) {
     this.navCtrl.push(IdiomaDetalhePage, { item: item });
   }
 
-  backButton(){
+  backButton() {
     this.navCtrl.setRoot(PersonagemListPage);
   }
 
   ionViewDidLoad() {
-    this.navBar.backButtonClick = (e:UIEvent) => {
-        this.navCtrl.parent.viewCtrl.dismiss();
+    this.navBar.backButtonClick = (e: UIEvent) => {
+      this.navCtrl.parent.viewCtrl.dismiss();
     };
   }
+
+  addIdiomaPersonagem() {
+    let profileModal = this.modalCtrl.create(IdiomaSelectListPage);
+    profileModal.onDidDismiss(data => {
+      if(data.idioma instanceof Idioma){
+        this.personagem.$idiomas.push(data.idioma);
+      }
+    });
+    profileModal.present();
+  }
+
+  deleteIdiomaPersonagem(item) {
+    let alert = this.alertCtrl.create({
+      title: 'Idiomas Personagem',
+      message: 'Você tem certeza que deseja excluir este Idioma do Personagem?',
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.personagem.$idiomas.splice(this.personagem.$idiomas.indexOf(item), 1);
+          }
+        }
+      ]
+    });
+    alert.present(alert);
+  }
+
+  classChanged(i: number) {
+
+    let selectedClass = Number(this.personagem.$classes[i].$classe);
+    switch (selectedClass) {
+      case 0:
+        this.personagem.$classes[i] = new Clerigo(null, this.personagem.$classes[i].$xpAtual);
+        break;
+      case 1:
+        this.personagem.$classes[i] = new HomemDeArmas(null, this.personagem.$classes[i].$xpAtual);
+        break;
+      case 2:
+        this.personagem.$classes[i] = new Mago(null, this.personagem.$classes[i].$xpAtual);
+        break;
+      case 3:
+        this.personagem.$classes[i] = new Ladino(null, this.personagem.$classes[i].$xpAtual);
+        break;
+    }
+  }
+
+  // nivelClassChanged(i : number){
+  //   let selectedClass = Number(this.personagem.$classes[i].$classe);
+  //   switch (selectedClass) {
+  //     case 0:
+  //       this.personagem.$classes[i].$xpAtual = this.conversor.$nivelToXpClerigo(this.personagem.$classes[i].$nivel);
+  //       break;
+  //     case 1:
+  //     this.personagem.$classes[i].$xpAtual = this.conversor.$nivelToXpHomemDeArmas(this.personagem.$classes[i].$nivel);
+  //       break;
+  //     case 2:
+  //     this.personagem.$classes[i].$xpAtual = this.conversor.$nivelToXpMago(this.personagem.$classes[i].$nivel);
+  //       break;
+  //     case 3:
+  //     this.personagem.$classes[i].$xpAtual = this.conversor.$nivelToXpLadino(this.personagem.$classes[i].$nivel);
+  //       break;
+  //   }
+  // }
 
 }

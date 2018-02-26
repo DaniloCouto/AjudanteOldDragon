@@ -1,18 +1,19 @@
 import { BolsaMoedas } from './bolsaMoedas';
-import {BaseClass} from './classes/classe';
 import { Item } from './item';
 import { Magia } from './magia/magia';
 import { Atributos } from './atributos';
 import { Idioma } from './idioma';
 import { Raca } from './raca';
 import { classeENUM } from './classes/classesEnum';
+import { IClasse } from './classes/Iclasse';
 
 export class Personagem {
     private id: number;
     private nome: string;
 	private descricao: string;
     private raca : Raca;
-    private classe : BaseClass;
+	private classes : Array<IClasse>;
+	private especializacao : String;
     private idiomas: Array<Idioma>;
     private atributos : Atributos;
     private magias: Array<Magia>;
@@ -20,12 +21,13 @@ export class Personagem {
     private inventario: Array<Item>;
     private bolsaMoedas: BolsaMoedas;
 
-	constructor($id: number, $nome: string, $descricao: string, $raca: Raca, $classe: BaseClass, $idiomas: Array<Idioma>, $atributos: Atributos, $magias: Array<Magia>, $xpAtual: number, $inventario: Array<Item>, $bolsaMoedas: BolsaMoedas) {
+	constructor($id: number, $nome: string, $descricao: string, $raca: Raca, $classe: Array<IClasse>, $especializacao: string, $idiomas: Array<Idioma>, $atributos: Atributos, $magias: Array<Magia>, $xpAtual: number, $inventario: Array<Item>, $bolsaMoedas: BolsaMoedas) {
 		this.id = $id;
 		this.nome = $nome;
 		this.descricao = $descricao;
 		this.raca = $raca;
-		this.classe = $classe;
+		this.classes = $classe;
+		this.especializacao = $especializacao;
 		this.idiomas = $idiomas;
 		this.atributos = $atributos;
 		this.magias = $magias;
@@ -66,12 +68,12 @@ export class Personagem {
 		this.raca = value;
 	}
 
-	public get $classe(): BaseClass {
-		return this.classe;
+	public get $classes(): Array<IClasse> {
+		return this.classes;
 	}
 
-	public set $classe(value: BaseClass) {
-		this.classe = value;
+	public set $classes(value: Array<IClasse>) {
+		this.classes = value;
 	}
 
 	public get $idiomas(): Array<Idioma> {
@@ -121,5 +123,14 @@ export class Personagem {
 	public set $bolsaMoedas(value: BolsaMoedas) {
 		this.bolsaMoedas = value;
 	}
+
+	public get $especializacao(): String {
+		return this.especializacao;
+	}
+
+	public set $especializacao(value: String) {
+		this.especializacao = value;
+	}
+	
 	
 }

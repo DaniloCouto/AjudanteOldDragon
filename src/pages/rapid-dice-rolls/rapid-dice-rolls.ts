@@ -18,10 +18,25 @@ import { Item } from '../../classes/item';
 })
 export class RapidDiceRollsPage {
   personagemParams: Personagem;
-  CA: number;
+  ClasseArmadura: number;
 
   constructor(public viewCtrl: ViewController, public navParams: NavParams, private alertCtrl: AlertController) {
     this.personagemParams = navParams.get('personagem');
+    
+  }
+
+  getClassBonusBa() : number{
+    let baClasse = 0;
+    for(let i = 0; i < this.personagemParams.$classes.length; i++){
+      if(baClasse < this.personagemParams.$classes[i].$bonus().bonusDeAtaque[0]){
+        baClasse = this.personagemParams.$classes[i].$bonus().bonusDeAtaque[0];
+      }
+    }
+    return baClasse;
+  }
+
+  getRacaBonusBa(){
+    return this.personagemParams.$raca.$bonusDeAtaque;
   }
 
   roll(nomeJogada: string, dice : number, diceTotal:number, difficult?: number, bonus?: number, criticalIsPossible?: boolean){
