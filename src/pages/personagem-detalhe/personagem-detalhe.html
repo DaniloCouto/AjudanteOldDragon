@@ -174,37 +174,6 @@
         <ion-item>
             <ion-grid>
                 <ion-row>
-                    <ion-col>
-                        <ion-item>
-                            <h2 style="text-align: center;">Carga</h2>
-                        </ion-item>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col>
-                        <ion-item>
-                            <h3>Sem</h3>
-                            <p style="text-align: center;">{{personagem.atributos.$linearSemCarga}} kg</p>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col>
-                        <ion-item>
-                            <h3>Leve</h3>
-                            <p style="text-align: center;">{{personagem.atributos.$linearCargaLeve}} kg</p>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col>
-                        <ion-item>
-                            <h3>Pesada</h3>
-                            <p style="text-align: center;">{{personagem.atributos.$linearCargaPesada}} kg</p>
-                        </ion-item>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-item>
-        <ion-item>
-            <ion-grid>
-                <ion-row>
                     Carga
                 </ion-row>
                 <ion-row>
@@ -223,13 +192,5 @@
                 </ion-row>
             </ion-grid>
         </ion-item>
-        <ion-item>
-            Idiomas
-        </ion-item>
-        <ion-list>
-            <button ion-item *ngFor="let idioma of personagem.idiomas" (tap)="openIdioma(idioma)">
-                {{idioma.nome}}
-            </button>
-        </ion-list>
     </ion-list>
 </ion-content>

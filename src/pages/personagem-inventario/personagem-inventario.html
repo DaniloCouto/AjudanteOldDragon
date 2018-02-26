@@ -21,7 +21,7 @@
 <ion-content >
   <ion-list>
     <ion-item-sliding *ngFor="let item of personagem.inventario">
-        <button ion-item (tap)="openDetail(item)" *ngIf="whatIsThisItem(item) === 0">
+        <button ion-item *ngIf="whatIsThisItem(item) === 0">
             <h2>{{item.nome}}</h2>
             <p>{{item.peso}}kg , {{item.valor | moneyconventer}}</p>
             <p>{{item.descricao}}</p>
