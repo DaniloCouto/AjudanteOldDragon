@@ -26,7 +26,6 @@
     "@ionic-native/status-bar": "3.4.2",
     "@ionic/storage": "^2.1.3",
     "@types/websql": "0.0.27",
-    "cordova-android": "^6.2.3",
     "cordova-plugin-admob-free": "^0.14.0",
     "cordova-plugin-console": "^1.0.5",
     "cordova-plugin-crosswalk-webview": "^2.3.0",
@@ -42,7 +41,8 @@
     "rxjs": "^5.4.3",
     "sw-toolbox": "3.4.0",
     "websql-promisified": "^1.2.0",
-    "zone.js": "^0.8.17"
+    "zone.js": "^0.8.17",
+    "cordova-android": "~6.3.0"
   },
   "devDependencies": {
     "@ionic/app-scripts": "^3.1.8",

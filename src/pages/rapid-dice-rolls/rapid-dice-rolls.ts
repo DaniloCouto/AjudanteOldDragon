@@ -46,7 +46,7 @@ export class RapidDiceRollsPage {
     }else{
       if((rollResult + bonus ) >= difficult){
         successMessage = "Sucesso!"
-      }else if((rollResult + bonus ) >= difficult){
+      }else if((rollResult + bonus ) < difficult){
         successMessage = "Falha!"
       }
     }
