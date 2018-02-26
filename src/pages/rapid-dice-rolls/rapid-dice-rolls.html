@@ -39,20 +39,20 @@
     </ion-list-header>
     <ion-item>
       <ion-label fixed>Dificuldade</ion-label>
-      <ion-input type="number" (ngModel)="CA"></ion-input>
+      <ion-input type="number" [(ngModel)]="ClasseArmadura"></ion-input>
     </ion-item>
-    <button ion-item (tap)="roll('Jogada de Ataque por Força',20, 1, CA, personagemParams.$atributos.$ajusteForca, true)">
+    <button ion-item (tap)="roll('Jogada de Ataque por Força',20, 1, ClasseArmadura, (personagemParams.$atributos.$ajusteForca + getClassBonusBa() + getRacaBonusBa()), true)">
       <ion-label>Ajuste de Força</ion-label>
     </button>
-    <button ion-item (tap)="roll('Jogada de Ataque por Destreza',20, 1, CA, personagemParams.$atributos.$ajusteDestreza, true)">
+    <button ion-item (tap)="roll('Jogada de Ataque por Destreza',20, 1, ClasseArmadura, (personagemParams.$atributos.$ajusteDestreza+ getClassBonusBa() + getRacaBonusBa()), true)">
       <ion-label>Ajuste de Destreza</ion-label>
     </button>
-    <button ion-item (tap)="roll('Jogada de Ataque por Força e Destreza',20, 1, CA, (personagemParams.$atributos.$ajusteDestreza+personagemParams.$atributos.$ajusteForca), true)">
+    <button ion-item (tap)="roll('Jogada de Ataque por Força e Destreza',20, 1, ClasseArmadura, (personagemParams.$atributos.$ajusteDestreza+personagemParams.$atributos.$ajusteForca+ getClassBonusBa() + getRacaBonusBa()), true)">
       <ion-label>Ajuste de Força e Destreza</ion-label>
     </button>
     <ion-list-header>
       <ion-icon name="logo-sword" item-left large></ion-icon>
-      Inciativa
+      Iniciativa
     </ion-list-header>
     <button ion-item (tap)="roll('Iniciativa d20 + Destreza',20, 1, 0, personagemParams.$atributos.$destreza)">
       <ion-label>d20 + Destreza</ion-label>

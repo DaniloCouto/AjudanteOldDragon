@@ -55,6 +55,7 @@ import { PersonagemListPageModule } from "../pages/personagem-list/personagem-li
 import { SQLiteMock } from '@ionic-native-mocks/sqlite';
 import { AdMobFree } from '@ionic-native/admob-free';
 import { RapidDiceRollsPage } from '../pages/rapid-dice-rolls/rapid-dice-rolls';
+import { IdiomaSelectListPage } from '../pages/idioma-select-list/idioma-select-list';
 
 
 @NgModule({
@@ -93,7 +94,8 @@ import { RapidDiceRollsPage } from '../pages/rapid-dice-rolls/rapid-dice-rolls';
     PersonagemDetalhePage,
     PersonagemGrimorioPage,
     PersonagemInventarioPage,
-    RapidDiceRollsPage
+    RapidDiceRollsPage,
+    IdiomaSelectListPage
   ],
   imports: [
     BrowserModule,
@@ -133,7 +135,8 @@ import { RapidDiceRollsPage } from '../pages/rapid-dice-rolls/rapid-dice-rolls';
     PersonagemDetalhePage,
     PersonagemGrimorioPage,
     PersonagemInventarioPage,
-    RapidDiceRollsPage
+    RapidDiceRollsPage,
+    IdiomaSelectListPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

@@ -3,10 +3,10 @@ export class BonusDeClasse {
     public xp: number;
     public quantidade: number;
     public isDadoDeVida: number;
-    public bonusDeAtaque: Array<Number>;
+    public bonusDeAtaque: Array<number>;
     public jogadaDeProtecao: number;
 
-    constructor(nivel: number, xp: number, quantidade: number, isDadoDeVida: number, baseDeAtaque: Array<Number>, jogadaDeProtecao: number) {
+    constructor(nivel: number, xp: number, quantidade: number, isDadoDeVida: number, baseDeAtaque: Array<number>, jogadaDeProtecao: number) {
         this.nivel = nivel;
         this.xp = xp;
         this.quantidade = quantidade;

@@ -147,7 +147,100 @@ export class SqlCapsuleProvider {
                       ');';
                     console.log(query)
                     db.executeSql(query, null).then(function (res) {
-                      resolve(db);
+                      var query = 'CREATE TABLE IF NOT EXISTS personagem (' +
+                        '_id	INTEGER,' +
+                        'nome	TEXT,' +
+                        'descricao	TEXT,' +
+                        '_id_Raca	INTEGER,' +
+                        'forca	INTEGER,' +
+                        'destreza	INTEGER,' +
+                        'constituicao	INTEGER,' +
+                        'inteligencia	INTEGER,' +
+                        'sabedoria	INTEGER,' +
+                        'carisma	INTEGER,' +
+                        'xpAtual	INTEGER,' +
+                        'cobre	INTEGER,' +
+                        'prata	INTEGER,' +
+                        'ouro	INTEGER,' +
+                        'esmeralda	INTEGER,' +
+                        'platina	INTEGER,' +
+                        'FOREIGN KEY(_id_Raca) REFERENCES raca(_id),' +
+                        'PRIMARY KEY(_id)' +
+                        ');';
+                      db.executeSql(query, null).then(function (res) {
+                        var query = 'CREATE TABLE IF NOT EXISTS inventarioItem (' +
+                          '_id_personagem	INTEGER,' +
+                          '_id_item	INTEGER,' +
+                          'FOREIGN KEY(_id_personagem) REFERENCES personagem(_id),' +
+                          'FOREIGN KEY(_id_item) REFERENCES item(_id)' +
+                          ');';
+                        db.executeSql(query, null).then(function (res) {
+                          var query = 'CREATE TABLE IF NOT EXISTS inventarioArma (' +
+                            '_id_personagem	INTEGER,' +
+                            '_id_arma	INTEGER,' +
+                            'FOREIGN KEY(_id_personagem) REFERENCES personagem(_id),' +
+                            'FOREIGN KEY(_id_arma) REFERENCES weapons(_id)' +
+                            ');';
+                          db.executeSql(query, null).then(function (res) {
+                            var query = 'CREATE TABLE IF NOT EXISTS inventarioArmadura (' +
+                              '_id_personagem	INTEGER,' +
+                              '_id_armadura	INTEGER,' +
+                              'equipado	INTEGER,' +
+                              'FOREIGN KEY(_id_personagem) REFERENCES personagem(_id),' +
+                              'FOREIGN KEY(_id_armadura) REFERENCES armors(_id)' +
+                              ');';
+                            db.executeSql(query, null).then(function (res) {
+                              var query = 'CREATE TABLE IF NOT EXISTS personagem_magias (' +
+                                '_id_personagem	INTEGER,' +
+                                '_id_magia INTEGER,' +
+                                'FOREIGN KEY(_id_personagem) REFERENCES personagem(_id),' +
+                                'FOREIGN KEY(_id_magia) REFERENCES magia(_id)' +
+                                ');';
+                              db.executeSql(query, null).then(function (res) {
+                                var query = 'CREATE TABLE IF NOT EXISTS personagem_idiomas (' +
+                                  '_id_personagem	INTEGER,' +
+                                  '_id_idioma INTEGER,' +
+                                  'FOREIGN KEY(_id_personagem) REFERENCES personagem(_id),' +
+                                  'FOREIGN KEY(_id_idioma) REFERENCES idioma(_id)' +
+                                  ');';
+                                db.executeSql(query, null).then(function (res) {
+                                  var query = 'CREATE TABLE IF NOT EXISTS personagem_classes (' +
+                                    '_id_personagem	INTEGER,' +
+                                    'classe INTEGER,' +
+                                    'nivel INTEGER,' +
+                                    'FOREIGN KEY(_id_personagem) REFERENCES personagem(_id)' +
+                                    ');';
+                                  db.executeSql(query, null).then(function (res) {
+                                    resolve(db);
+                                  }, function (err) {
+                                    console.error(err);
+                                    reject(err);
+                                  });
+                                }, function (err) {
+                                  console.error(err);
+                                  reject(err);
+                                });
+                              }, function (err) {
+                                console.error(err);
+                                reject(err);
+                              });
+                            }, function (err) {
+                              console.error(err);
+                              reject(err);
+                            });
+                          }, function (err) {
+                            console.error(err);
+                            reject(err);
+                          });
+                        }, function (err) {
+                          console.error(err);
+                          reject(err);
+                        });
+                      }, function (err) {
+                        console.error(err);
+                        reject(err);
+                      });
+
                     }, function (err) {
                       console.error(err);
                       reject(err);
