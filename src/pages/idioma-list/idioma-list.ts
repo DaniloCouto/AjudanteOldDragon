@@ -9,6 +9,7 @@ import {
 import { IdiomaAddPage } from "../idioma-add/idioma-add";
 import { IdiomaDetalhePage } from "../idioma-detalhe/idioma-detalhe";
 import { RacaIdiomaProvider } from "../../providers/raca-idioma/raca-idioma";
+import { PersonagemProvider } from '../../providers/personagem/personagem';
 
 /**
  * Generated class for the IdiomaListPage page.
@@ -25,7 +26,7 @@ import { RacaIdiomaProvider } from "../../providers/raca-idioma/raca-idioma";
 export class IdiomaListPage {
 
   idiomaList: Array<Idioma>;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private racaIdiomaProvider : RacaIdiomaProvider, private alertCtrl: AlertController, public loadingCtrl : LoadingController ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private racaIdiomaProvider : RacaIdiomaProvider, private alertCtrl: AlertController, public loadingCtrl : LoadingController, private personagemProvider: PersonagemProvider ) {
     this.idiomaList = [];
   }
 
@@ -77,7 +78,7 @@ export class IdiomaListPage {
               if(error === 403){
                 let alert = this.alertCtrl.create({
                   title: 'Idiomas',
-                  message: 'Este idioma esta sendo utilizado, retire as dependencias e tente novamente.',
+                  message: 'Este idioma esta sendo utilizado por uma raça, retire as dependencias e tente novamente.',
                   buttons: []
                 })
                 alert.present(alert);

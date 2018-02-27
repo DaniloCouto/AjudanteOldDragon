@@ -58,6 +58,7 @@ import { RapidDiceRollsPage } from '../pages/rapid-dice-rolls/rapid-dice-rolls';
 import { IdiomaSelectListPage } from '../pages/idioma-select-list/idioma-select-list';
 import { EspecializacaoListPage } from '../pages/especializacao-list/especializacao-list';
 import { EspecializacaoDetalhePage } from '../pages/especializacao-detalhe/especializacao-detalhe';
+import { EspecializacaoAddPage } from '../pages/especializacao-add/especializacao-add';
 
 
 @NgModule({
@@ -99,7 +100,8 @@ import { EspecializacaoDetalhePage } from '../pages/especializacao-detalhe/espec
     RapidDiceRollsPage,
     IdiomaSelectListPage,
     EspecializacaoListPage,
-    EspecializacaoDetalhePage
+    EspecializacaoDetalhePage,
+    EspecializacaoAddPage
   ],
   imports: [
     BrowserModule,
@@ -142,7 +144,8 @@ import { EspecializacaoDetalhePage } from '../pages/especializacao-detalhe/espec
     RapidDiceRollsPage,
     IdiomaSelectListPage,
     EspecializacaoListPage,
-    EspecializacaoDetalhePage
+    EspecializacaoDetalhePage,
+    EspecializacaoAddPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

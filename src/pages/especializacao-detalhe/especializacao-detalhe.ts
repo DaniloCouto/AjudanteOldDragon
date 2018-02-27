@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Especializacao } from '../../classes/especializacao';
 
 /**
  * Generated class for the EspecializacaoDetalhePage page.
@@ -15,11 +16,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class EspecializacaoDetalhePage {
 
+  item : Especializacao;
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.item  = this.navParams.get('item');
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EspecializacaoDetalhePage');
+    console.log('ionViewDidLoad IdiomaDetalhePage');
   }
 
 }

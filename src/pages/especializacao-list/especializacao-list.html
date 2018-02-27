@@ -7,12 +7,29 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>especializacaoList</ion-title>
+    <ion-title>Especializações</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <ion-list [virtualScroll]="especializacaoList" [virtualTrackBy]="trackById" [approxItemHeight]="'86px'">
+    <ion-item-sliding *virtualItem="let item">
+      <button ion-item (tap)="openDetail(item)">
+        <h2>{{item.nome}}</h2>
+        <p>{{item.descricao}}</p>
+      </button>
+      <ion-item-options>
+        <button ion-button color="primary" (tap)="editItem(item)">
+          <ion-icon name="open"></ion-icon>
+          Editar
+        </button>
+        <button ion-button color="danger" (tap)="deleteItem(item)">
+          <ion-icon name="close"></ion-icon>
+          Excluir
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>

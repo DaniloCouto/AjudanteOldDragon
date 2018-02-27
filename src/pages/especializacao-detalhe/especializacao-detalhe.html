@@ -7,12 +7,16 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>especializacaoDetalhe</ion-title>
+    <ion-title>{{item.nome}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-item text-wrap>
+    <h2>{{item.nome}}</h2>
+    <p>
+      <b>Descrição</b>: {{item.descricao}}</p>
+  </ion-item>
 </ion-content>
