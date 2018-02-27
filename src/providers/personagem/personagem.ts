@@ -571,10 +571,11 @@ export class PersonagemProvider {
 
   private getClassesPersonagem(db: SQLiteObject, personagemId: number): Promise<Array<IClasse>> {
     return new Promise((resolve, reject) => {
-      db.executeSql('SELECT classe, xp FROM personagem_classes WHERE _id_personagem = ?;', [personagemId]).then(function (resultSet) {
+      db.executeSql('SELECT * FROM personagem_classes WHERE _id_personagem = ?;', [personagemId]).then(function (resultSet) {
         if (resultSet.rows.length) {
           let classes: Array<IClasse> = [];
           for (let i = 0; i < resultSet.rows.length; i++) {
+            console.log(resultSet.rows.item(0));
             let classe = resultSet.rows.item(0).classe;
             let xp = resultSet.rows.item(0).xp;
             let conversor = new ConversoresClasses();

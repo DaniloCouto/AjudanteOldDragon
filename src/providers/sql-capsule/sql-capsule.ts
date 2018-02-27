@@ -207,7 +207,7 @@ export class SqlCapsuleProvider {
                                   var query = 'CREATE TABLE IF NOT EXISTS personagem_classes (' +
                                     '_id_personagem	INTEGER,' +
                                     'classe INTEGER,' +
-                                    'nivel INTEGER,' +
+                                    'xp INTEGER,' +
                                     'FOREIGN KEY(_id_personagem) REFERENCES personagem(_id)' +
                                     ');';
                                   db.executeSql(query, null).then(function (res) {
