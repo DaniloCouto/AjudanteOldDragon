@@ -211,7 +211,28 @@ export class SqlCapsuleProvider {
                                     'FOREIGN KEY(_id_personagem) REFERENCES personagem(_id)' +
                                     ');';
                                   db.executeSql(query, null).then(function (res) {
-                                    resolve(db);
+                                    var query = 'CREATE TABLE IF NOT EXISTS especializacao (' +
+                                      '_id	INTEGER PRIMARY KEY AUTOINCREMENT,' +
+                                      'nome	TEXT,' +
+                                      'descricao TEXT' +
+                                      ');'
+                                    db.executeSql(query, null).then(function (res) {
+                                      var query = 'CREATE TABLE IF NOT EXISTS personagem_especializacao (' +
+                                        '_id_personagem	INTEGER,' +
+                                        '_id_especializacao INTEGER,' +
+                                        'FOREIGN KEY(_id_personagem) REFERENCES personagem(_id),' +
+                                        'FOREIGN KEY(_id_especializacao) REFERENCES especializacao(_id)' +
+                                        ');';
+                                      db.executeSql(query, null).then(function (res) {
+                                        resolve(db);
+                                      }, function (err) {
+                                        console.error(err);
+                                        reject(err);
+                                      });
+                                      resolve(db);
+                                    }, function (err) {
+                                      console.error(err);
+                                    });
                                   }, function (err) {
                                     console.error(err);
                                     reject(err);

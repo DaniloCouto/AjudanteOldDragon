@@ -56,6 +56,8 @@ import { SQLiteMock } from '@ionic-native-mocks/sqlite';
 import { AdMobFree } from '@ionic-native/admob-free';
 import { RapidDiceRollsPage } from '../pages/rapid-dice-rolls/rapid-dice-rolls';
 import { IdiomaSelectListPage } from '../pages/idioma-select-list/idioma-select-list';
+import { EspecializacaoListPage } from '../pages/especializacao-list/especializacao-list';
+import { EspecializacaoDetalhePage } from '../pages/especializacao-detalhe/especializacao-detalhe';
 
 
 @NgModule({
@@ -95,7 +97,9 @@ import { IdiomaSelectListPage } from '../pages/idioma-select-list/idioma-select-
     PersonagemGrimorioPage,
     PersonagemInventarioPage,
     RapidDiceRollsPage,
-    IdiomaSelectListPage
+    IdiomaSelectListPage,
+    EspecializacaoListPage,
+    EspecializacaoDetalhePage
   ],
   imports: [
     BrowserModule,
@@ -136,7 +140,9 @@ import { IdiomaSelectListPage } from '../pages/idioma-select-list/idioma-select-
     PersonagemGrimorioPage,
     PersonagemInventarioPage,
     RapidDiceRollsPage,
-    IdiomaSelectListPage
+    IdiomaSelectListPage,
+    EspecializacaoListPage,
+    EspecializacaoDetalhePage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

@@ -7,6 +7,7 @@ import { Raca } from './raca';
 import { classeENUM } from './classes/classesEnum';
 import { IClasse } from './classes/Iclasse';
 import { Armadura } from './armadura/armadura';
+import { Especializacao } from './especializacao';
 
 export class Personagem {
 	private id: number;
@@ -14,7 +15,7 @@ export class Personagem {
 	private descricao: string;
 	private raca: Raca;
 	private classes: Array<IClasse>;
-	private especializacao: String;
+	private especializacoes: Array<Especializacao>;
 	private idiomas: Array<Idioma>;
 	private atributos: Atributos;
 	private magias: Array<Magia>;
@@ -22,13 +23,13 @@ export class Personagem {
 	private inventario: Array<Item>;
 	private bolsaMoedas: BolsaMoedas;
 
-	constructor($id: number, $nome: string, $descricao: string, $raca: Raca, $classe: Array<IClasse>, $especializacao: string, $idiomas: Array<Idioma>, $atributos: Atributos, $magias: Array<Magia>, $xpAtual: number, $inventario: Array<Item>, $bolsaMoedas: BolsaMoedas) {
+	constructor($id: number, $nome: string, $descricao: string, $raca: Raca, $classe: Array<IClasse>, $especializacao: Array<Especializacao>, $idiomas: Array<Idioma>, $atributos: Atributos, $magias: Array<Magia>, $xpAtual: number, $inventario: Array<Item>, $bolsaMoedas: BolsaMoedas) {
 		this.id = $id;
 		this.nome = $nome;
 		this.descricao = $descricao;
 		this.raca = $raca;
 		this.classes = $classe;
-		this.especializacao = $especializacao;
+		this.especializacoes = $especializacao;
 		this.idiomas = $idiomas;
 		this.atributos = $atributos;
 		this.magias = $magias;
@@ -125,34 +126,47 @@ export class Personagem {
 		this.bolsaMoedas = value;
 	}
 
-	public get $especializacao(): String {
-		return this.especializacao;
+	public get $especializacoes(): Array<Especializacao> {
+		return this.especializacoes;
 	}
 
-	public set $especializacao(value: String) {
-		this.especializacao = value;
+	public set $especializacoes(value: Array<Especializacao>) {
+		this.especializacoes = value;
 	}
 
-	public $bonusDeAtaque(): number {
+	public $bonusDeAtaqueCurtaDistancia(misc? : number): number {
+		misc = misc ? misc : 0;
 		let baClasse = 0;
 		for (let i = 0; i < this.$classes.length; i++) {
 			if (baClasse < this.$classes[i].$bonus().bonusDeAtaque[0]) {
 				baClasse = this.$classes[i].$bonus().bonusDeAtaque[0];
 			}
 		}
-		return this.$atributos.$ajusteForca + this.$atributos.$ajusteDestreza + this.$raca.$bonusDeAtaque + baClasse;
+		return this.$atributos.$ajusteForca + this.$raca.$bonusDeAtaque + baClasse + misc;
+	}
+
+	public $bonusDeAtaqueLongaDistancia(misc? : number): number {
+		misc = misc ? misc : 0;
+		let baClasse = 0;
+		for (let i = 0; i < this.$classes.length; i++) {
+			if (baClasse < this.$classes[i].$bonus().bonusDeAtaque[0]) {
+				baClasse = this.$classes[i].$bonus().bonusDeAtaque[0];
+			}
+		}
+		return this.$atributos.$ajusteDestreza + this.$raca.$bonusDeAtaque + baClasse + misc;
 	}
 
 	public $movimentacaoTotal() : number {
 		let movimentacao = this.$raca.$movimentacaoBase;
 		let peso = 0;
-		let itemEquipado;
+		let itemEquipado =0;
 		for( let itemInv of this.$inventario){
 			peso += itemInv.$peso;
 			if(itemInv instanceof Armadura && itemInv.$equipado){
-				itemEquipado = itemInv.$movimentacao;
+				itemEquipado += itemInv.$movimentacao;
 			}
 		}
+		movimentacao += itemEquipado;
 		if(peso > this.$atributos.$linearCargaPesada+20){
 			movimentacao = 0;
 		}else if(peso > this.$atributos.$linearCargaPesada){
@@ -160,7 +174,6 @@ export class Personagem {
 		}else if(peso > this.$atributos.$linearCargaLeve){
 			movimentacao -=1;
 		}
-		movimentacao += itemEquipado;
 		return movimentacao;
 	}
 
