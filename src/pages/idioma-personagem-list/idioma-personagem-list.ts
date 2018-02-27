@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavParams, AlertController, ViewController } from 'ionic-angular';
 import { RacaIdiomaProvider } from '../../providers/raca-idioma/raca-idioma';
 import { Personagem } from '../../classes/personagem';
 import { Idioma } from '../../classes/idioma';
@@ -22,7 +22,7 @@ export class IdiomaPersonagemListPage {
   personagem: Personagem;
   idiomasList: Array<Idioma>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public racaIdiomaProvider: RacaIdiomaProvider, public personagemProvider : PersonagemProvider, public alertController: AlertController) {
+  constructor(public navCtrl: ViewController, public navParams: NavParams, public racaIdiomaProvider: RacaIdiomaProvider, public personagemProvider : PersonagemProvider, public alertController: AlertController) {
     let service = this;
     this.personagem = this.navParams.get("item");
     this.racaIdiomaProvider.getAllIdioma().then(function (idiomas: Array<Idioma>) {
@@ -38,7 +38,7 @@ export class IdiomaPersonagemListPage {
     })
   }
 
-  deleteIdiomaPersonagem(item) {
+  deleteIdiomaPersonagem(item : Idioma) {
     let service = this;
     let alert = this.alertController.create({
       title: 'Idiomas Personagem',
@@ -53,7 +53,7 @@ export class IdiomaPersonagemListPage {
           text: 'Sim',
           handler: () => {
             service.personagemProvider.deleteIdiomaPersonagem(service.personagem.$id,item).then(function(){
-              this.personagem.$idiomas.splice(this.personagem.$idiomas.indexOf(item), 1);
+              service.idiomasList = service.idiomasList.concat(service.personagem.$idiomas.splice(this.personagem.$idiomas.indexOf(item), 1));
             },function(){});
             
           }
@@ -71,7 +71,7 @@ export class IdiomaPersonagemListPage {
       alert.addInput({
         type: 'checkbox',
         label: this.idiomasList[i].$nome,
-        value: JSON.stringify(this.idiomasList[i].$id)
+        value: JSON.stringify(this.idiomasList[i])
       })
     }
     alert.addButton('Cancel');
@@ -99,7 +99,10 @@ export class IdiomaPersonagemListPage {
         });
       }
     });
+  }
 
+  dismiss(){
+    this.navCtrl.dismiss(this.personagem.$idiomas);
   }
 
   ionViewDidLoad() {

@@ -1,6 +1,5 @@
 import { PersonagemListPage } from '../personagem-list/personagem-list';
 import { IdiomaDetalhePage } from '../idioma-detalhe/idioma-detalhe';
-import { CalculadoraClassePage } from '../calculadora-classe/calculadora-classe';
 import { RacaDetalhePage } from '../raca-detalhe/raca-detalhe';
 import { Personagem } from '../../classes/personagem';
 import { Component, ViewChild } from '@angular/core';
@@ -15,6 +14,8 @@ import { RapidDiceRollsPage } from '../rapid-dice-rolls/rapid-dice-rolls';
 import { ConversoresClasses } from '../../classes/classes/conversoresClasses';
 import { Idioma } from '../../classes/idioma';
 import { IdiomaPersonagemListPage } from '../idioma-personagem-list/idioma-personagem-list';
+import { ClassePersonagemListPage } from '../classe-personagem-list/classe-personagem-list';
+import { EspecializacaoPersonagemListPage } from '../especializacao-personagem-list/especializacao-personagem-list';
 
 /**
  * Generated class for the PersonagemDetalhePage page.
@@ -41,7 +42,6 @@ export class PersonagemDetalhePage {
     });
     if (item instanceof Personagem) {
       this.personagem = item;
-
     } else {
       this.personagem = null;
     }
@@ -56,8 +56,13 @@ export class PersonagemDetalhePage {
     this.navCtrl.push(RacaDetalhePage, { item: item });
   }
 
-  openClasse(item) {
-    this.navCtrl.push(CalculadoraClassePage, { item: item });
+  openEspec() {
+    this.navCtrl.push(EspecializacaoPersonagemListPage, { item: this.personagem });
+  }
+
+
+  openClasses() {
+    this.navCtrl.push(ClassePersonagemListPage, { item: this.personagem });
   }
 
   openIdioma(item) {
@@ -83,8 +88,6 @@ export class PersonagemDetalhePage {
     });
     profileModal.present();
   }
-
-  
 
   classChanged(i: number) {
 

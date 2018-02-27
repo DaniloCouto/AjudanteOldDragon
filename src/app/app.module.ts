@@ -59,6 +59,10 @@ import { EspecializacaoListPage } from '../pages/especializacao-list/especializa
 import { EspecializacaoDetalhePage } from '../pages/especializacao-detalhe/especializacao-detalhe';
 import { EspecializacaoAddPage } from '../pages/especializacao-add/especializacao-add';
 import { IdiomaPersonagemListPage } from '../pages/idioma-personagem-list/idioma-personagem-list';
+import { ClassePipe } from '../pipes/classe/classe';
+import { EnumPipe } from '../pipes/enum/enum';
+import { EspecializacaoPersonagemListPage } from '../pages/especializacao-personagem-list/especializacao-personagem-list';
+import { ClassePersonagemListPage } from '../pages/classe-personagem-list/classe-personagem-list';
 
 
 @NgModule({
@@ -101,7 +105,11 @@ import { IdiomaPersonagemListPage } from '../pages/idioma-personagem-list/idioma
     IdiomaPersonagemListPage,
     EspecializacaoListPage,
     EspecializacaoDetalhePage,
-    EspecializacaoAddPage
+    EspecializacaoAddPage,
+    ClassePipe,
+    EnumPipe,
+    EspecializacaoPersonagemListPage,
+    ClassePersonagemListPage
   ],
   imports: [
     BrowserModule,
@@ -145,7 +153,11 @@ import { IdiomaPersonagemListPage } from '../pages/idioma-personagem-list/idioma
     IdiomaPersonagemListPage,
     EspecializacaoListPage,
     EspecializacaoDetalhePage,
-    EspecializacaoAddPage
+    EspecializacaoAddPage,
+    ClassePipe,
+    EnumPipe,
+    EspecializacaoPersonagemListPage,
+    ClassePersonagemListPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

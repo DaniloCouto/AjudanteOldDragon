@@ -31,33 +31,28 @@
                 <ion-option *ngFor="let raca of racas" value="{{raca}}">{{raca.nome}}</ion-option>
             </ion-select>
         </ion-item>
-        <ion-list-header>
-            Classes
-        </ion-list-header>
-        <ion-item-group *ngFor="let classe of personagem.classes; let i = index">
-            <ion-item>
-                <ion-select [(ngModel)]="classe.$classe" (ngModelChange)="classChanged(i)">
-                    <ion-option value="0">Clérigo</ion-option>
-                    <ion-option value="1">Homem de Armas</ion-option>
-                    <ion-option value="2">Mago</ion-option>
-                    <ion-option value="3">Ladrão</ion-option>
-                </ion-select>
-            </ion-item>
-            <ion-row>
-                <ion-col col-3>
-                    <ion-item>
-                        <ion-label floating>Nivel</ion-label>
-                        <ion-input type="number" [(ngModel)]="classe.$nivel"> </ion-input>
-                    </ion-item>
-                </ion-col>
-                <ion-col col-9>
-                    <ion-item class="padding-left-2px">
-                        <ion-label floating>XP Atual</ion-label>
-                        <ion-input type="number" [(ngModel)]="classe.$xpAtual"> </ion-input>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
-        </ion-item-group>
+        <button ion-item (tap)="openClasses()">
+            <h3>Classes</h3>
+            <p>
+                <div *ngFor="let classe in personagem.$classes">
+                    {{classe.$classe | classe }} &nbsp;
+                </div>
+            </p>
+            <button ion-button clear icon-only item-end>
+                <ion-icon name="arrow-forward"></ion-icon>
+            </button>
+        </button>
+        <button ion-item (tap)="openEspec()">
+                <h3>Especializações</h3>
+                <p>
+                    <div *ngFor="let espec in personagem.$especializacoes">
+                        {{espec.$nome}} &nbsp;
+                    </div>
+                </p>
+                <button ion-button clear icon-only item-end>
+                    <ion-icon name="arrow-forward"></ion-icon>
+                </button>
+            </button>
         <ion-list-header>
             Atributos
         </ion-list-header>
@@ -129,15 +124,15 @@
                     </ion-row>
                     <ion-row>
                         <ion-col>
-                            Aprender magia : {{personagem.atributos.$chanceAprenderMagia}}
+                            Aprender magia : {{personagem.atributos.$chanceAprenderMagia}}%
                         </ion-col>
                         <ion-col>
-                            Chance de Ressureição : {{personagem.atributos.$chance_res}}
+                            Chance de Ressureição : {{personagem.atributos.$chance_res}}%
                         </ion-col>
                     </ion-row>
                     <ion-row>
                         <ion-col>
-                            Ajuste de Reação : {{personagem.atributos.$ajusteReacao}}
+                            Ajuste de Reação : {{personagem.atributos.$ajusteReacao}}%
                         </ion-col>
                         <ion-col>
                             Numero de seguidores : {{personagem.atributos.$seguidores}}
@@ -151,12 +146,17 @@
                 </ion-grid>
             </ion-item>
         </ion-item-group>
-        <ion-list-header>
-            Idiomas
-            <button ion-button clear icon-only item-end (tap)="openIdiomas()">
+        <button ion-item (tap)="openIdiomas()">
+            <h3>Idiomas</h3>
+            <p>
+                <div *ngFor="let idioma in personagem.$idiomas">
+                    {{idioma.$nome}} &nbsp;
+                </div>
+            </p>
+            <button ion-button clear icon-only item-end>
                 <ion-icon name="arrow-forward"></ion-icon>
             </button>
-        </ion-list-header>
+        </button>
         <ion-item>
             <ion-grid>
                 <ion-row>

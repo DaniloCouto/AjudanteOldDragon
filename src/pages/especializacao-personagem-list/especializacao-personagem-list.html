@@ -1,5 +1,5 @@
 <!--
-  Generated template for the IdiomaPersonagemListPage page.
+  Generated template for the EspecializacaoPersonagemListPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
@@ -7,12 +7,12 @@
 <ion-header>
 
   <ion-navbar>
-      <ion-buttons start>
-          <button ion-button icon-only (tap)="dismiss()">
-            <ion-icon name="close"></ion-icon>
-          </button>
-        </ion-buttons>
-    <ion-title>Idiomas do(a) {{personagem.$nome}}</ion-title>
+    <ion-buttons start>
+      <button ion-button icon-only (tap)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Especializações do(a) {{personagem.$nome}}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (tap)="add()">
         <ion-icon name="add"></ion-icon>
@@ -20,19 +20,18 @@
     </ion-buttons>
   </ion-navbar>
 
-
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
   <ion-list>
-    <ion-item-sliding *ngFor="let item of personagem.$idiomas">
+    <ion-item-sliding *ngFor="let item of personagem.$especializacoes">
       <ion-item>
         <h3>{{item.nome}}</h3>
         <p>{{item.descricao}}</p>
       </ion-item>
       <ion-item-options>
-        <button ion-button color="danger" (tap)="deleteIdiomaPersonagem(item)">
+        <button ion-button color="danger" (tap)="deleteEspecializacaoPersonagem(item)">
           <ion-icon name="close"></ion-icon>
           Excluir
         </button>
