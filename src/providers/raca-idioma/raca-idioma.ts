@@ -47,7 +47,7 @@ export class RacaIdiomaProvider {
         }, function (err) {
           console.error(err);
         });
-        var query = 'CREATE TABLE IF NOT EXISTS raca (' +
+        var query1 = 'CREATE TABLE IF NOT EXISTS raca (' +
           '_id	INTEGER,' +
           'nome	TEXT,' +
           'descricao	TEXT,' +
@@ -61,7 +61,7 @@ export class RacaIdiomaProvider {
           'PRIMARY KEY(_id)' +
           ');';
         console.log(query)
-        db.executeSql(query, null).then(function (res) {
+        db.executeSql(query1, null).then(function (res) {
           var query = 'CREATE TABLE IF NOT EXISTS habilidadeRacial (' +
             '_id	INTEGER,' +
             '_id_raca	INTEGER,' +

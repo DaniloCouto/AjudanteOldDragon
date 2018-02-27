@@ -13,8 +13,8 @@ import { Mago } from '../../classes/classes/mago';
 import { Ladino } from '../../classes/classes/ladino';
 import { RapidDiceRollsPage } from '../rapid-dice-rolls/rapid-dice-rolls';
 import { ConversoresClasses } from '../../classes/classes/conversoresClasses';
-import { IdiomaSelectListPage } from '../idioma-select-list/idioma-select-list';
 import { Idioma } from '../../classes/idioma';
+import { IdiomaPersonagemListPage } from '../idioma-personagem-list/idioma-personagem-list';
 
 /**
  * Generated class for the PersonagemDetalhePage page.
@@ -74,36 +74,17 @@ export class PersonagemDetalhePage {
     };
   }
 
-  addIdiomaPersonagem() {
-    let profileModal = this.modalCtrl.create(IdiomaSelectListPage);
+  openIdiomas() {
+    let profileModal = this.modalCtrl.create(IdiomaPersonagemListPage, {item: this.personagem});
     profileModal.onDidDismiss(data => {
-      if(data.idioma instanceof Idioma){
-        this.personagem.$idiomas.push(data.idioma);
+      if(data.idiomas instanceof Array){
+        this.personagem.$idiomas == data.idiomas;
       }
     });
     profileModal.present();
   }
 
-  deleteIdiomaPersonagem(item) {
-    let alert = this.alertCtrl.create({
-      title: 'Idiomas Personagem',
-      message: 'Você tem certeza que deseja excluir este Idioma do Personagem?',
-      buttons: [
-        {
-          text: 'Não',
-          handler: () => {
-          }
-        },
-        {
-          text: 'Sim',
-          handler: () => {
-            this.personagem.$idiomas.splice(this.personagem.$idiomas.indexOf(item), 1);
-          }
-        }
-      ]
-    });
-    alert.present(alert);
-  }
+  
 
   classChanged(i: number) {
 

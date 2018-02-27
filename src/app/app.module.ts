@@ -55,10 +55,10 @@ import { PersonagemListPageModule } from "../pages/personagem-list/personagem-li
 import { SQLiteMock } from '@ionic-native-mocks/sqlite';
 import { AdMobFree } from '@ionic-native/admob-free';
 import { RapidDiceRollsPage } from '../pages/rapid-dice-rolls/rapid-dice-rolls';
-import { IdiomaSelectListPage } from '../pages/idioma-select-list/idioma-select-list';
 import { EspecializacaoListPage } from '../pages/especializacao-list/especializacao-list';
 import { EspecializacaoDetalhePage } from '../pages/especializacao-detalhe/especializacao-detalhe';
 import { EspecializacaoAddPage } from '../pages/especializacao-add/especializacao-add';
+import { IdiomaPersonagemListPage } from '../pages/idioma-personagem-list/idioma-personagem-list';
 
 
 @NgModule({
@@ -98,7 +98,7 @@ import { EspecializacaoAddPage } from '../pages/especializacao-add/especializaca
     PersonagemGrimorioPage,
     PersonagemInventarioPage,
     RapidDiceRollsPage,
-    IdiomaSelectListPage,
+    IdiomaPersonagemListPage,
     EspecializacaoListPage,
     EspecializacaoDetalhePage,
     EspecializacaoAddPage
@@ -142,7 +142,7 @@ import { EspecializacaoAddPage } from '../pages/especializacao-add/especializaca
     PersonagemGrimorioPage,
     PersonagemInventarioPage,
     RapidDiceRollsPage,
-    IdiomaSelectListPage,
+    IdiomaPersonagemListPage,
     EspecializacaoListPage,
     EspecializacaoDetalhePage,
     EspecializacaoAddPage

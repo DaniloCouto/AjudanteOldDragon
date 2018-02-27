@@ -14,10 +14,7 @@
             </button>
         </ion-buttons>
     </ion-navbar>
-    
-
 </ion-header>
-
 
 <ion-content>
     <ion-list *ngIf="personagem">
@@ -30,8 +27,8 @@
         </ion-item>
         <ion-item>
             <ion-label>Raça</ion-label>
-            <ion-select [(ngModel)]="personagem.raca">
-                <ion-option *ngFor="let raca of racas">{{raca.nome}}</ion-option>
+            <ion-select [(ngModel)]="personagem.$raca">
+                <ion-option *ngFor="let raca of racas" value="{{raca}}">{{raca.nome}}</ion-option>
             </ion-select>
         </ion-item>
         <ion-list-header>
@@ -39,7 +36,6 @@
         </ion-list-header>
         <ion-item-group *ngFor="let classe of personagem.classes; let i = index">
             <ion-item>
-                <ion-label>Classe</ion-label>
                 <ion-select [(ngModel)]="classe.$classe" (ngModelChange)="classChanged(i)">
                     <ion-option value="0">Clérigo</ion-option>
                     <ion-option value="1">Homem de Armas</ion-option>
@@ -157,21 +153,10 @@
         </ion-item-group>
         <ion-list-header>
             Idiomas
-            <button ion-button clear icon-only item-end (tap)="addIdiomaPersonagem()">
-                <ion-icon name="add"></ion-icon>
+            <button ion-button clear icon-only item-end (tap)="openIdiomas()">
+                <ion-icon name="arrow-forward"></ion-icon>
             </button>
         </ion-list-header>
-        <ion-item-sliding *ngFor="let item of items">
-            <ion-item>
-                {{item.nome}}
-            </ion-item>
-            <ion-item-options>
-                <button ion-button color="danger" (tap)="deleteIdiomaPersonagem(item)">
-                    <ion-icon name="close"></ion-icon>
-                    Excluir
-                </button>
-            </ion-item-options>
-        </ion-item-sliding>
         <ion-item>
             <ion-grid>
                 <ion-row>
