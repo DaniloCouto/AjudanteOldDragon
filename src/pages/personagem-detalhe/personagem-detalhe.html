@@ -19,16 +19,17 @@
 <ion-content>
     <ion-list *ngIf="personagem">
         <ion-item>
-            <ion-label color="primary">Inline Label</ion-label>
-            <ion-input placeholder="Text Input" [(ngModel)]="personagem.nome"></ion-input>
+            <ion-label color="primary">Nome</ion-label>
+            <ion-input placeholder="Text Input" [(ngModel)]="personagem.$nome"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-textarea placeholder="Insira a descrição" [(ngModel)]="personagem.descricao"></ion-textarea>
+            <ion-label floating>Descrição</ion-label>
+            <ion-textarea placeholder="Insira a descrição" [(ngModel)]="personagem.$descricao"></ion-textarea>
         </ion-item>
         <ion-item>
             <ion-label (tap)="openRacaDetalhe()">Raça</ion-label>
             <ion-select [(ngModel)]="personagem.$raca">
-                <ion-option *ngFor="let raca of racas" value="{{raca}}">{{raca.nome}}</ion-option>
+                <ion-option *ngFor="let raca of racas" value="{{raca}}">{{raca.$nome}}</ion-option>
             </ion-select>
         </ion-item>
         <button ion-item (tap)="openClasses()">
@@ -43,6 +44,26 @@
                 <ion-icon name="arrow-forward"></ion-icon>
             </button>
         </button>
+        <ion-item>
+            <h3>Dados de Vida</h3>
+            <p>{{persongem.$dadosDeVida()}}</p>
+        </ion-item>
+        <ion-item>
+            <h3>Classe de Armadura</h3>
+            <p>Base : 10, Equipamentos: {{personagem.$classeDeArmaduraEquipado}}, Destreza: {{personagem.$atributos.$ajusteDestreza}},
+                Raça: {{personagem.$raca.$classeDeArmadura}}</p>
+            <div item-right>{{personagem.$classeArmaduraTotal()}}</div>
+        </ion-item>
+        <ion-item>
+            <h3>Bonus de Ataque Corpo-a-Corpo</h3>
+            <p>Força : {{personagem.$atributos.$ajusteForca}}, Classe: {{personagem.$bonusDeAtaqueDaClasse()}}, Raça: {{personagem.$atributos.$ajusteDestreza}}</p>
+            <div item-right>{{personagem.$bonusDeAtaqueCurtaDistancia()}}</div>
+        </ion-item>
+        <ion-item>
+            <h3>Bonus de Ataque Longa Distancia</h3>
+            <p>Força : {{personagem.$atributos.$ajusteForca}}, Classe: {{personagem.$bonusDeAtaqueDaClasse()}}, Raça: {{personagem.$atributos.$ajusteDestreza}}</p>
+            <div item-right>{{personagem.$bonusDeAtaqueLongaDistancia()}}</div>
+        </ion-item>
         <ion-list-header>
             Atributos
         </ion-list-header>
@@ -52,13 +73,13 @@
                     <ion-col>
                         <ion-item class="padding-left-2px">
                             <ion-label floating>Força</ion-label>
-                            <ion-input type="number" [(ngModel)]="personagem.atributos.$forca"> </ion-input>
+                            <ion-input type="number" [(ngModel)]="personagem.$atributos.$forca"> </ion-input>
                         </ion-item>
                     </ion-col>
                     <ion-col>
                         <ion-item class="padding-left-2px">
                             <ion-label floating>Destreza</ion-label>
-                            <ion-input type="number" [(ngModel)]="personagem.atributos.$destreza"> </ion-input>
+                            <ion-input type="number" [(ngModel)]="personagem.$atributos.$destreza"> </ion-input>
                         </ion-item>
                     </ion-col>
                 </ion-row>
@@ -66,13 +87,13 @@
                     <ion-col>
                         <ion-item class="padding-left-2px">
                             <ion-label floating>Constituição</ion-label>
-                            <ion-input type="number" [(ngModel)]="personagem.atributos.$constituicao"> </ion-input>
+                            <ion-input type="number" [(ngModel)]="personagem.$atributos.$constituicao"> </ion-input>
                         </ion-item>
                     </ion-col>
                     <ion-col>
                         <ion-item class="padding-left-2px">
                             <ion-label floating>Inteligencia</ion-label>
-                            <ion-input type="number" [(ngModel)]="personagem.atributos.$inteligencia"> </ion-input>
+                            <ion-input type="number" [(ngModel)]="personagem.$atributos.$inteligencia"> </ion-input>
                         </ion-item>
                     </ion-col>
                 </ion-row>
@@ -80,13 +101,13 @@
                     <ion-col>
                         <ion-item class="padding-left-2px">
                             <ion-label floating>Sabedoria</ion-label>
-                            <ion-input type="number" [(ngModel)]="personagem.atributos.$sabedoria"> </ion-input>
+                            <ion-input type="number" [(ngModel)]="personagem.$atributos.$sabedoria"> </ion-input>
                         </ion-item>
                     </ion-col>
                     <ion-col>
                         <ion-item class="padding-left-2px">
                             <ion-label floating>Carisma</ion-label>
-                            <ion-input type="number" [(ngModel)]="personagem.atributos.$carisma"> </ion-input>
+                            <ion-input type="number" [(ngModel)]="personagem.$atributos.$carisma"> </ion-input>
                         </ion-item>
                     </ion-col>
                 </ion-row>
@@ -129,10 +150,44 @@
                 </ion-row>
             </ion-grid>
         </ion-item>
-        <ion-item>
-            <h3>Movimentação</h3>
-            <p>{{personagem.$movimentacaoTotal()}}</p>
-            <p>Raça: {{personagem.$raca.$movimentacaoBase}} Peso: {{personagem.$raca.$movimentacaoPeso()}} Armadura: {{personagem.$raca.$movimentacaoArmadura()}}</p>
-        </ion-item>
+        <ion-list-header>
+            <h3>Moedas</h3>
+        </ion-list-header>
+        <ion-item-group>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label floating>Cobre</ion-label>
+                        <ion-input type="number" [(ngModel)]="personagem.$bolsaMoedas.$cobre"> </ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label floating>Prata</ion-label>
+                        <ion-input type="number" [(ngModel)]="personagem.$bolsaMoedas.$prata"> </ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label floating>Ouro</ion-label>
+                        <ion-input type="number" [(ngModel)]="personagem.$bolsaMoedas.$outro"> </ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label floating>Esmeralda</ion-label>
+                        <ion-input type="number" [(ngModel)]="personagem.$bolsaMoedas.$esmeralda"> </ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item>
+                        <ion-label floating>Platina</ion-label>
+                        <ion-input type="number" [(ngModel)]="personagem.$bolsaMoedas.$platina"> </ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-item-group>
     </ion-list>
 </ion-content>

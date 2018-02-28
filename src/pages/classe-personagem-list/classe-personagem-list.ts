@@ -103,42 +103,53 @@ export class ClassePersonagemListPage {
 
   delete(item: IClasse) {
     let service = this;
-    let alert = this.alertCtrl.create({
-      title: 'Classes Personagem',
-      message: 'Você tem certeza que deseja excluir esta Classe do Personagem?',
-      buttons: [
-        {
-          text: 'Não',
-          handler: () => {
-          }
-        },
-        {
-          text: 'Sim',
-          handler: () => {
-            service.personagemProvider.deleteClassePersonagem(service.personagem.$id, item).then(function () {
-              let classeRetirada: IClasse[] = service.personagem.$classes.splice(this.personagem.$classes.indexOf(item), 1)
-              if (classeRetirada.length === 1) {
-                switch (classeRetirada[0].$classe) {
-                  case classeENUM.clerigo:
-                    service.classes.push({ key: classeENUM.clerigo, value: "Clérigo" })
-                    break;
-                  case classeENUM.homemDeArmas:
-                    service.classes.push({ key: classeENUM.homemDeArmas, value: "Homem de Armas" })
-                    break;
-                  case classeENUM.ladino:
-                    service.classes.push({ key: classeENUM.ladino, value: "Ladino" })
-                    break;
-                  case classeENUM.mago:
-                    service.classes.push({ key: classeENUM.mago, value: "Mago" })
-                    break;
+    let alert 
+    if (this.personagem.$classes.length > 1) {
+      alert = this.alertCtrl.create({
+        title: 'Classes Personagem',
+        message: 'Você tem certeza que deseja excluir esta Classe do Personagem?',
+        buttons: [
+          {
+            text: 'Não',
+            handler: () => {
+            }
+          },
+          {
+            text: 'Sim',
+            handler: () => {
+              service.personagemProvider.deleteClassePersonagem(service.personagem.$id, item).then(function () {
+                let classeRetirada: IClasse[] = service.personagem.$classes.splice(this.personagem.$classes.indexOf(item), 1)
+                if (classeRetirada.length === 1) {
+                  switch (classeRetirada[0].$classe) {
+                    case classeENUM.clerigo:
+                      service.classes.push({ key: classeENUM.clerigo, value: "Clérigo" })
+                      break;
+                    case classeENUM.homemDeArmas:
+                      service.classes.push({ key: classeENUM.homemDeArmas, value: "Homem de Armas" })
+                      break;
+                    case classeENUM.ladino:
+                      service.classes.push({ key: classeENUM.ladino, value: "Ladino" })
+                      break;
+                    case classeENUM.mago:
+                      service.classes.push({ key: classeENUM.mago, value: "Mago" })
+                      break;
+                  }
                 }
-              }
-            }, function () { });
+              }, function () { });
+            }
           }
-        }
-      ]
-    });
-    alert.present(alert);
+        ]
+      });
+    }else{
+      alert = this.alertCtrl.create({
+        title: 'Classes Personagem',
+        subTitle: 'Não foi possivel excluri a classe',
+        message: 'O personagem deve ter no minimo uma classe.',
+        buttons: ['Ok']
+      });
+    }
+
+    alert.present();
   }
 
   add() {
@@ -176,7 +187,7 @@ export class ClassePersonagemListPage {
               addedClass = new Ladino(1, 0);
               break;
           }
-          
+
           service.personagemProvider.addClassePersonagem(service.personagem.$id, addedClass).then(function () {
             service.classes.splice(service.classes.indexOf(convertedItem), 1);
             service.personagem.$classes = service.personagem.$classes.concat([addedClass]);

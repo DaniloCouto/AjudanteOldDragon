@@ -12,6 +12,7 @@ import { TipoMagiasPage } from '../pages/tipo-magias/tipo-magias';
 import { IdiomaListPage } from "../pages/idioma-list/idioma-list";
 import { PersonagemListPage } from "../pages/personagem-list/personagem-list";
 import { AdMobFree, AdMobFreeBannerConfig } from '@ionic-native/admob-free';
+import { EspecializacaoListPage } from '../pages/especializacao-list/especializacao-list';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class MyApp {
     { texto: 'Biblioteca', componente: TipoMagiasPage },
     { texto: 'Idiomas', componente: IdiomaListPage },
     { texto: 'Raças', componente: RacaListPage },
+    { texto: 'Especializações', componente: EspecializacaoListPage },
     { texto: 'Personagens', componente: PersonagemListPage }
   ]
 

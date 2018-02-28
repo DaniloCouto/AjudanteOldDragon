@@ -10,6 +10,7 @@ import { Armadura } from './armadura/armadura';
 import { Especializacao } from './especializacao';
 import { Ladino } from './classes/ladino';
 import { Mago } from './classes/mago';
+import { diceENUM } from './diceENUM';
 
 export class Personagem {
 	private id: number;
@@ -136,31 +137,29 @@ export class Personagem {
 		this.especializacoes = value;
 	}
 
-	public $bonusDeAtaqueCurtaDistancia(misc?: number): number {
-		misc = misc ? misc : 0;
+	public $bonusDeAtaqueDaClasse(): number {
 		let baClasse = 0;
 		for (let i = 0; i < this.$classes.length; i++) {
 			if (baClasse < this.$classes[i].$bonus().bonusDeAtaque[0]) {
 				baClasse = this.$classes[i].$bonus().bonusDeAtaque[0];
 			}
 		}
-		return this.$atributos.$ajusteForca + this.$raca.$bonusDeAtaque + baClasse + misc;
+		return baClasse;
+	}
+
+	public $bonusDeAtaqueCurtaDistancia(misc?: number): number {
+		misc = misc ? misc : 0;
+		return this.$atributos.$ajusteForca + this.$raca.$bonusDeAtaque + this.$bonusDeAtaqueDaClasse() + misc;
 	}
 
 	public $bonusDeAtaqueLongaDistancia(misc?: number): number {
 		misc = misc ? misc : 0;
-		let baClasse = 0;
-		for (let i = 0; i < this.$classes.length; i++) {
-			if (baClasse < this.$classes[i].$bonus().bonusDeAtaque[0]) {
-				baClasse = this.$classes[i].$bonus().bonusDeAtaque[0];
-			}
-		}
-		return this.$atributos.$ajusteDestreza + this.$raca.$bonusDeAtaque + baClasse + misc;
+		return this.$atributos.$ajusteDestreza + this.$raca.$bonusDeAtaque + this.$bonusDeAtaqueDaClasse() + misc;
 	}
 
-	public $armadilhasTotal() : any{
-		for(let i = 0; i < this.$classes.length; i ++){
-			if(this.$classes[i] instanceof Ladino){
+	public $armadilhasTotal(): any {
+		for (let i = 0; i < this.$classes.length; i++) {
+			if (this.$classes[i] instanceof Ladino) {
 				let tempClass = this.$classes[i] as Ladino;
 				let totalArmadilhas = this.$atributos.$armadilhas + tempClass.$talentos.reconhecerDesarmarArmadilhas
 				return totalArmadilhas;
@@ -169,9 +168,9 @@ export class Personagem {
 		return "1 em 1d12";
 	}
 
-	public $arrombarTotal() : any{
-		for(let i = 0; i < this.$classes.length; i ++){
-			if(this.$classes[i] instanceof Ladino){
+	public $arrombarTotal(): any {
+		for (let i = 0; i < this.$classes.length; i++) {
+			if (this.$classes[i] instanceof Ladino) {
 				let tempClass = this.$classes[i] as Ladino;
 				let total = this.$atributos.$furtividade_arrombar + tempClass.$talentos.abrirFechaduras;
 				return total;
@@ -180,9 +179,9 @@ export class Personagem {
 		return "1 em 1d12";
 	}
 
-	public $escalar() : any{
-		for(let i = 0; i < this.$classes.length; i ++){
-			if(this.$classes[i] instanceof Ladino){
+	public $escalar(): any {
+		for (let i = 0; i < this.$classes.length; i++) {
+			if (this.$classes[i] instanceof Ladino) {
 				let tempClass = this.$classes[i] as Ladino;
 				return tempClass.$talentos.escalarMuros;
 			}
@@ -190,9 +189,9 @@ export class Personagem {
 		return "1 em 1d12";
 	}
 
-	public $pungarTotal() : any{
-		for(let i = 0; i < this.$classes.length; i ++){
-			if(this.$classes[i] instanceof Ladino){
+	public $pungarTotal(): any {
+		for (let i = 0; i < this.$classes.length; i++) {
+			if (this.$classes[i] instanceof Ladino) {
 				let tempClass = this.$classes[i] as Ladino;
 				return this.$atributos.$pungar + tempClass.$talentos.pungar;
 			}
@@ -200,9 +199,9 @@ export class Personagem {
 		return "1 em 1d12";
 	}
 
-	public $furtividadeTotal() : any{
-		for(let i = 0; i < this.$classes.length; i ++){
-			if(this.$classes[i] instanceof Ladino){
+	public $furtividadeTotal(): any {
+		for (let i = 0; i < this.$classes.length; i++) {
+			if (this.$classes[i] instanceof Ladino) {
 				let tempClass = this.$classes[i] as Ladino;
 				return this.$atributos.$furtividade_arrombar + tempClass.$talentos.moverEmSilencio;
 			}
@@ -210,9 +209,9 @@ export class Personagem {
 		return "1 em 1d12";
 	}
 
-	public $percepcao() : any{
-		for(let i = 0; i < this.$classes.length; i ++){
-			if(this.$classes[i] instanceof Ladino){
+	public $percepcao(): any {
+		for (let i = 0; i < this.$classes.length; i++) {
+			if (this.$classes[i] instanceof Ladino) {
 				let tempClass = this.$classes[i] as Ladino;
 				return tempClass.$talentos.ouvirBarulhos;
 			}
@@ -229,14 +228,14 @@ export class Personagem {
 	}
 
 	public $movimentacaoPeso(): number {
-		if (this.$peso() > this.$atributos.$linearCargaLeve){
+		if (this.$peso() > this.$atributos.$linearCargaLeve) {
 			return -1;
-		}else if (this.$peso() > this.$atributos.$linearCargaPesada){
+		} else if (this.$peso() > this.$atributos.$linearCargaPesada) {
 			return -2;
-		}else if (this.$peso() > this.$atributos.$linearCargaPesada+20){
+		} else if (this.$peso() > this.$atributos.$linearCargaPesada + 20) {
 			return -Math.abs(this.$raca.$movimentacaoBase);
-		}else
-		return 0
+		} else
+			return 0
 	}
 
 	public $movimentacaoArmadura(): number {
@@ -250,13 +249,13 @@ export class Personagem {
 	}
 
 	public $movimentacaoTotal(): number {
-		return this.$raca.$movimentacaoBase + this.$movimentacaoArmadura() +this.$movimentacaoPeso();
+		return this.$raca.$movimentacaoBase + this.$movimentacaoArmadura() + this.$movimentacaoPeso();
 	}
 
 	public $acessoMagiaArcanaTotal(): Array<number> {
-		let acesso = [0,0,0,0,0,0,0,0,0]
-		for(let i = 0; i < this.$classes.length; i ++){
-			if(this.$classes[i] instanceof Mago){
+		let acesso = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+		for (let i = 0; i < this.$classes.length; i++) {
+			if (this.$classes[i] instanceof Mago) {
 				let tempClass = this.$classes[i] as Mago;
 				acesso = tempClass.$magia.acessoMagia;
 				acesso[0] += this.$atributos.$intPrimeiroCirculo;
@@ -269,9 +268,9 @@ export class Personagem {
 	}
 
 	public $acessoMagiaDivinaTotal(): Array<number> {
-		let acesso = [0,0,0,0,0,0,0]
-		for(let i = 0; i < this.$classes.length; i ++){
-			if(this.$classes[i] instanceof Mago){
+		let acesso = [0, 0, 0, 0, 0, 0, 0]
+		for (let i = 0; i < this.$classes.length; i++) {
+			if (this.$classes[i] instanceof Mago) {
 				let tempClass = this.$classes[i] as Mago;
 				acesso = tempClass.$magia.acessoMagia;
 				acesso[0] += this.$atributos.$sabPrimeiroCirculo;
@@ -281,6 +280,74 @@ export class Personagem {
 			}
 		}
 		return acesso
+	}
+
+	public $classeDeArmaduraEquipado(): number {
+
+		let caEquipados = 0;
+		for (let itemInv of this.$inventario) {
+			if (itemInv instanceof Armadura && itemInv.$equipado) {
+				caEquipados += itemInv.$bonusCa;
+			}
+		}
+		return caEquipados;
+	}
+
+	public $classeDeArmaduraTotal(): number {
+		return this.$raca.$classeDeArmadura + this.$classeDeArmaduraEquipado() + this.$atributos.$ajusteDestreza + 10;
+	}
+
+	public $jogadaDeProtecao(): number {
+		let jp = 0;
+		for (let i = 0; i < this.$classes.length; i++) {
+			if (this.$classes[i].$bonus().jogadaDeProtecao > jp) {
+				jp = this.$classes[i].$bonus().jogadaDeProtecao;
+			}
+		}
+		return jp;
+	}
+
+	public $dadosDeVida(): string {
+		let stringDados = "";
+		for (let i = 0; i < this.$classes.length; i++) {
+
+			
+			if (this.$classes[i].$bonus().isDadoDeVida) {
+				stringDados = "" + this.$classes[i].$bonus().quantidade+""+ this.diceEnumToString(this.$classes[i].$dadoDeVida);
+			} else if (this.$classes[i].$bonus().nivel > 9) {
+				stringDados = "9" + this.diceEnumToString(this.$classes[i].$dadoDeVida);
+			}
+
+			if (!this.$classes[i].$bonus().isDadoDeVida) {
+				stringDados = "+" + this.$classes[i].$bonus().quantidade;
+			}
+			stringDados = stringDados + " + "
+		}
+		return stringDados;
+	}
+
+	private diceEnumToString(numero: diceENUM): string {
+		switch (numero) {
+			case diceENUM.d2:
+				return 'd2';
+			case diceENUM.d4:
+				return 'd4';
+			case diceENUM.d6:
+				return 'd6';
+			case diceENUM.d8:
+				return 'd8';
+			case diceENUM.d10:
+				return 'd10';
+			case diceENUM.d12:
+				return 'd12';
+			case diceENUM.d20:
+				return 'd20';
+			case diceENUM.d100:
+				return 'd100';
+			default:
+				return 'd0';
+		}
+
 	}
 
 

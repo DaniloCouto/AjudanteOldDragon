@@ -514,6 +514,20 @@ export class PersonagemProvider {
     });
   }
 
+  public equipArmaduraPersonagem(personagemId: number, idArmadura: number, equipado: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.sqlCapsule.openDatabase().then(function (db) {
+        db.executeSql('UPDATE inventarioArmadura SET equipado = ? WHERE _id_personagem = ? AND _id_armadura = ?;', [personagemId, idArmadura, equipado]).then(function () {
+          resolve();
+        }, function () {
+          reject();
+        })
+      }, function () {
+        reject();
+      });
+    });
+  }
+
   public updateItensPersonagem(personagemId: number, itens: Array<Item>): Promise<any> {
     let service = this;
     return new Promise((resolve, reject) => {

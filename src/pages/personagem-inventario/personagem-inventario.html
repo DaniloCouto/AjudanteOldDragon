@@ -6,46 +6,46 @@
 -->
 <ion-header>
 
-  <ion-navbar color="danger"  class="force-back-button">
-      <ion-title>{{personagem.nome}}</ion-title>
+  <ion-navbar color="danger" class="force-back-button">
+    <ion-title>{{personagem.nome}}</ion-title>
     <ion-buttons end>
-        <button ion-button icon-only (tap)="addItemInventario()">
-          <ion-icon name="add"></ion-icon>
-        </button>
+      <button ion-button icon-only (tap)="addItemInventario()">
+        <ion-icon name="add"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content >
+<ion-content>
   <ion-list>
     <ion-item-sliding *ngFor="let item of personagem.inventario">
-        <button ion-item *ngIf="whatIsThisItem(item) === 2">
-            <h2>{{item.nome}}</h2>
-            <p>{{item.peso}}kg , {{item.valor | moneyconventer}}</p>
-            <p>{{item.descricao}}</p>
+      <button ion-item *ngIf="whatIsThisItem(item) === 2">
+        <h2>{{item.nome}}</h2>
+        <p>{{item.peso}}kg , {{item.valor | moneyconventer}}</p>
+        <p>{{item.descricao}}</p>
+      </button>
+      <button ion-item (tap)="openDetail(item)" *ngIf="whatIsThisItem(item) === 1">
+        <h2>{{item.nome}}</h2>
+        <p>{{item.peso}}kg , {{item.valor | moneyconventer}}</p>
+        <p>{{item.movimentacao}} metros</p>
+        <div item-right>{{item.bonusCa}} CA</div>
+      </button>
+      <button ion-item (tap)="openDetail(item)" *ngIf="whatIsThisItem(item) === 0">
+        <h2>{{item.nome}}</h2>
+        <p>{{item.peso}}kg , {{item.valor | moneyconventer}} </p>
+        <p>Iniciativa : {{item.iniciativa}} , BA : {{item.BaAdicional}} </p>
+        <div item-right>{{item.dano.danoPuro}} + {{item.dano.qntdRolagem}} x
+          <ion-icon name="{{item.dano.danoRolagem | diceicon}}"></ion-icon>
+        </div>
+      </button>
+      <ion-item-options>
+        <button color="danger" ion-button (tap)="deletarItem(item)">
+          <ion-icon name="close"></ion-icon>
+          Excluir
         </button>
-        <button ion-item (tap)="openDetail(item)" *ngIf="whatIsThisItem(item) === 1">
-            <h2>{{item.nome}}</h2>
-            <p>{{item.peso}}kg , {{item.valor | moneyconventer}}</p>
-            <p>{{item.movimentacao}} metros</p>
-            <div item-right>{{item.bonusCa}} CA</div>
-        </button>
-        <button ion-item (tap)="openDetail(item)" *ngIf="whatIsThisItem(item) === 0">
-            <h2>{{item.nome}}</h2>
-            <p>{{item.peso}}kg , {{item.valor | moneyconventer}} </p>
-            <p>Iniciativa : {{item.iniciativa}} , BA : {{item.BaAdicional}} </p>
-            <div item-right>{{item.dano.danoPuro}} + {{item.dano.qntdRolagem}} x
-                <ion-icon name="{{item.dano.danoRolagem | diceicon}}"></ion-icon>
-            </div>
-        </button>
-        <ion-item-options>
-            <button color="danger" ion-button (tap)="deletarItem(item)">
-              <ion-icon name="close"></ion-icon>
-              Excluir
-            </button>
-          </ion-item-options>
+      </ion-item-options>
     </ion-item-sliding>
   </ion-list>
   <ion-footer>
@@ -53,7 +53,7 @@
       <ion-grid>
         <div ion-row>
           <div ion-col>
-              Peso Atual: {{peso}}kg
+            Peso Atual: {{peso}}kg
           </div>
           <div ion-col>
             <div *ngIf="peso <= personagem.$atributos.$linearCargaLeve">
@@ -63,14 +63,14 @@
               Movimento -1
             </div>
             <div *ngIf="peso > personagem.$atributos.$linearCargaPesada">
-                Movimento -2
+              Movimento -2
             </div>
             <div *ngIf="peso > personagem.$atributos.$linearCargaPesada+20">
-                Imobilizado
+              Imobilizado
             </div>
           </div>
         </div>
       </ion-grid>
     </ion-item>
-    </ion-footer>
+  </ion-footer>
 </ion-content>
