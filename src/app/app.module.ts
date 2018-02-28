@@ -67,6 +67,9 @@ import { EspecializacaoProvider } from '../providers/especializacao/especializac
 import { PipesModule } from '../pipes/pipes.module';
 import { PersonagemInvetarioPopoverPage } from '../pages/personagem-invetario-popover/personagem-invetario-popover';
 import { PersonagemInventarioListPage } from '../pages/personagem-inventario-list/personagem-inventario-list';
+import { PersonagemGrimorioListPage } from '../pages/personagem-grimorio-list/personagem-grimorio-list';
+import { PersonagemGrimorioPopoverPage } from '../pages/personagem-grimorio-popover/personagem-grimorio-popover';
+import { PersonagemDetalheAjustesPage } from '../pages/personagem-detalhe-ajustes/personagem-detalhe-ajustes';
 
 
 @NgModule({
@@ -113,7 +116,10 @@ import { PersonagemInventarioListPage } from '../pages/personagem-inventario-lis
     EspecializacaoPersonagemListPage,
     ClassePersonagemListPage,
     PersonagemInvetarioPopoverPage,
-    PersonagemInventarioListPage
+    PersonagemInventarioListPage,
+    PersonagemGrimorioListPage,
+    PersonagemGrimorioPopoverPage,
+    PersonagemDetalheAjustesPage
   ],
   imports: [
     BrowserModule,
@@ -162,7 +168,10 @@ import { PersonagemInventarioListPage } from '../pages/personagem-inventario-lis
     EspecializacaoPersonagemListPage,
     ClassePersonagemListPage,
     PersonagemInvetarioPopoverPage,
-    PersonagemInventarioListPage
+    PersonagemInventarioListPage,
+    PersonagemGrimorioListPage,
+    PersonagemGrimorioPopoverPage,
+    PersonagemDetalheAjustesPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

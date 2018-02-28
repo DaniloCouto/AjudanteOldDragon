@@ -26,7 +26,7 @@
             <ion-textarea placeholder="Insira a descrição" [(ngModel)]="personagem.descricao"></ion-textarea>
         </ion-item>
         <ion-item>
-            <ion-label>Raça</ion-label>
+            <ion-label (tap)="openRacaDetalhe()">Raça</ion-label>
             <ion-select [(ngModel)]="personagem.$raca">
                 <ion-option *ngFor="let raca of racas" value="{{raca}}">{{raca.nome}}</ion-option>
             </ion-select>
@@ -92,56 +92,22 @@
                 </ion-row>
             </ion-grid>
         </ion-item-group>
-        <ion-list-header>
-            Ajustes
-        </ion-list-header>
-        <ion-item-group>
-            <ion-item>
-                <ion-grid>
-                    <ion-row>
-                        <ion-col>
-                            For : {{personagem.atributos.$ajusteForca}}
-                        </ion-col>
-                        <ion-col>
-                            Des : {{personagem.atributos.$ajusteDestreza}}
-                        </ion-col>
-                        <ion-col>
-                            Con : {{personagem.atributos.$ajusteConstituicao}}
-                        </ion-col>
-                        <ion-col>
-                            Sab : {{personagem.atributos.$ajusteSabedoria}}
-                        </ion-col>
-                    </ion-row>
-                    <ion-row>
-                        <ion-col>
-                            Aprender magia : {{personagem.atributos.$chanceAprenderMagia}}%
-                        </ion-col>
-                        <ion-col>
-                            Chance de Ressureição : {{personagem.atributos.$chance_res}}%
-                        </ion-col>
-                    </ion-row>
-                    <ion-row>
-                        <ion-col>
-                            Ajuste de Reação : {{personagem.atributos.$ajusteReacao}}%
-                        </ion-col>
-                        <ion-col>
-                            Numero de seguidores : {{personagem.atributos.$seguidores}}
-                        </ion-col>
-                    </ion-row>
-                    <ion-row>
-                        <ion-col>
-                            Idiomas Adicionais : {{personagem.atributos.$idiomasAdicionais}}
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </ion-item>
-        </ion-item-group>
+        <button ion-item (tap)="openAjustes()">
+            <h3>Ajustes</h3>
+            <button ion-button clear icon-only item-end>
+                <ion-icon name="arrow-forward"></ion-icon>
+            </button>
+        </button>
         <button ion-item (tap)="openIdiomas()">
             <h3>Idiomas</h3>
             <button ion-button clear icon-only item-end>
                 <ion-icon name="arrow-forward"></ion-icon>
             </button>
         </button>
+        <ion-item>
+            <h3>Peso Atual:</h3>
+            <p>{{personagem.$peso()}}</p>
+        </ion-item>
         <ion-item>
             <ion-grid>
                 <ion-row>
@@ -162,6 +128,11 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
+        </ion-item>
+        <ion-item>
+            <h3>Movimentação</h3>
+            <p>{{personagem.$movimentacaoTotal()}}</p>
+            <p>Raça: {{personagem.$raca.$movimentacaoBase}} Peso: {{personagem.$raca.$movimentacaoPeso()}} Armadura: {{personagem.$raca.$movimentacaoArmadura()}}</p>
         </ion-item>
     </ion-list>
 </ion-content>

@@ -8,6 +8,8 @@ import { classeENUM } from './classes/classesEnum';
 import { IClasse } from './classes/Iclasse';
 import { Armadura } from './armadura/armadura';
 import { Especializacao } from './especializacao';
+import { Ladino } from './classes/ladino';
+import { Mago } from './classes/mago';
 
 export class Personagem {
 	private id: number;
@@ -134,7 +136,7 @@ export class Personagem {
 		this.especializacoes = value;
 	}
 
-	public $bonusDeAtaqueCurtaDistancia(misc? : number): number {
+	public $bonusDeAtaqueCurtaDistancia(misc?: number): number {
 		misc = misc ? misc : 0;
 		let baClasse = 0;
 		for (let i = 0; i < this.$classes.length; i++) {
@@ -145,7 +147,7 @@ export class Personagem {
 		return this.$atributos.$ajusteForca + this.$raca.$bonusDeAtaque + baClasse + misc;
 	}
 
-	public $bonusDeAtaqueLongaDistancia(misc? : number): number {
+	public $bonusDeAtaqueLongaDistancia(misc?: number): number {
 		misc = misc ? misc : 0;
 		let baClasse = 0;
 		for (let i = 0; i < this.$classes.length; i++) {
@@ -156,25 +158,129 @@ export class Personagem {
 		return this.$atributos.$ajusteDestreza + this.$raca.$bonusDeAtaque + baClasse + misc;
 	}
 
-	public $movimentacaoTotal() : number {
-		let movimentacao = this.$raca.$movimentacaoBase;
+	public $armadilhasTotal() : any{
+		for(let i = 0; i < this.$classes.length; i ++){
+			if(this.$classes[i] instanceof Ladino){
+				let tempClass = this.$classes[i] as Ladino;
+				let totalArmadilhas = this.$atributos.$armadilhas + tempClass.$talentos.reconhecerDesarmarArmadilhas
+				return totalArmadilhas;
+			}
+		}
+		return "1 em 1d12";
+	}
+
+	public $arrombarTotal() : any{
+		for(let i = 0; i < this.$classes.length; i ++){
+			if(this.$classes[i] instanceof Ladino){
+				let tempClass = this.$classes[i] as Ladino;
+				let total = this.$atributos.$furtividade_arrombar + tempClass.$talentos.abrirFechaduras;
+				return total;
+			}
+		}
+		return "1 em 1d12";
+	}
+
+	public $escalar() : any{
+		for(let i = 0; i < this.$classes.length; i ++){
+			if(this.$classes[i] instanceof Ladino){
+				let tempClass = this.$classes[i] as Ladino;
+				return tempClass.$talentos.escalarMuros;
+			}
+		}
+		return "1 em 1d12";
+	}
+
+	public $pungarTotal() : any{
+		for(let i = 0; i < this.$classes.length; i ++){
+			if(this.$classes[i] instanceof Ladino){
+				let tempClass = this.$classes[i] as Ladino;
+				return this.$atributos.$pungar + tempClass.$talentos.pungar;
+			}
+		}
+		return "1 em 1d12";
+	}
+
+	public $furtividadeTotal() : any{
+		for(let i = 0; i < this.$classes.length; i ++){
+			if(this.$classes[i] instanceof Ladino){
+				let tempClass = this.$classes[i] as Ladino;
+				return this.$atributos.$furtividade_arrombar + tempClass.$talentos.moverEmSilencio;
+			}
+		}
+		return "1 em 1d12";
+	}
+
+	public $percepcao() : any{
+		for(let i = 0; i < this.$classes.length; i ++){
+			if(this.$classes[i] instanceof Ladino){
+				let tempClass = this.$classes[i] as Ladino;
+				return tempClass.$talentos.ouvirBarulhos;
+			}
+		}
+		return "1 em 1d12";
+	}
+
+	public $peso(): number {
 		let peso = 0;
-		let itemEquipado =0;
-		for( let itemInv of this.$inventario){
+		for (let itemInv of this.$inventario) {
 			peso += itemInv.$peso;
-			if(itemInv instanceof Armadura && itemInv.$equipado){
+		}
+		return peso;
+	}
+
+	public $movimentacaoPeso(): number {
+		if (this.$peso() > this.$atributos.$linearCargaLeve){
+			return -1;
+		}else if (this.$peso() > this.$atributos.$linearCargaPesada){
+			return -2;
+		}else if (this.$peso() > this.$atributos.$linearCargaPesada+20){
+			return -Math.abs(this.$raca.$movimentacaoBase);
+		}else
+		return 0
+	}
+
+	public $movimentacaoArmadura(): number {
+		let itemEquipado = 0;
+		for (let itemInv of this.$inventario) {
+			if (itemInv instanceof Armadura && itemInv.$equipado) {
 				itemEquipado += itemInv.$movimentacao;
 			}
 		}
-		movimentacao += itemEquipado;
-		if(peso > this.$atributos.$linearCargaPesada+20){
-			movimentacao = 0;
-		}else if(peso > this.$atributos.$linearCargaPesada){
-			movimentacao -= 2;
-		}else if(peso > this.$atributos.$linearCargaLeve){
-			movimentacao -=1;
+		return itemEquipado;
+	}
+
+	public $movimentacaoTotal(): number {
+		return this.$raca.$movimentacaoBase + this.$movimentacaoArmadura() +this.$movimentacaoPeso();
+	}
+
+	public $acessoMagiaArcanaTotal(): Array<number> {
+		let acesso = [0,0,0,0,0,0,0,0,0]
+		for(let i = 0; i < this.$classes.length; i ++){
+			if(this.$classes[i] instanceof Mago){
+				let tempClass = this.$classes[i] as Mago;
+				acesso = tempClass.$magia.acessoMagia;
+				acesso[0] += this.$atributos.$intPrimeiroCirculo;
+				acesso[1] += this.$atributos.$intSegundoCirculo;
+				acesso[2] += this.$atributos.$intTerceiroCirculo;
+				break;
+			}
 		}
-		return movimentacao;
+		return acesso
+	}
+
+	public $acessoMagiaDivinaTotal(): Array<number> {
+		let acesso = [0,0,0,0,0,0,0]
+		for(let i = 0; i < this.$classes.length; i ++){
+			if(this.$classes[i] instanceof Mago){
+				let tempClass = this.$classes[i] as Mago;
+				acesso = tempClass.$magia.acessoMagia;
+				acesso[0] += this.$atributos.$sabPrimeiroCirculo;
+				acesso[1] += this.$atributos.$sabSegundoCirculo;
+				acesso[2] += this.$atributos.$sabTerceiroCirculo;
+				break;
+			}
+		}
+		return acesso
 	}
 
 

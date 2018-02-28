@@ -1,0 +1,150 @@
+<!--
+  Generated template for the PersonagemDetalheAjustesPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons end>
+      <button ion-button icon-only (tap)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Ajustes</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+    <ion-item-group>
+      <ion-item>
+        <h3>Força</h3>
+        <p>{{personagem.atributos.$ajusteForca}}</p>
+      </ion-item>
+      <ion-item>
+        <h3>Destreza</h3>
+        <p>{{personagem.atributos.$ajusteDestreza}}</p>
+      </ion-item>
+      <ion-item>
+        <h3>Localizar e desarmar Armadilhas</h3>
+        <p>{{personagem.atributos.$armadilhas}}%</p>
+      </ion-item>
+      <ion-item>
+        <h3>Mover-se em silencio e Abrir Fechaduras</h3>
+        <p>{{personagem.atributos.$furtividade_arrombar}}</p>
+      </ion-item>
+      <ion-item>
+        <h3>Esconder-se nas sombras e pungar</h3>
+        <p>{{personagem.atributos.$pungar}}%</p>
+      </ion-item>
+      <ion-item>
+        <h3>Ajuste de Constituição</h3>
+        <p>{{personagem.atributos.$ajusteConstituicao}}</p>
+      </ion-item>
+      <ion-item>
+        <h3>Chance de Ressureição</h3>
+        <p>{{personagem.atributos.$chance_res}}%</p>
+      </ion-item>
+      <ion-item>
+        <h3>Sabedoria</h3>
+        <p>{{personagem.atributos.$ajusteSabedoria}}</p>
+      </ion-item>
+      <ion-item>
+        <h3>Aprender magia</h3>
+        <p>{{personagem.atributos.$chanceAprenderMagia}}%</p>
+      </ion-item>
+      <ion-item>
+        <h3>Idiomas Adicionais</h3>
+        <p>{{personagem.atributos.$idiomasAdicionais}}</p>
+      </ion-item>
+      <ion-item>
+        <h3>Ajuste de Reação</h3>
+        <p>{{personagem.atributos.$ajusteReacao}}%</p>
+      </ion-item>
+      <ion-item>
+        <h3>Numero de seguidores</h3>
+        <p>{{personagem.atributos.$seguidores}}</p>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="isLadino()">
+      <ion-item>
+        <h3>Escalar</h3>
+        <p>{{personagem.$escalar}}</p>
+      </ion-item>
+      <ion-item>
+        <h3>Detectar e desarmar armadilhas</h3>
+        <p>{{personagem.$armadilhasTotal}}</p>
+      </ion-item>
+      <ion-item>
+        <h3>Abrir Fechaduras</h3>
+        <p>{{personagem.$arrombarTotal}}%</p>
+      </ion-item>
+      <ion-item>
+        <h3>Furtividade</h3>
+        <p>{{personagem.$furtividadeTotal}}</p>
+      </ion-item>
+      <ion-item>
+        <h3>Percepção</h3>
+        <p>{{personagem.$percepcao}}</p>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="isMago()">
+      <ion-item>
+        <ion-icon name="book" item-left large></ion-icon>
+        <h2>Acesso a Magia</h2>
+        <p></p>
+      </ion-item>
+      <ion-item>
+        <ion-grid>
+          <ion-row style="-webkit-flex-wrap: wrap;flex-wrap: wrap;justify-content: flex-start;">
+            <ion-col col-auto *ngFor='let value of personagem.$acessoMagiaArcanaTotal; let i = index'>
+              {{i+1}}º
+              <p>
+                {{value}}
+              </p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="isClerigo()">
+      <ion-item>
+        <ion-icon name="book" item-left large></ion-icon>
+        <h2>Acesso a Magia</h2>
+        <p></p>
+      </ion-item>
+      <ion-item>
+        <ion-grid>
+          <ion-row style="-webkit-flex-wrap: wrap;flex-wrap: wrap;justify-content: flex-start;">
+            <ion-col col-auto *ngFor='let value of personagem.$acessoMagiaDivinaTotal; let i = index'>
+              {{i+1}}º
+              <p>
+                {{value}}
+              </p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="logo-skull" item-left large></ion-icon>
+        <h2>Afastar Mortos Vivos</h2>
+      </ion-item>
+      <ion-item>
+        <ion-grid>
+          <ion-row style="-webkit-flex-wrap: wrap;flex-wrap: wrap;justify-content: flex-start;">
+            <ion-col col-auto *ngFor='let value of currentClass.$afastarMortosDadoDeVida.mortosVivos; let i = index'>
+              {{i+1}}
+              <p>
+                {{value}}
+              </p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

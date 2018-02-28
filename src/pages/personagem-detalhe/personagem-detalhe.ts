@@ -17,6 +17,7 @@ import { IdiomaPersonagemListPage } from '../idioma-personagem-list/idioma-perso
 import { ClassePersonagemListPage } from '../classe-personagem-list/classe-personagem-list';
 import { EspecializacaoPersonagemListPage } from '../especializacao-personagem-list/especializacao-personagem-list';
 import { ClassePipe } from '../../pipes/classe/classe';
+import { PersonagemDetalheAjustesPage } from '../personagem-detalhe-ajustes/personagem-detalhe-ajustes';
 
 /**
  * Generated class for the PersonagemDetalhePage page.
@@ -53,21 +54,35 @@ export class PersonagemDetalhePage {
     profileModal.present();
   }
 
-  openRaca(item) {
+  openRacaDetalhe(item) {
     this.navCtrl.push(RacaDetalhePage, { item: item });
   }
 
   openEspec() {
-    this.navCtrl.push(EspecializacaoPersonagemListPage, { item: this.personagem });
+    let profileModal = this.modalCtrl.create(EspecializacaoPersonagemListPage, {item: this.personagem});
+    profileModal.onDidDismiss(data => {
+      if(data.item instanceof Array){
+        this.personagem.$especializacoes == data.item;
+      }
+    });
+    profileModal.present();
   }
-
 
   openClasses() {
-    this.navCtrl.push(ClassePersonagemListPage, { item: this.personagem });
+    let profileModal = this.modalCtrl.create(ClassePersonagemListPage, {item: this.personagem});
+    profileModal.onDidDismiss(data => {
+      if(data.item instanceof Array){
+        this.personagem.$classes == data.item;
+      }
+    });
+    profileModal.present();
   }
 
-  openIdioma(item) {
-    this.navCtrl.push(IdiomaDetalhePage, { item: item });
+  openAjustes() {
+    let profileModal = this.modalCtrl.create(PersonagemDetalheAjustesPage, {item: this.personagem});
+    profileModal.onDidDismiss(data => {
+    });
+    profileModal.present();
   }
 
   backButton() {
@@ -88,25 +103,6 @@ export class PersonagemDetalhePage {
       }
     });
     profileModal.present();
-  }
-
-  classChanged(i: number) {
-
-    let selectedClass = Number(this.personagem.$classes[i].$classe);
-    switch (selectedClass) {
-      case 0:
-        this.personagem.$classes[i] = new Clerigo(null, this.personagem.$classes[i].$xpAtual);
-        break;
-      case 1:
-        this.personagem.$classes[i] = new HomemDeArmas(null, this.personagem.$classes[i].$xpAtual);
-        break;
-      case 2:
-        this.personagem.$classes[i] = new Mago(null, this.personagem.$classes[i].$xpAtual);
-        break;
-      case 3:
-        this.personagem.$classes[i] = new Ladino(null, this.personagem.$classes[i].$xpAtual);
-        break;
-    }
   }
 
   getClassesString(){
