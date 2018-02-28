@@ -49,6 +49,7 @@ export class PersonagemInventarioPage {
   }
 
   deletarItem(item: Item) {
+    let service = this;
     let alert = this.alertCtrl.create({
       title: 'Inventario',
       message: 'Você tem certeza que deseja excluir este Item do inventario?',
@@ -62,7 +63,7 @@ export class PersonagemInventarioPage {
           text: 'Sim',
           handler: () => {
             this.personagemService.deleteItemPersonagem(this.personagem.$id, item).then(function () {
-              this.personagem.$inventario.splice(this.personagem.$inventario.indexOf(item), 1);
+              service.personagem.$inventario.splice(this.personagem.$inventario.indexOf(item), 1);
             });
           }
         }
