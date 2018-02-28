@@ -63,6 +63,8 @@ import { ClassePipe } from '../pipes/classe/classe';
 import { EnumPipe } from '../pipes/enum/enum';
 import { EspecializacaoPersonagemListPage } from '../pages/especializacao-personagem-list/especializacao-personagem-list';
 import { ClassePersonagemListPage } from '../pages/classe-personagem-list/classe-personagem-list';
+import { EspecializacaoProvider } from '../providers/especializacao/especializacao';
+import { PipesModule } from '../pipes/pipes.module';
 
 
 @NgModule({
@@ -106,8 +108,6 @@ import { ClassePersonagemListPage } from '../pages/classe-personagem-list/classe
     EspecializacaoListPage,
     EspecializacaoDetalhePage,
     EspecializacaoAddPage,
-    ClassePipe,
-    EnumPipe,
     EspecializacaoPersonagemListPage,
     ClassePersonagemListPage
   ],
@@ -117,7 +117,8 @@ import { ClassePersonagemListPage } from '../pages/classe-personagem-list/classe
     IonicModule.forRoot(MyApp),  
     IonicStorageModule.forRoot(),
     RacaDetalhePageModule,
-    PersonagemListPageModule
+    PersonagemListPageModule,
+    PipesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -154,8 +155,6 @@ import { ClassePersonagemListPage } from '../pages/classe-personagem-list/classe
     EspecializacaoListPage,
     EspecializacaoDetalhePage,
     EspecializacaoAddPage,
-    ClassePipe,
-    EnumPipe,
     EspecializacaoPersonagemListPage,
     ClassePersonagemListPage
   ],
@@ -166,6 +165,6 @@ import { ClassePersonagemListPage } from '../pages/classe-personagem-list/classe
     SplashScreen,
     StatusBar, 
     SqlCapsuleProvider, 
-    ItemComumProvider, RacaIdiomaProvider, PersonagemProvider, WeaponsService, ArmorsService, MagiaService]
+    ItemComumProvider, RacaIdiomaProvider, PersonagemProvider, WeaponsService, ArmorsService, MagiaService,ClassePipe,EspecializacaoProvider, EnumPipe]
 })
 export class AppModule {}

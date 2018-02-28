@@ -7,6 +7,7 @@ import { Atributos } from '../../classes/atributos';
 import { Weapon } from '../../classes/weapon/weapon';
 import { Dano } from '../../classes/dano/dano';
 import { Armadura } from '../../classes/armadura/armadura';
+import { Especializacao } from '../../classes/especializacao';
 export class BasePersonagem{
 
     constructor() {
@@ -22,7 +23,7 @@ export class BasePersonagem{
                     new HabilidadeRacial(null,'Adaptabilidade','Adicione +2 em um atributo, porem retire -2 de outro atributo.')
                 ], new Idioma(1,'Comum','Idioma difundido pelos humanos.')), //Raça
                 [new HomemDeArmas(Number(1))],//Classe
-                "",
+                [],
                 [new Idioma(1,'Comum','Idioma difundido pelos humanos.')],//Idiomas
                 new Atributos(18,10,16,8,8,12),//Atributos
                 [],//Magias

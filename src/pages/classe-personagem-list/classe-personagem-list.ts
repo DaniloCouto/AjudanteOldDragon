@@ -8,6 +8,7 @@ import { Clerigo } from '../../classes/classes/clerigo';
 import { HomemDeArmas } from '../../classes/classes/homemdearmas';
 import { Mago } from '../../classes/classes/mago';
 import { Ladino } from '../../classes/classes/ladino';
+import { ClassePipe } from '../../pipes/classe/classe';
 
 /**
  * Generated class for the ClassePersonagemListPage page.
@@ -20,6 +21,7 @@ import { Ladino } from '../../classes/classes/ladino';
 @Component({
   selector: 'page-classe-personagem-list',
   templateUrl: 'classe-personagem-list.html',
+  providers: [ClassePipe]
 })
 export class ClassePersonagemListPage {
 

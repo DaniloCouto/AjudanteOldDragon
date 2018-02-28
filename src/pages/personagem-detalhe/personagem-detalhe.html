@@ -33,26 +33,16 @@
         </ion-item>
         <button ion-item (tap)="openClasses()">
             <h3>Classes</h3>
-            <p>
-                <div *ngFor="let classe in personagem.$classes">
-                    {{classe.$classe | classe }} &nbsp;
-                </div>
-            </p>
             <button ion-button clear icon-only item-end>
                 <ion-icon name="arrow-forward"></ion-icon>
             </button>
         </button>
         <button ion-item (tap)="openEspec()">
-                <h3>Especializações</h3>
-                <p>
-                    <div *ngFor="let espec in personagem.$especializacoes">
-                        {{espec.$nome}} &nbsp;
-                    </div>
-                </p>
-                <button ion-button clear icon-only item-end>
-                    <ion-icon name="arrow-forward"></ion-icon>
-                </button>
+            <h3>Especializações</h3>
+            <button ion-button clear icon-only item-end>
+                <ion-icon name="arrow-forward"></ion-icon>
             </button>
+        </button>
         <ion-list-header>
             Atributos
         </ion-list-header>
@@ -148,11 +138,6 @@
         </ion-item-group>
         <button ion-item (tap)="openIdiomas()">
             <h3>Idiomas</h3>
-            <p>
-                <div *ngFor="let idioma in personagem.$idiomas">
-                    {{idioma.$nome}} &nbsp;
-                </div>
-            </p>
             <button ion-button clear icon-only item-end>
                 <ion-icon name="arrow-forward"></ion-icon>
             </button>

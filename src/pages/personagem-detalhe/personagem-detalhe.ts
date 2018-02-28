@@ -16,6 +16,7 @@ import { Idioma } from '../../classes/idioma';
 import { IdiomaPersonagemListPage } from '../idioma-personagem-list/idioma-personagem-list';
 import { ClassePersonagemListPage } from '../classe-personagem-list/classe-personagem-list';
 import { EspecializacaoPersonagemListPage } from '../especializacao-personagem-list/especializacao-personagem-list';
+import { ClassePipe } from '../../pipes/classe/classe';
 
 /**
  * Generated class for the PersonagemDetalhePage page.
@@ -26,14 +27,14 @@ import { EspecializacaoPersonagemListPage } from '../especializacao-personagem-l
 
 @Component({
   selector: 'page-personagem-detalhe',
-  templateUrl: 'personagem-detalhe.html',
+  templateUrl: 'personagem-detalhe.html'
 })
 export class PersonagemDetalhePage {
   personagem: Personagem;
   @ViewChild(Navbar) navBar: Navbar;
   racas: Array<Raca>;
   conversor: ConversoresClasses;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public racaProvider: RacaIdiomaProvider, public modalCtrl: ModalController, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public racaProvider: RacaIdiomaProvider, public modalCtrl: ModalController, public alertCtrl: AlertController, public classePipe: ClassePipe) {
     let item = this.navParams.data;
     let service = this;
     this.conversor = new ConversoresClasses();
@@ -105,6 +106,13 @@ export class PersonagemDetalhePage {
       case 3:
         this.personagem.$classes[i] = new Ladino(null, this.personagem.$classes[i].$xpAtual);
         break;
+    }
+  }
+
+  getClassesString(){
+    let returnString = ""
+    for(let i = 0; i < this.personagem.$classes.length; i++){
+      returnString 
     }
   }
 

@@ -58,7 +58,7 @@ export class PersonagemInventarioPage {
           {
             text: 'Sim',
             handler: () => {
-              this.personagemService.removeItemPersonagem(this.personagem.$id,item).then(function(){
+              this.personagemService.deleteItemPersonagem(this.personagem.$id,item).then(function(){
                 this.personagem.$inventario.splice(this.personagem.$inventario.indexOf(item),1);
               });
             }

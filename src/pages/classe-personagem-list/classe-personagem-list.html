@@ -25,8 +25,8 @@
 
 
 <ion-content>
-  <ion-item-sliding *ngFor="let item in persongem.$classes; let i = index;">
-    <button ion-item (tap)="editXp(item, i)">
+  <ion-item-sliding *ngFor="let item of persongem.$classes; let i = index;">
+    <button ion-item (tap)="editXp( i)">
       <h2>{{item.$classe | classe}}</h2>
       <p>XP Atual :{{item.$xpAtual}}</p>
     </button>

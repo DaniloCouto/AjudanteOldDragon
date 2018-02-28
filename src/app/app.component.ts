@@ -37,6 +37,7 @@ export class MyApp {
       }, 1000);
       statusBar.overlaysWebView(false);
       statusBar.backgroundColorByHexString('#000000');
+      this.showAdmobBannerAds();
     });
   }
 
