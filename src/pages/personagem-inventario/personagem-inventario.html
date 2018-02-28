@@ -21,18 +21,18 @@
 <ion-content >
   <ion-list>
     <ion-item-sliding *ngFor="let item of personagem.inventario">
-        <button ion-item *ngIf="whatIsThisItem(item) === 0">
+        <button ion-item *ngIf="whatIsThisItem(item) === 2">
             <h2>{{item.nome}}</h2>
             <p>{{item.peso}}kg , {{item.valor | moneyconventer}}</p>
             <p>{{item.descricao}}</p>
         </button>
-        <button ion-item (tap)="openDetail(item)" *ngIf="whatIsThisItem(item) === 2">
+        <button ion-item (tap)="openDetail(item)" *ngIf="whatIsThisItem(item) === 1">
             <h2>{{item.nome}}</h2>
             <p>{{item.peso}}kg , {{item.valor | moneyconventer}}</p>
             <p>{{item.movimentacao}} metros</p>
             <div item-right>{{item.bonusCa}} CA</div>
         </button>
-        <button ion-item (tap)="openDetail(item)" *ngIf="whatIsThisItem(item) === 1">
+        <button ion-item (tap)="openDetail(item)" *ngIf="whatIsThisItem(item) === 0">
             <h2>{{item.nome}}</h2>
             <p>{{item.peso}}kg , {{item.valor | moneyconventer}} </p>
             <p>Iniciativa : {{item.iniciativa}} , BA : {{item.BaAdicional}} </p>

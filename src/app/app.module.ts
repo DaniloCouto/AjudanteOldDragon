@@ -65,6 +65,8 @@ import { EspecializacaoPersonagemListPage } from '../pages/especializacao-person
 import { ClassePersonagemListPage } from '../pages/classe-personagem-list/classe-personagem-list';
 import { EspecializacaoProvider } from '../providers/especializacao/especializacao';
 import { PipesModule } from '../pipes/pipes.module';
+import { PersonagemInvetarioPopoverPage } from '../pages/personagem-invetario-popover/personagem-invetario-popover';
+import { PersonagemInventarioListPage } from '../pages/personagem-inventario-list/personagem-inventario-list';
 
 
 @NgModule({
@@ -109,7 +111,9 @@ import { PipesModule } from '../pipes/pipes.module';
     EspecializacaoDetalhePage,
     EspecializacaoAddPage,
     EspecializacaoPersonagemListPage,
-    ClassePersonagemListPage
+    ClassePersonagemListPage,
+    PersonagemInvetarioPopoverPage,
+    PersonagemInventarioListPage
   ],
   imports: [
     BrowserModule,
@@ -156,7 +160,9 @@ import { PipesModule } from '../pipes/pipes.module';
     EspecializacaoDetalhePage,
     EspecializacaoAddPage,
     EspecializacaoPersonagemListPage,
-    ClassePersonagemListPage
+    ClassePersonagemListPage,
+    PersonagemInvetarioPopoverPage,
+    PersonagemInventarioListPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
